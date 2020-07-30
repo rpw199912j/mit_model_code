@@ -1,0 +1,88 @@
+
+#(C) 2019 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_172347-ICSD
+_database_code_ICSD 172347
+_audit_creation_date 2007-04-01
+_chemical_name_systematic 'Lanthanum rhodium trioxide'
+_chemical_formula_structural 'La Rh O3'
+_chemical_formula_sum 'La1 O3 Rh1'
+_chemical_name_structure_type Perovskite-GdFeO3
+_exptl_crystal_density_diffrn 7.69
+_cell_measurement_temperature 294.
+_publ_section_title
+
+;
+Crystal growth and single-crystal structures of Re Rh O3 (RE = La, Pr, Nd, Sm,
+Eu, Tb) orthorhodites from a K2 C O3 flux
+;
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Crystal Growth & Design' 2006 6 1361 1365 CGDEFU
+loop_
+_publ_author_name
+'Macquart, R.B.'
+'Smith, M.D.'
+'zur Loye, H.C.'
+_cell_length_a 5.7005(12)
+_cell_length_b 7.8968(17)
+_cell_length_c 5.5242(12)
+_cell_angle_alpha 90.
+_cell_angle_beta 90.
+_cell_angle_gamma 90.
+_cell_volume 248.68
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'P n m a'
+_symmetry_Int_Tables_number 62
+_refine_ls_R_factor_all 0.0356
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 'x+1/2, y, -z+1/2'
+2 'x, -y+1/2, z'
+3 '-x+1/2, y+1/2, z+1/2'
+4 '-x, -y, -z'
+5 '-x+1/2, -y, z+1/2'
+6 '-x, y+1/2, -z'
+7 'x+1/2, -y+1/2, -z+1/2'
+8 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+La3+ 3
+Rh3+ 3
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+La1 La3+ 4 c 0.44296(8) 0.25 0.51397(8) 0.00892(17) 1 0
+Rh1 Rh3+ 4 b 0. 0. 0.5 0.00709(17) 1 0
+O1 O2- 8 d 0.2022(7) 0.0475(6) 0.8030(7) 0.0096(8) 1 0
+O2 O2- 4 c 0.0204(10) 0.25 0.4082(11) 0.0093(11) 1 0
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_type_symbol
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_23
+La1 La3+ 0.0089(2) 0.0086(2) 0.0093(2) 0. -0.00064(18) 0.
+Rh1 Rh3+ 0.0056(3) 0.0077(3) 0.0080(3) -0.00003(18) -0.00009(19) -0.0001(2)
+O1 O2- 0.0075(18) 0.0102(19) 0.0113(19) 0.0022(15) -0.0018(15) -0.0029(16)
+O2 O2- 0.011(3) 0.002(2) 0.015(3) 0. 0.002(2) 0.
+#End of TTdata_172347-ICSD

@@ -1,0 +1,89 @@
+
+#(C) 2017 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_415960-ICSD
+_database_code_ICSD 415960
+_audit_creation_date 2007-04-01
+_audit_update_record 2008-02-01
+_chemical_name_systematic 'Disilver bismuth(III,V) trioxide'
+_chemical_formula_structural 'Ag2 Bi O3'
+_chemical_formula_sum 'Ag2 Bi1 O3'
+_exptl_crystal_density_diffrn 8.73
+_cell_measurement_temperature 100.
+_publ_section_title 'Charge ordering in Ag2 Bi O3'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Solid State Sciences' 2006 8 267 276 SSSCFJ
+loop_
+_publ_author_name
+'Oberndorfer, C.P.M.'
+'Dinnebier, R.E.'
+'Ibberson, R.M.'
+'Jansen, M.'
+_cell_length_a 5.95492(10)
+_cell_length_b 6.31001(9)
+_cell_length_c 9.58082(13)
+_cell_angle_alpha 90.
+_cell_angle_beta 92.4823(2)
+_cell_angle_gamma 90.
+_cell_volume 359.67
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'P 1 n 1'
+_symmetry_Int_Tables_number 7
+_refine_ls_R_factor_all 0.0621
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 'x+1/2, -y, z+1/2'
+2 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Ag1+ 1
+Bi5+ 5
+Bi3+ 3
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+Ag1 Ag1+ 2 a 0.2578(2) 0.23527(14) 0.48309(12) 0.0159(2) 1 0
+Ag2 Ag1+ 2 a 0.7538(3) 0.23735(14) 0.50364(18) 0.01826(16) 1 0
+Ag3 Ag1+ 2 a 0.0151(2) 0.5030(2) 0.25137(13) 0.01805(18) 1 0
+Ag4 Ag1+ 2 a 0.9625(2) 0.99993(17) 0.24396(12) 0.0186(2) 1 0
+Bi1 Bi5+ 2 a -0.00183(6) 0.25285(6) 0.89915(4) 0.01271(10) 1 0
+Bi2 Bi3+ 2 a 0.00441(6) 0.73383(6) 0.60787(5) 0.01320(10) 1 0
+O1 O2- 2 a 0.8366(15) 0.4529(15) 0.0425(10) 0.0156(17) 1 0
+O2 O2- 2 a 0.1754(16) 0.0925(15) 0.0680(10) 0.0146(17) 1 0
+O3 O2- 2 a 0.1899(15) 0.9141(15) 0.4389(10) 0.0142(16) 1 0
+O4 O2- 2 a 0.8065(16) 0.5661(15) 0.4342(11) 0.0161(17) 1 0
+O5 O2- 2 a 0.3866(16) 0.5617(14) 0.2266(11) 0.0161(17) 1 0
+O6 O2- 2 a 0.5960(16) 0.9843(17) 0.2678(12) 0.0213(19) 1 0
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_type_symbol
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_23
+Ag1 Ag1+ 0.0175(4) 0.0104(4) 0.0198(6) -0.0001(3) -0.0003(4) 0.0004(3)
+Ag2 Ag1+ 0.0185(3) 0.0113(3) 0.0250(4) -0.0011(3) 0.0014(3) 0.0016(4)
+Ag3 Ag1+ 0.0180(4) 0.0198(4) 0.0163(4) 0.0008(3) -0.0002(3) -0.0029(3)
+Ag4 Ag1+ 0.0179(6) 0.0173(4) 0.0205(5) -0.0002(4) 0.0011(4) 0.0029(3)
+Bi1 Bi5+ 0.0150(2) 0.00867(16) 0.0144(2) -0.00014(14) 0.00036(15) -0.00044(12)
+Bi2 Bi3+ 0.0150(2) 0.01019(16) 0.0144(2) 0.0001(2) 0.00044(15) 0.0006(2)
+#End of TTdata_415960-ICSD

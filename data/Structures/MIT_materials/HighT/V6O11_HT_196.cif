@@ -1,0 +1,75 @@
+
+#(C) 2016 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_196-ICSD
+_database_code_ICSD 196
+_audit_creation_date 1980-01-01
+_audit_update_record 2006-04-01
+_chemical_name_systematic 'Vanadium oxide (6/11)'
+_chemical_formula_structural 'V6 O11'
+_chemical_formula_sum 'O11 V6'
+_exptl_crystal_density_diffrn 4.7
+_publ_section_title 'Crystal structures of Vn O2n-1 (2<n<7)'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Journal of Solid State Chemistry' 1976 17 407 424 JSSCBI
+loop_
+_publ_author_name
+'Horiuchi, H.'
+'Morimoto, N.'
+'Tokonami, M.'
+_cell_length_a 5.448
+_cell_length_b 6.998
+_cell_length_c 30.063
+_cell_angle_alpha 41.
+_cell_angle_beta 72.5
+_cell_angle_gamma 108.9
+_cell_volume 340.09
+_cell_formula_units_Z 2
+_symmetry_space_group_name_H-M 'P -1'
+_symmetry_Int_Tables_number 2
+_refine_ls_R_factor_all 0.093
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 '-x, -y, -z'
+2 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+V3+ 3.667
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+V1 V3+ 2 i -.00506(68) 0.44815(78) 0.06207(18) 0.23 1. 0
+V2 V3+ 2 i -.02670(68) -.07425(77) 0.06734(18) 0.19 1. 0
+V3 V3+ 2 i -.03621(70) 0.45742(80) 0.24248(18) 0.31 1. 0
+V4 V3+ 2 i -.04519(70) -.05395(79) 0.24331(81) 0.29 1. 0
+V5 V3+ 2 i -.02496(72) 0.46771(82) 0.41727(19) 0.4 1. 0
+V6 V3+ 2 i -.01866(71) -.02304(81) 0.41532(19) 0.35 1. 0
+O1 O2- 2 i 0.6939(28) 0.4177(32) 0.03280(74) 0.29 1. 0
+O2 O2- 2 i 0.3196(31) 0.5560(35) 0.06693(82) 0.73 1. 0
+O3 O2- 2 i 0.6845(30) 0.4672(34) 0.10880(78) 0.51 1. 0
+O4 O2- 2 i 0.3743(29) 0.6208(33) 0.14527(76) 0.38 1. 0
+O5 O2- 2 i 0.6983(29) 0.4130(33) 0.21149(76) 0.42 1. 0
+O6 O2- 2 i 0.3137(30) 0.5890(34) 0.24710(78) 0.52 1. 0
+O7 O2- 2 i 0.6677(29) 0.4465(32) 0.29735(75) 0.35 1. 0
+O8 O2- 2 i 0.3131(30) 0.5928(34) 0.34820(78) 0.53 1. 0
+O9 O2- 2 i 0.7079(30) 0.4271(34) 0.38849(78) 0.48 1. 0
+O10 O2- 2 i 0.3164(29) 0.5962(32) 0.42507(75) 0.35 1. 0
+O11 O2- 2 i 0.6903(30) 0.4721(34) 0.47108(78) 0.62 1. 0
+#End of TTdata_196-ICSD

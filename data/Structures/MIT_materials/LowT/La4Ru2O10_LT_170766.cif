@@ -1,0 +1,75 @@
+
+#(C) 2016 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_170766-ICSD
+_database_code_ICSD 170766
+_audit_creation_date 2006-04-01
+_chemical_name_systematic 'Dilanthanum ruthenium pentoxide'
+_chemical_formula_structural 'La2 Ru O5'
+_chemical_formula_sum 'La2 O5 Ru1'
+_exptl_crystal_density_diffrn 7.34
+_cell_measurement_temperature 1.5
+_publ_section_title
+'High-temperature and low-temperature La2 Ru O5 by powder neutron diffraction'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Acta Crystallographica, Section C: Crystal Structure Communications'
+2005 61 i96 i98 ACSCEE
+loop_
+_publ_author_name
+'Ebbinghaus, S.G.'
+_cell_length_a 9.1614(8)
+_cell_length_b 5.8075(5)
+_cell_length_c 7.9584(8)
+_cell_angle_alpha 89.78(8)
+_cell_angle_beta 101.00(8)
+_cell_angle_gamma 91.76(8)
+_cell_volume 415.45
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'P -1'
+_symmetry_Int_Tables_number 2
+_refine_ls_R_factor_all 0.0179
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 '-x, -y, -z'
+2 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+La3+ 3
+Ru4+ 4
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+La1 La3+ 2 i 0.1721(5) 0.2469(6) 1.0389(5) 0.0010(2) 1. 0
+La2 La3+ 2 i 0.1682(4) 0.2441(6) 0.5386(5) 0.0010(2) 1. 0
+La3 La3+ 2 i 0.4476(4) -0.2691(7) 0.6212(5) 0.0010(2) 1. 0
+La4 La3+ 2 i 0.5538(4) 0.2417(7) 0.8825(5) 0.0010(2) 1. 0
+Ru1 Ru4+ 2 i 0.1474(6) -0.2549(10) 0.7935(7) 0.0022(4) 1. 0
+Ru2 Ru4+ 2 i 0.1511(6) 0.7481(9) 1.2872(7) 0.0022(4) 1. 0
+O1 O2- 2 i 0.2803(6) -0.0041(8) 0.7786(7) 0.0027(2) 1. 0
+O2 O2- 2 i 0.2797(6) 0.4827(9) 1.2773(7) 0.0027(2) 1. 0
+O3 O2- 2 i 0.3084(6) -0.0424(9) 0.3668(7) 0.0027(2) 1. 0
+O4 O2- 2 i 0.3141(6) 0.5214(9) 0.8734(6) 0.0027(2) 1. 0
+O5 O2- 2 i -0.0136(5) -0.0251(10) 0.6940(7) 0.0027(2) 1. 0
+O6 O2- 2 i 0.0156(6) 0.4727(9) 0.7892(7) 0.0027(2) 1. 0
+O7 O2- 2 i -0.1364(6) 0.1678(10) 0.9656(7) 0.0027(2) 1. 0
+O8 O2- 2 i 0.1574(6) 0.6582(9) 0.5378(7) 0.0027(2) 1. 0
+O9 O2- 2 i 0.4219(6) 0.1592(10) 1.1031(7) 0.0027(2) 1. 0
+O10 O2- 2 i 0.4262(5) 0.3232(9) 0.6031(6) 0.0027(2) 1. 0
+#End of TTdata_170766-ICSD

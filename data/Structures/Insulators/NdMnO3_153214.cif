@@ -1,0 +1,77 @@
+
+#(C) 2017 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_153214-ICSD
+_database_code_ICSD 153214
+_audit_creation_date 2006-10-01
+_chemical_name_systematic 'Neodymium manganate(III)'
+_chemical_formula_structural 'Nd (Mn O3)'
+_chemical_formula_sum 'Mn1 Nd1 O3'
+_chemical_name_structure_type Perovskite-GdFeO3
+_exptl_crystal_density_diffrn 6.86
+_publ_section_title
+
+;
+Structural, transport and magnetic properties of R Mn O3 perovskites (R = La,
+Pr, Nd, Sm, (153)Eu, Dy)
+;
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Journal of Solid State Chemistry' 2005 178 629 637 JSSCBI
+loop_
+_publ_author_name
+'Dabrowski, B.'
+'Kolesnik, S.'
+'Baszczuk, A.'
+'Chmaissem, O.'
+'Maxwell, T.'
+'Mais, J.'
+_cell_length_a 5.41678(51)
+_cell_length_b 5.85182(54)
+_cell_length_c 7.54791(72)
+_cell_angle_alpha 90.
+_cell_angle_beta 90.
+_cell_angle_gamma 90.
+_cell_volume 239.25
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'P b n m'
+_symmetry_Int_Tables_number 62
+_refine_ls_R_factor_all 0.032
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 '-x+1/2, y+1/2, z'
+2 'x, y, -z+1/2'
+3 'x+1/2, -y+1/2, z+1/2'
+4 '-x, -y, -z'
+5 'x+1/2, -y+1/2, -z'
+6 '-x, -y, z+1/2'
+7 '-x+1/2, y+1/2, -z+1/2'
+8 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Nd3+ 3
+Mn3+ 3
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+Nd1 Nd3+ 4 c -0.01370(32) 0.07019(24) 0.25 0.35(5) 1. 0
+Mn1 Mn3+ 4 b 0.5 0 0 0.42(8) 1. 0
+O1 O2- 4 c 0.08901(35) 0.47826(33) 0.25 0.48(3) 1. 0
+O2 O2- 8 d 0.71242(27) 0.31988(26) 0.04472(19) 0.57(4) 1. 0
+#End of TTdata_153214-ICSD

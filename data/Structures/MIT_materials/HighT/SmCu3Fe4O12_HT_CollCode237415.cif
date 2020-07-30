@@ -1,0 +1,129 @@
+
+#(C) 2018 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_237415-ICSD
+_database_code_ICSD 237415
+_audit_creation_date 2015-02-01
+_chemical_name_systematic 'Copper iron samarium oxide (3/4/1/12)'
+_chemical_formula_structural 'Cu3 Fe4 Sm O12'
+_chemical_formula_sum 'Cu3 Fe4 O12 Sm1'
+_chemical_name_structure_type NaMn7O12
+_exptl_crystal_density_diffrn 6.36
+_cell_measurement_temperature 300.
+_publ_section_title
+
+;
+Control of bond-strain-induced electronic phase transitions in iron
+perovskites
+;
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Inorganic Chemistry' 2013 52 13751 13761 INOCAJ
+loop_
+_publ_author_name
+'Yamada, Ikuya'
+'Etani, Hidenobu'
+'Tsuchida, Kazuki'
+'Marukawa, Shohei'
+'Hayashi, Naoaki'
+'Kawakami, Takateru'
+'Mizumaki, Masaichiro'
+'Ohgushi, Kenya'
+'Kusano, Yoshihiro'
+'Kim, Jungeun'
+'Tsuji, Naruki'
+'Takahashi, Ryoji'
+'Nishiyama, Norimasa'
+'Inoue, Toru'
+'Irifune, Tetsuo'
+'Takano, Mikio'
+_cell_length_a 7.33892(6)
+_cell_length_b 7.33892(6)
+_cell_length_c 7.33892(6)
+_cell_angle_alpha 90
+_cell_angle_beta 90
+_cell_angle_gamma 90
+_cell_volume 395.26
+_cell_formula_units_Z 2
+_symmetry_space_group_name_H-M 'I m -3'
+_symmetry_Int_Tables_number 204
+_refine_ls_R_factor_all 0.0098
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 '-z, x, y'
+2 'z, x, -y'
+3 'z, -x, y'
+4 '-z, -x, -y'
+5 'y, -z, x'
+6 '-y, z, x'
+7 'y, z, -x'
+8 '-y, -z, -x'
+9 'x, y, -z'
+10 'x, -y, z'
+11 '-x, y, z'
+12 '-x, -y, -z'
+13 'z, -x, -y'
+14 '-z, -x, y'
+15 '-z, x, -y'
+16 'z, x, y'
+17 '-y, z, -x'
+18 'y, -z, -x'
+19 '-y, -z, x'
+20 'y, z, x'
+21 '-x, -y, z'
+22 '-x, y, -z'
+23 'x, -y, -z'
+24 'x, y, z'
+25 '-z+1/2, x+1/2, y+1/2'
+26 'z+1/2, x+1/2, -y+1/2'
+27 'z+1/2, -x+1/2, y+1/2'
+28 '-z+1/2, -x+1/2, -y+1/2'
+29 'y+1/2, -z+1/2, x+1/2'
+30 '-y+1/2, z+1/2, x+1/2'
+31 'y+1/2, z+1/2, -x+1/2'
+32 '-y+1/2, -z+1/2, -x+1/2'
+33 'x+1/2, y+1/2, -z+1/2'
+34 'x+1/2, -y+1/2, z+1/2'
+35 '-x+1/2, y+1/2, z+1/2'
+36 '-x+1/2, -y+1/2, -z+1/2'
+37 'z+1/2, -x+1/2, -y+1/2'
+38 '-z+1/2, -x+1/2, y+1/2'
+39 '-z+1/2, x+1/2, -y+1/2'
+40 'z+1/2, x+1/2, y+1/2'
+41 '-y+1/2, z+1/2, -x+1/2'
+42 'y+1/2, -z+1/2, -x+1/2'
+43 '-y+1/2, -z+1/2, x+1/2'
+44 'y+1/2, z+1/2, x+1/2'
+45 '-x+1/2, -y+1/2, z+1/2'
+46 '-x+1/2, y+1/2, -z+1/2'
+47 'x+1/2, -y+1/2, -z+1/2'
+48 'x+1/2, y+1/2, z+1/2'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Sm3+ 3
+Cu3+ 3
+Fe3+ 3
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+Sm1 Sm3+ 2 a 0 0 0 0.0033(1) 1 0
+Cu1 Cu3+ 6 b 0 0.5 0.5 0.0064(2) 1 0
+Fe1 Fe3+ 8 c 0.25 0.25 0.25 0.0030(1) 1 0
+O1 O2- 24 g 0 0.3029(3) 0.1755(3) 0.0053(6) 1 0
+#End of TTdata_237415-ICSD

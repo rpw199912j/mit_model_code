@@ -1,0 +1,8 @@
+pymatgen==2020.7.18
+numpy==1.19.1
+pandas==1.0.5
+matminer==0.6.3
+xgboost==1.1.1
+matplotlib==3.3.0
+scipy==1.5.1
+scikit-learn==0.23.1

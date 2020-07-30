@@ -1,0 +1,74 @@
+
+#(C) 2018 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_164820-ICSD
+_database_code_ICSD 164820
+_audit_creation_date 2010-02-01
+_chemical_name_systematic 'Praseodymium cobaltate'
+_chemical_formula_structural 'Pr (Co O3)'
+_chemical_formula_sum 'Co1 O3 Pr1'
+_chemical_name_structure_type Perovskite-GdFeO3
+_exptl_crystal_density_diffrn 7.27
+_cell_measurement_temperature 800.
+_publ_section_title
+'Neutron diffraction and heat capacity studies of Pr Co O3 and Nd Co O3'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Physical Review, Serie 3. B - Condensed Matter (18,1978-)' 2009 79
+134103-1 134103-7 PRBMDO
+loop_
+_publ_author_name
+'Knizek, K.'
+'Hejtmanek, J.'
+'Jirak, Z.'
+'Tomes, P.'
+'Henry, P.'
+'Andre, G.'
+_cell_length_a 5.4423(6)
+_cell_length_b 5.4193(6)
+_cell_length_c 7.6752(8)
+_cell_angle_alpha 90.
+_cell_angle_beta 90.
+_cell_angle_gamma 90.
+_cell_volume 226.37
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'P b n m'
+_symmetry_Int_Tables_number 62
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 '-x+1/2, y+1/2, z'
+2 'x, y, -z+1/2'
+3 'x+1/2, -y+1/2, z+1/2'
+4 '-x, -y, -z'
+5 'x+1/2, -y+1/2, -z'
+6 '-x, -y, z+1/2'
+7 '-x+1/2, y+1/2, -z+1/2'
+8 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Pr3+ 3
+Co3+ 3
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+Pr1 Pr3+ 4 c 0.9946(10) 0.0258(6) 0.25 1.35(4) 1. 0
+Co1 Co3+ 4 b 0.5 0 0 0.41(5) 1. 0
+O1 O2- 4 c 0.0672(6) 0.4940(6) 0.25 1.32(4) 1. 0
+O2 O2- 8 d -0.2813(3) 0.2821(3) 0.0357(3) 1.37(3) 1. 0
+#End of TTdata_164820-ICSD

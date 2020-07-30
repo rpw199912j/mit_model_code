@@ -1,0 +1,95 @@
+
+#(C) 2016 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_1536-ICSD
+_database_code_ICSD 1536
+_audit_creation_date 1980-01-01
+_audit_update_record 2012-02-01
+_chemical_name_systematic 'Vanadium oxide (6/13) - LT'
+_chemical_formula_structural 'V6 O13'
+_chemical_formula_sum 'O13 V6'
+_chemical_name_structure_type V6O13(mP38)
+_exptl_crystal_density_diffrn 3.88
+_cell_measurement_temperature 100.
+_publ_section_title
+'Structural re-investigation of the low-temperature phase of V6 O13'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Acta Crystallographica B (24,1968-38,1982)' 1978 34 1037 1039 ACBCAR
+loop_
+_publ_author_name
+'Kawada, I.'
+'Ishii, M.'
+'Saeki, M.'
+'Kimizuka, N.'
+'Nakano Onoda, M.'
+'Kato, K.'
+_cell_length_a 11.96(1)
+_cell_length_b 3.713(3)
+_cell_length_c 10.07(2)
+_cell_angle_alpha 90.
+_cell_angle_beta 100.9(2)
+_cell_angle_gamma 90.
+_cell_volume 439.12
+_cell_formula_units_Z 2
+_symmetry_space_group_name_H-M 'P 1 21/a 1'
+_symmetry_Int_Tables_number 14
+_refine_ls_R_factor_all 0.046
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 'x+1/2, -y+1/2, z'
+2 '-x, -y, -z'
+3 '-x+1/2, y+1/2, -z'
+4 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+V4+ 4.33
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+V1 V4+ 4 e 0.35201(7) 0.03851(23) -.00144(8) . 1. 0
+V2 V4+ 4 e 0.41203(4) 0.00155(26) 0.36403(6) . 1. 0
+V3 V4+ 4 e 0.71537(4) -.00113(26) 0.36664(6) . 1. 0
+O1 O2- 4 e 0.1775(2) 0.0076(10) 0.0003(3) . 1. 0
+O2 O2- 4 e 0.8818(2) -.0018(11) 0.3885(2) . 1. 0
+O3 O2- 4 e 0.2510(2) 0.0012(11) 0.4092(2) . 1. 0
+O4 O2- 2 c 0.5 0 0 . 1. 0
+O5 O2- 4 e 0.3845(2) 0.0032(11) 0.1966(2) . 1. 0
+O6 O2- 4 e 0.6799(2) -.0035(11) 0.1994(2) . 1. 0
+O7 O2- 4 e 0.5616(2) 0.0004(12) 0.4071(3) . 1. 0
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_type_symbol
+_atom_site_aniso_beta_11
+_atom_site_aniso_beta_22
+_atom_site_aniso_beta_33
+_atom_site_aniso_beta_12
+_atom_site_aniso_beta_13
+_atom_site_aniso_beta_23
+V1 V4+ 0.00386(5) 0.01710(53) 0.00019(6) -.00708(20) 0.00013(4) -.00015(24)
+V2 V4+ 0.00016(3) 0.00209(39) 0.00013(6) 0.00004(16) -.00004(3) -.00001(22)
+V3 V4+ 0.00027(3) 0.00170(39) 0.00000(6) -.00004(16) -.00009(3) -.00001(22)
+O1 O2- 0.0011(1) 0.0097(16) 0.0008(2) -.0005(7) 0.0000(2) -.0021(12)
+O2 O2- 0.0011(1) 0.0054(15) 0.0011(2) -.0002(7) 0.0001(1) 0.0002(10)
+O3 O2- 0.0011(1) 0.0084(15) 0.0005(2) -.0003(7) 0.0000(1) 0.0004(10)
+O4 O2- 0.0015(2) 0.0176(25) 0.0010(4) -.0015(11) 0.0001(2) -.0019(17)
+O5 O2- 0.0011(1) 0.0096(16) 0.0010(2) 0.0008(7) 0.0003(2) 0.0007(10)
+O6 O2- 0.0009(1) 0.0104(17) 0.0012(2) 0.0002(7) 0.0000(2) -.0002(10)
+O7 O2- 0.0014(1) 0.0082(16) 0.0009(2) -.0002(7) 0.0001(2) 0.0003(11)
+#End of TTdata_1536-ICSD

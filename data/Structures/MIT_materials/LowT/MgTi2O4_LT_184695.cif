@@ -1,0 +1,77 @@
+
+#(C) 2016 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_184695-ICSD
+_database_code_ICSD 184695
+_audit_creation_date 2012-08-01
+_chemical_name_systematic 'Magnesium dititanate(III)'
+_chemical_formula_structural 'Mg (Ti2 O4)'
+_chemical_formula_sum 'Mg1 O4 Ti2'
+_exptl_crystal_density_diffrn 3.97
+_cell_measurement_temperature 200.
+_publ_section_title
+
+;
+Spin singlet formation in Mg Ti2 O4: evidence of a helical dimerization
+pattern
+;
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Physical Review Letters' 2004 92 056402-1 056402-4 PRLTAO
+loop_
+_publ_author_name
+'Schmidt, M.'
+'Ratcliff, W. II'
+'Radaelli, P.G.'
+'Refson, K.'
+'Harrison, N.M.'
+'Cheong, S.-W.'
+_cell_length_a 6.02201(1)
+_cell_length_b 6.02201(1)
+_cell_length_c 8.48482(2)
+_cell_angle_alpha 90.
+_cell_angle_beta 90.
+_cell_angle_gamma 90.
+_cell_volume 307.7
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'P 41 21 2'
+_symmetry_Int_Tables_number 92
+_refine_ls_R_factor_all 0.0637
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 'x+1/2, -y+1/2, -z+3/4'
+2 '-x+1/2, y+1/2, -z+1/4'
+3 '-y, -x, -z+1/2'
+4 'y, x, -z'
+5 'y+1/2, -x+1/2, z+3/4'
+6 '-y+1/2, x+1/2, z+1/4'
+7 '-x, -y, z+1/2'
+8 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Ti3+ 3
+Mg2+ 2
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+Ti1 Ti3+ 8 b -0.0089(5) 0.2499(9) -0.1332(4) 0.0125(2) 1. 0
+Mg1 Mg2+ 4 a 0.7448(3) 0.7448(3) 0 0.0073(2) 1. 0
+O1 O2- 8 b 0.4824(2) 0.2468(3) 0.1212(2) 0.0064(2) 1. 0
+O2 O2- 8 b 0.2405(3) 0.0257(2) 0.8824(2) 0.0035(2) 1. 0
+#End of TTdata_184695-ICSD

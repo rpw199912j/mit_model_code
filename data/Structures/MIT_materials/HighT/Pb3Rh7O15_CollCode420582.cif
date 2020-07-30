@@ -1,0 +1,118 @@
+
+#(C) 2018 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_420582-ICSD
+_database_code_ICSD 420582
+_audit_creation_date 2009-08-01
+_audit_update_record 2010-02-01
+_chemical_name_systematic 'Lead rhodium oxide (3/7/15)'
+_chemical_formula_structural 'Pb3 (Rh7 O15)'
+_chemical_formula_sum 'O15 Pb3 Rh7'
+_chemical_name_structure_type Pb3Rh7O15
+_exptl_crystal_density_diffrn 8.45
+_cell_measurement_temperature 293.
+_publ_section_title 'Possible Verwey-type transition in Pb3 Rh7 O15'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Chemistry of Materials' 2009 21 2300 2305 CMATEX
+loop_
+_publ_author_name
+'Mizoguchi, H.'
+'Ramirez, A.P.'
+'Siegrist, T.'
+'Zakharov, L.N.'
+'Sleight, A.W.'
+'Subramanian, M.A.'
+_cell_length_a 10.3537(2)
+_cell_length_b 10.3537(2)
+_cell_length_c 13.2837(5)
+_cell_angle_alpha 90.
+_cell_angle_beta 90.
+_cell_angle_gamma 120.
+_cell_volume 1233.22
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'P 63/m c m'
+_symmetry_Int_Tables_number 193
+_refine_ls_R_factor_all 0.017
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 '-x, -x+y, -z+1/2'
+2 'x-y, -y, -z+1/2'
+3 'y, x, -z+1/2'
+4 '-x+y, -x, -z+1/2'
+5 '-y, x-y, -z+1/2'
+6 'x, y, -z+1/2'
+7 'x, x-y, z+1/2'
+8 '-x+y, y, z+1/2'
+9 '-y, -x, z+1/2'
+10 'x-y, x, z+1/2'
+11 'y, -x+y, z+1/2'
+12 '-x, -y, z+1/2'
+13 'x, x-y, -z'
+14 '-x+y, y, -z'
+15 '-y, -x, -z'
+16 'x-y, x, -z'
+17 'y, -x+y, -z'
+18 '-x, -y, -z'
+19 '-x, -x+y, z'
+20 'x-y, -y, z'
+21 'y, x, z'
+22 '-x+y, -x, z'
+23 '-y, x-y, z'
+24 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Pb2+ 2
+Rh3+ 3
+Rh3+ 3.5
+Rh3+ 3
+Rh4+ 4
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+Pb1 Pb2+ 6 g 1. 0.39508(5) 0.25 0.01122(15) 1 0
+Pb2 Pb2+ 6 g 0.73646(4) 0. 0.25 0.00850(14) 1 0
+Rh1 Rh3+ 8 h 0.6667 0.3333 0.14868(5) 0.00361(18) 1 0
+Rh2 Rh3+ 12 i 0.66336(7) -0.16832(3) 0. 0.00379(16) 1 0
+Rh3 Rh3+ 2 b 1. 0. 0. 0.0046(3) 1 0
+Rh4 Rh4+ 6 f 0.5 0. 0. 0.00356(19) 1 0
+O1 O2- 12 k 0.6664(5) 0. 0.0792(4) 0.0052(11) 1 0
+O2 O2- 12 k 0.8309(5) -0.1691(5) 0.0768(4) 0.0068(11) 1 0
+O3 O2- 24 l 0.8418(4) 0.3346(4) 0.0818(3) 0.0070(8) 1 0
+O4 O2- 12 j 0.5199(6) 0.3423(6) 0.25 0.0044(11) 1 0
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_type_symbol
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_23
+Pb1 Pb2+ 0.0093(3) 0.00788(19) 0.0170(2) 0.00464(13) 0. 0.
+Pb2 Pb2+ 0.00716(19) 0.0095(2) 0.0096(2) 0.00473(12) 0. 0.
+Rh1 Rh3+ 0.0026(2) 0.0026(2) 0.0056(3) 0.00130(12) 0. 0.
+Rh2 Rh3+ 0.0026(3) 0.0024(3) 0.0064(3) 0.00132(15) 0. -0.00006(18)
+Rh3 Rh3+ 0.0030(4) 0.0030(4) 0.0079(6) 0.0015(2) 0. 0.
+Rh4 Rh4+ 0.0023(3) 0.0022(4) 0.0061(4) 0.0011(2) -0.0004(3) 0.
+O1 O2- 0.006(2) 0.005(3) 0.005(2) 0.0025(14) 0.0011(19) 0.
+O2 O2- 0.004(2) 0.004(2) 0.011(3) 0.000(2) -0.0005(19) -0.0005(19)
+O3 O2- 0.0071(19) 0.0048(19) 0.0092(18) 0.0031(16) 0.0035(16) 0.0030(16)
+O4 O2- 0.006(3) 0.002(3) 0.006(2) 0.002(2) 0. 0.
+#End of TTdata_420582-ICSD

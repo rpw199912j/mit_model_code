@@ -1,0 +1,71 @@
+
+#(C) 2016 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_6286-ICSD
+_database_code_ICSD 6286
+_audit_creation_date 1986-09-25
+_audit_update_record 2012-02-01
+_chemical_name_systematic 'Vanadium(III) oxide'
+_chemical_formula_structural 'V2 O3'
+_chemical_formula_sum 'O3 V2'
+_chemical_name_structure_type V2O3
+_chemical_name_mineral 'Karelianite low'
+_exptl_crystal_density_diffrn 4.98
+_cell_measurement_temperature 148.
+_publ_section_title
+'Crystal structure of the low-temperature antiferromagnetic phase of V2 O3'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Physical Review, Serie 3. B - Solid State (1,1970-17,1977)' 1970 2 3771
+3776 PLRBAQ
+loop_
+_publ_author_name
+'Dernier, P.D.'
+'Marezio, M.'
+_cell_length_a 7.255(3)
+_cell_length_b 5.002(2)
+_cell_length_c 5.548(2)
+_cell_angle_alpha 90.
+_cell_angle_beta 96.75(2)
+_cell_angle_gamma 90.
+_cell_volume 199.94
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'I 1 2/a 1'
+_symmetry_Int_Tables_number 15
+_refine_ls_R_factor_all 0.025
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 'x+1/2, -y, z'
+2 '-x, -y, -z'
+3 '-x+1/2, y, -z'
+4 'x, y, z'
+5 'x, -y+1/2, z+1/2'
+6 '-x+1/2, -y+1/2, -z+1/2'
+7 '-x, y+1/2, -z+1/2'
+8 'x+1/2, y+1/2, z+1/2'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+V3+ 3
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+V1 V3+ 8 f 0.3439(3) 0.0012(12) 0.2993(3) 0.67(12) 1. 0
+O1 O2- 8 f 0.406(2) 0.847(2) 0.651(2) 0.81(21) 1. 0
+O2 O2- 4 e 0.25 0.304(5) 0.5 0.84(35) 1. 0
+#End of TTdata_6286-ICSD

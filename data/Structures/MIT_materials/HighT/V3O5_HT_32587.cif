@@ -1,0 +1,85 @@
+
+#(C) 2016 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_32587-ICSD
+_database_code_ICSD 32587
+_audit_creation_date 1982-12-31
+_audit_update_record 2006-04-01
+_chemical_name_systematic 'Vanadium oxide (3/5)'
+_chemical_formula_structural 'V3 O5'
+_chemical_formula_sum 'O5 V3'
+_chemical_name_structure_type V3O5(HT)
+_exptl_crystal_density_diffrn 4.73
+_cell_measurement_temperature 458.
+_publ_section_title
+'The structure of the high-temperature modification of V3 O5 at 458 K'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Acta Crystallographica B (24,1968-38,1982)' 1982 38 713 719 ACBCAR
+loop_
+_publ_author_name
+'Hong, S.H.'
+'Asbrink, S.'
+_cell_length_a 9.846(2)
+_cell_length_b 5.0268(4)
+_cell_length_c 7.009(1)
+_cell_angle_alpha 90.
+_cell_angle_beta 109.536(15)
+_cell_angle_gamma 90.
+_cell_volume 326.93
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'I 1 2/c 1'
+_symmetry_Int_Tables_number 15
+_refine_ls_R_factor_all 0.0257
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 '-x, y, -z+1/2'
+2 '-x, -y, -z'
+3 'x, -y, z+1/2'
+4 'x, y, z'
+5 '-x+1/2, y+1/2, -z'
+6 '-x+1/2, -y+1/2, -z+1/2'
+7 'x+1/2, -y+1/2, z'
+8 'x+1/2, y+1/2, z+1/2'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+V3+ 3.333
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+V1 V3+ 8 f 0.370350(13) 0.498410(19) 0.089850(19) . 1. 0
+V2 V3+ 4 b 0 0.5 0 . 1. 0
+O1 O2- 8 f 0.69257(7) 0.84750(12) 0.53331(10) . 1. 0
+O2 O2- 8 f 0.58100(7) 0.34401(10) 0.63796(9) . 1. 0
+O3 O2- 4 e 0 0.30642(14) 0.25 . 1. 0
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_type_symbol
+_atom_site_aniso_beta_11
+_atom_site_aniso_beta_22
+_atom_site_aniso_beta_33
+_atom_site_aniso_beta_12
+_atom_site_aniso_beta_13
+_atom_site_aniso_beta_23
+V1 V3+ 0.00122(1) 0.00567(5) 0.00232(3) 0.00010(1) 0.00041(1) -.00037(2)
+V2 V3+ 0.00158(2) 0.00412(6) 0.00246(3) -.00013(2) 0.00073(2) -.00011(2)
+O1 O2- 0.00166(5) 0.00711(12) 0.00520(11) -.00009(6) 0.00103(6) -.00033(9)
+O2 O2- 0.00176(4) 0.00539(11) 0.00262(8) -.00019(6) 0.00080(5) -.00045(8)
+O3 O2- 0.00187(6) 0.00561(14) 0.00295(11) 0 0.00088(7) 0
+#End of TTdata_32587-ICSD

@@ -1,0 +1,112 @@
+
+#(C) 2017 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_236944-ICSD
+_database_code_ICSD 236944
+_audit_creation_date 2015-02-01
+_chemical_name_systematic 'Lanthanum strontium manganese oxide (0.4/0.6/1/3)'
+_chemical_formula_structural '(La0.4 Sr0.6) Mn O3'
+_chemical_formula_sum 'La0.4 Mn1 O3 Sr0.6'
+_chemical_name_structure_type Perovskite-SrTiO3
+_exptl_crystal_density_diffrn 6.15
+_cell_measurement_temperature 300.
+_publ_section_title
+'Structural and magnetic phase diagrams of La1-x Srx Mn O3 and Pr1-y Sry Mn O3'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Physical Review, Serie 3. B - Condensed Matter (18,1978-)' 2003 67
+094431-1 094431-13 PRBMDO
+loop_
+_publ_author_name
+'Chmaissem, O.'
+'Dabrowski, B.'
+'Kolesnik, S.'
+'Mais, J.'
+'Jorgensen, J.D.'
+'Short, S.'
+_cell_length_a 5.42964(4)
+_cell_length_b 5.42964(4)
+_cell_length_c 7.7381(1)
+_cell_angle_alpha 90.
+_cell_angle_beta 90.
+_cell_angle_gamma 90.
+_cell_volume 228.12
+_cell_formula_units_Z 4
+_symmetry_space_group_name_H-M 'I 4/m c m'
+_symmetry_Int_Tables_number 140
+_refine_ls_R_factor_all 0.061
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 'y, x, -z+1/2'
+2 '-y, -x, -z+1/2'
+3 '-y, x, -z'
+4 'y, -x, -z'
+5 'x, -y, -z+1/2'
+6 '-x, y, -z+1/2'
+7 'x, y, -z'
+8 '-x, -y, -z'
+9 '-y, -x, z+1/2'
+10 'y, x, z+1/2'
+11 'y, -x, z'
+12 '-y, x, z'
+13 '-x, y, z+1/2'
+14 'x, -y, z+1/2'
+15 '-x, -y, z'
+16 'x, y, z'
+17 'y+1/2, x+1/2, -z'
+18 '-y+1/2, -x+1/2, -z'
+19 '-y+1/2, x+1/2, -z+1/2'
+20 'y+1/2, -x+1/2, -z+1/2'
+21 'x+1/2, -y+1/2, -z'
+22 '-x+1/2, y+1/2, -z'
+23 'x+1/2, y+1/2, -z+1/2'
+24 '-x+1/2, -y+1/2, -z+1/2'
+25 '-y+1/2, -x+1/2, z'
+26 'y+1/2, x+1/2, z'
+27 'y+1/2, -x+1/2, z+1/2'
+28 '-y+1/2, x+1/2, z+1/2'
+29 '-x+1/2, y+1/2, z'
+30 'x+1/2, -y+1/2, z'
+31 '-x+1/2, -y+1/2, z+1/2'
+32 'x+1/2, y+1/2, z+1/2'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+La3+ 3
+Sr2+ 2
+Mn3+ 3.6
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+La1 La3+ 4 b 0.5 0 0.25 0.60(2) 0.4 0
+Sr1 Sr2+ 4 b 0.5 0 0.25 0.60(2) 0.6 0
+Mn1 Mn3+ 4 c 0 0 0 0.21(3) 1. 0
+O1 O2- 4 a 0 0 0.25 . 1. 0
+O2 O2- 8 h 0.2665(2) 0.7665(2) 0 . 1. 0
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_type_symbol
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_23
+O1 O2- 1.04(6) 1.04(6) 0.61(9) 0 0 0
+O2 O2- 0.77(3) 0.77(3) 1.10(6) 0.41(5) 0 0
+#End of TTdata_236944-ICSD

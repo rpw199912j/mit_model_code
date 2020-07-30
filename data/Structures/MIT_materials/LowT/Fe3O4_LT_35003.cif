@@ -1,0 +1,90 @@
+
+#(C) 2016 by FIZ Karlsruhe - Leibniz Institute for Information Infrastructure.  All rights reserved.
+data_35003-ICSD
+_database_code_ICSD 35003
+_audit_creation_date 1982-12-31
+_audit_update_record 2012-08-01
+_chemical_name_systematic 'Iron diiron(III) oxide'
+_chemical_formula_structural 'Fe3 O4'
+_chemical_formula_sum 'Fe3 O4'
+_chemical_name_structure_type Fe3O4(LT)
+_chemical_name_mineral 'Magnetite low'
+_exptl_crystal_density_diffrn 5.22
+_cell_measurement_temperature 10.
+_publ_section_title
+'Structure of magnetite Fe3 O4 below the Verwey transition temperature'
+loop_
+_citation_id
+_citation_journal_full
+_citation_year
+_citation_journal_volume
+_citation_page_first
+_citation_page_last
+_citation_journal_id_ASTM
+primary 'Acta Crystallographica B (24,1968-38,1982)' 1982 38 2121 2133 ACBCAR
+loop_
+_publ_author_name
+'Iizumi, M.'
+'Koetzle, T.F.'
+'Shirane, G.'
+'Chikazumi, S.'
+'Matsui, M.'
+'Todo, S.'
+_cell_length_a 5.934(1)
+_cell_length_b 5.9255(10)
+_cell_length_c 16.752(4)
+_cell_angle_alpha 90.
+_cell_angle_beta 90.
+_cell_angle_gamma 90.
+_cell_volume 589.03
+_cell_formula_units_Z 8
+_symmetry_space_group_name_H-M 'P m c 21'
+_symmetry_Int_Tables_number 26
+_refine_ls_R_factor_all 0.052
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 'x, -y, z+1/2'
+2 '-x, -y, z+1/2'
+3 '-x, y, z'
+4 'x, y, z'
+loop_
+_atom_type_symbol
+_atom_type_oxidation_number
+Fe2+ 2
+Fe3+ 3
+O2- -2
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_symmetry_multiplicity
+_atom_site_Wyckoff_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_B_iso_or_equiv
+_atom_site_occupancy
+_atom_site_attached_hydrogens
+Fe1 Fe2+ 2 a 0 0.0026(14) 0.4370(8) 0.1 1. 0
+Fe2 Fe2+ 2 b 0.5 0.0065(13) 0.0640(7) 0.1 1. 0
+Fe3 Fe2+ 2 b 0.5 0.5087(12) 0.1891(8) 0.1 1. 0
+Fe4 Fe2+ 2 a 0 0.5044(13) 0.3117(7) 0.1 1. 0
+Fe5 Fe3+ 4 c 0.2539(14) 0.5027(14) -.0002 0.13 1. 0
+Fe6 Fe3+ 2 a 0 0.2597(14) 0.1213(7) 0.1 1. 0
+Fe7 Fe3+ 2 a 0 0.7603(14) 0.1263(7) 0.1 1. 0
+Fe8 Fe3+ 4 c 0.2433(12) 0.0098(5) 0.2476(10) 0.14 1. 0
+Fe9 Fe3+ 2 b 0.5 0.2680(12) 0.3787(7) 0.1 1. 0
+Fe10 Fe3+ 2 b 0.5 0.7504(15) 0.3753(9) 0.1 1. 0
+O1 O2- 2 a 0 0.2484(24) 0.0012(9) 0.13 1. 0
+O2 O2- 2 b 0.5 0.2686(23) -.0032(9) 0.16 1. 0
+O3 O2- 2 a 0 0.7439(22) 0.0020(9) 0.16 1. 0
+O4 O2- 2 b 0.5 0.7440(24) -.0006(9) 0.13 1. 0
+O5 O2- 4 c 0.2407(18) 0.0085(16) 0.1291(12) 0.17 1. 0
+O6 O2- 4 c 0.2449(21) 0.5067(16) 0.1239(6) 0.11 1. 0
+O7 O2- 2 a 0 0.2356(20) 0.2464(11) 0.27 1. 0
+O8 O2- 2 b 0.5 0.2563(18) 0.2555(10) 0.27 1. 0
+O9 O2- 2 a 0 0.7761(24) 0.2492(10) 0.2 1. 0
+O10 O2- 2 b 0.5 0.7638(24) 0.2549(10) 0.2 1. 0
+O11 O2- 4 c 0.2640(21) 0.0096(17) 0.3706(10) 0.17 1. 0
+O12 O2- 4 c 0.2575(19) 0.5042(15) 0.3755(6) 0.11 1. 0
+#End of TTdata_35003-ICSD
