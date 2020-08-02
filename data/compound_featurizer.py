@@ -15,7 +15,6 @@ from matminer.featurizers.structure import EwaldEnergy, GlobalInstabilityIndex, 
 
 # %% set up path constant
 STRUCTURE_PATH = "../data/Structures"
-# FILE_PATH = "./Structures/Insulators/Al2O3_31545.cif"
 
 # %% check if the Structure.zip is unzipped
 if not os.path.isdir(STRUCTURE_PATH):
@@ -661,6 +660,7 @@ def calc_elem_max_potential(structure_oxid: mg.Structure, full_list=False, check
     elem_indices, *_ = get_elem_info(structure_oxid, makesupercell=False)
     # get the site potential using indices
     # the Ewald site energy is converted to site potential using V=2E/q
+    # TODO: need to resolve division by zero error message
     site_potentials = {elem: [2 * ews.get_site_energy(index) / (elem_charge_lookup[elem] * vesta_conversion)
                               for index in indices]
                        for elem, indices in elem_indices.items()}

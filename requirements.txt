@@ -6,3 +6,5 @@ xgboost==1.1.1
 matplotlib==3.3.0
 scipy==1.5.1
 scikit-learn==0.23.1
+requests==2.24.0
+requests-html==0.10.0
