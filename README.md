@@ -4,13 +4,23 @@ Original cif structure files can be identified in
 [Structures.zip]("https://github.com/rpw199912j/mit_model_code/blob/master/data/Structures.zip")
 
 ## General Workflow (Work in progress)
-### Getting cif files
+### 1. Data Preparation
+#### 1.1 Getting cif files
 
-### Generate features using the cif files
+#### 1.2 Generate features using the cif files
 
-### Select useful features and clean up the data
+#### 1.3 Select useful features and clean up the data
 
-### Train and evaluate the XGBoost model
+#### 1.4 Generate ionization lookup dataframe
+
+### 2. Model Building
+#### 2.1 Train the XGBoost model
+
+#### 2.2 Evaluate model performance
+
+### 3. Deploy & Serve Models
+
+
 
 ## Demo notebooks (Work in progress)
 

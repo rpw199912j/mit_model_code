@@ -1,18 +1,17 @@
 import copy
 import numpy as np
-import pandas as pd
 import xgboost as xgb
 import matplotlib.pyplot as plt
 from scipy.stats import iqr
 from sklearn.metrics import auc, plot_roc_curve, plot_precision_recall_curve
 from sklearn.model_selection import cross_validate, StratifiedKFold, GridSearchCV
 
-# set up constants
-PROCESSED_PATH = "../data/processed/IMT_Classification_Dataset_Processed.xlsx"
-RANDOM_SEED = 31415926
-
-# read in the processed data
-df = pd.read_excel(PROCESSED_PATH)
+# # set up constants
+# PROCESSED_PATH = "../data/processed/IMT_Classification_Dataset_Processed.xlsx"
+# RANDOM_SEED = 31415926
+#
+# # read in the processed data
+# df = pd.read_excel(PROCESSED_PATH)
 
 
 def load_data(df_input, choice=None):
@@ -81,9 +80,9 @@ def tune_hyperparam(df_input, class_of_choice, seed, num_folds=5):
     return xgb_grid.best_params_
 
 
-best_params = {choice: tune_hyperparam(df, choice, RANDOM_SEED)
-               for choice in ["Metal", "Insulator", "MIT"]}
-print(best_params)
+# best_params = {choice: tune_hyperparam(df, choice, RANDOM_SEED)
+#                for choice in ["Metal", "Insulator", "MIT"]}
+# print(best_params)
 
 
 # %% evaluate model performance with multiple metrics using the sklearn API
@@ -131,41 +130,41 @@ def eval_xgb_model(df_input, class_of_choice, params, seed, num_folds=10, eval_m
     print(*printout_lst, sep="\n")
 
 
-for choice in ["Metal", "Insulator", "MIT"]:
-    eval_xgb_model(df, choice, best_params, RANDOM_SEED, eval_method="standard")
+# for choice in ["Metal", "Insulator", "MIT"]:
+#     eval_xgb_model(df, choice, best_params, RANDOM_SEED, eval_method="standard")
 
 # %% Create the visulization for the ROC curves
-# initialize the stratified folds
-roc_stratified_folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_SEED)
-
-# intialize lists for colors
-color_lst = ['#1f77b4', '#ff7f0e', '#2ca02c']
-
-# construct the plot
-fig, ax = plt.subplots(3, 1, sharex="all", sharey="all",
-                       figsize=(10, 10))
-
-for index, (choice, title) in enumerate(zip(["Metal", "Insulator", "MIT"],
-                                            ["M", "I", "T"])):
-    aucs = []
-    X_choice, y_choice = load_data(df, choice)
-    # initialize the tuned binary classifier
-    roc_xgb_model = xgb.XGBClassifier(**best_params[choice])
-    for i, (train_indices, test_indices) in enumerate(roc_stratified_folds.split(X_choice, y_choice)):
-        # fit the model on k-1 training folds
-        roc_xgb_model.fit(X_choice.iloc[train_indices], y_choice[train_indices])
-        # plot the ROC curve on the 1 test fold
-        viz = plot_roc_curve(roc_xgb_model, X_choice.iloc[test_indices], y_choice[test_indices],
-                             alpha=0.6, lw=3, ax=ax[index], color=color_lst[index])
-        # get the AUC score for that test fold
-        aucs.append(viz.roc_auc)
-    ax[index].set(xlim=(-0.01, 1), ylim=(0, 1.05), xlabel=None, ylabel=None)
-    ax[index].set_title(title, fontsize=24)
-    ax[index].get_legend().remove()
-    ax[index].plot([0, 1], [0, 1], linestyle="--", lw=3, color="k")
-    ax[index].tick_params(axis='both', which='major', labelsize=24)
-    ax[index].text(0.98, 0.05, "Mean AUC:{:.2f}".format(np.mean(aucs)), fontsize=24,
-                   horizontalalignment="right", verticalalignment="bottom")
+# # initialize the stratified folds
+# roc_stratified_folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_SEED)
+#
+# # intialize lists for colors
+# color_lst = ['#1f77b4', '#ff7f0e', '#2ca02c']
+#
+# # construct the plot
+# fig, ax = plt.subplots(3, 1, sharex="all", sharey="all",
+#                        figsize=(10, 10))
+#
+# for index, (choice, title) in enumerate(zip(["Metal", "Insulator", "MIT"],
+#                                             ["M", "I", "T"])):
+#     aucs = []
+#     X_choice, y_choice = load_data(df, choice)
+#     # initialize the tuned binary classifier
+#     roc_xgb_model = xgb.XGBClassifier(**best_params[choice])
+#     for i, (train_indices, test_indices) in enumerate(roc_stratified_folds.split(X_choice, y_choice)):
+#         # fit the model on k-1 training folds
+#         roc_xgb_model.fit(X_choice.iloc[train_indices], y_choice[train_indices])
+#         # plot the ROC curve on the 1 test fold
+#         viz = plot_roc_curve(roc_xgb_model, X_choice.iloc[test_indices], y_choice[test_indices],
+#                              alpha=0.6, lw=3, ax=ax[index], color=color_lst[index])
+#         # get the AUC score for that test fold
+#         aucs.append(viz.roc_auc)
+#     ax[index].set(xlim=(-0.01, 1), ylim=(0, 1.05), xlabel=None, ylabel=None)
+#     ax[index].set_title(title, fontsize=24)
+#     ax[index].get_legend().remove()
+#     ax[index].plot([0, 1], [0, 1], linestyle="--", lw=3, color="k")
+#     ax[index].tick_params(axis='both', which='major', labelsize=24)
+#     ax[index].text(0.98, 0.05, "Mean AUC:{:.2f}".format(np.mean(aucs)), fontsize=24,
+#                    horizontalalignment="right", verticalalignment="bottom")
 
 # ax[2].set_xlabel("False Positive Rate", fontsize=24)
 # ax[1].set_ylabel("True Positive Rate", fontsize=24)
@@ -173,68 +172,45 @@ for index, (choice, title) in enumerate(zip(["Metal", "Insulator", "MIT"],
 # plt.show()
 
 # %% Create the visulization for the precision-recall curves
-# initialize the stratified folds
-pr_stratified_folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_SEED)
-
-# intialize lists for colors
-color_lst = ['#1f77b4', '#ff7f0e', '#2ca02c']
-
-# construct the plot
-fig, ax = plt.subplots(3, 1, sharex="all", sharey="all",
-                       figsize=(10, 10))
-
-for index, (choice, title) in enumerate(zip(["Metal", "Insulator", "MIT"],
-                                            ["M", "I", "T"])):
-    aucs = []
-    X_choice, y_choice = load_data(df, choice)
-    naive_precision = np.sum(y_choice == 1) / len(y_choice)
-    # initialize the tuned binary classifier
-    pr_xgb_model = xgb.XGBClassifier(**best_params[choice])
-    for i, (train_indices, test_indices) in enumerate(pr_stratified_folds.split(X_choice, y_choice)):
-        # fit the model on k-1 training folds
-        pr_xgb_model.fit(X_choice.iloc[train_indices], y_choice[train_indices])
-        # plot the PR curve on the 1 test fold
-        viz = plot_precision_recall_curve(pr_xgb_model,
-                                          X_choice.iloc[test_indices], y_choice[test_indices],
-                                          alpha=0.6, lw=3, ax=ax[index], color=color_lst[index])
-        # get the AUC score for that test fold
-        aucs.append(auc(viz.recall, viz.precision))
-    ax[index].set(xlim=(0, 1), ylim=(0, 1.05), xlabel=None, ylabel=None)
-    ax[index].set_title("{}: mean auc:{:.2f}".format(title, np.mean(aucs)), fontsize=24)
-    ax[index].get_legend().remove()
-    ax[index].plot([0, 1], [naive_precision, naive_precision],
-                   linestyle="--", lw=3, color="k")
-    ax[index].tick_params(axis='both', which='major', labelsize=24)
-    ax[index].text(0.02, naive_precision - 0.03, "naive precision:{:.2f}".format(naive_precision),
-                   fontsize=20, horizontalalignment="left", verticalalignment="top")
-
-ax[2].set_xlabel("Recall", fontsize=24)
-ax[1].set_ylabel("Precision", fontsize=24)
-plt.tight_layout()
-plt.show()
+# # initialize the stratified folds
+# pr_stratified_folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_SEED)
+#
+# # intialize lists for colors
+# color_lst = ['#1f77b4', '#ff7f0e', '#2ca02c']
+#
+# # construct the plot
+# fig, ax = plt.subplots(3, 1, sharex="all", sharey="all",
+#                        figsize=(10, 10))
+#
+# for index, (choice, title) in enumerate(zip(["Metal", "Insulator", "MIT"],
+#                                             ["M", "I", "T"])):
+#     aucs = []
+#     X_choice, y_choice = load_data(df, choice)
+#     naive_precision = np.sum(y_choice == 1) / len(y_choice)
+#     # initialize the tuned binary classifier
+#     pr_xgb_model = xgb.XGBClassifier(**best_params[choice])
+#     for i, (train_indices, test_indices) in enumerate(pr_stratified_folds.split(X_choice, y_choice)):
+#         # fit the model on k-1 training folds
+#         pr_xgb_model.fit(X_choice.iloc[train_indices], y_choice[train_indices])
+#         # plot the PR curve on the 1 test fold
+#         viz = plot_precision_recall_curve(pr_xgb_model,
+#                                           X_choice.iloc[test_indices], y_choice[test_indices],
+#                                           alpha=0.6, lw=3, ax=ax[index], color=color_lst[index])
+#         # get the AUC score for that test fold
+#         aucs.append(auc(viz.recall, viz.precision))
+#     ax[index].set(xlim=(0, 1), ylim=(0, 1.05), xlabel=None, ylabel=None)
+#     ax[index].set_title("{}: mean auc:{:.2f}".format(title, np.mean(aucs)), fontsize=24)
+#     ax[index].get_legend().remove()
+#     ax[index].plot([0, 1], [naive_precision, naive_precision],
+#                    linestyle="--", lw=3, color="k")
+#     ax[index].tick_params(axis='both', which='major', labelsize=24)
+#     ax[index].text(0.02, naive_precision - 0.03, "naive precision:{:.2f}".format(naive_precision),
+#                    fontsize=20, horizontalalignment="left", verticalalignment="top")
+#
+# ax[2].set_xlabel("Recall", fontsize=24)
+# ax[1].set_ylabel("Precision", fontsize=24)
+# plt.tight_layout()
+# plt.show()
 
 # TODO: Figure out a way to plot the averages of averages
 # TODO: learn the UMAP dimensionaility reduction
-
-# %% train and save the models
-for choice in ["Metal", "Insulator", "MIT"]:
-    X, y = load_data(df, choice)
-    xgb_tuned_model = xgb.XGBClassifier(**best_params[choice])
-    xgb_tuned_model.fit(X, y)
-    xgb_tuned_model.save_model("../model/saved_models/{}.model".format(choice.lower()))
-
-# %%
-metal_model = xgb.XGBClassifier()
-metal_model.load_model("../model/saved_models/metal.model")
-
-insulator_model = xgb.XGBClassifier()
-insulator_model.load_model("../model/saved_models/insulator.model")
-
-mit_model = xgb.XGBClassifier()
-mit_model.load_model("../model/saved_models/mit.model")
-X_test = df.iloc[[0, 115, 116]].drop(columns=["Compound", "Label", "struct_file_path"])
-X_test.at[0, "estct"] = None
-print(metal_model.predict(X_test))
-print(insulator_model.predict(X_test))
-print(mit_model.predict(X_test))
-

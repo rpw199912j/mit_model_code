@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import pymatgen as mg
 from glob import glob
+from tqdm.auto import tqdm
 from zipfile import ZipFile
 from collections import OrderedDict
 from typing import Union, Iterable, Tuple, Dict, List
@@ -85,7 +86,7 @@ def get_struct(compound_formula: str, df_input: pd.DataFrame, struct_type: str =
 
 
 # helper function to read in new data that may not present in the original data set
-def read_new_struct(structure: mg.Structure):
+def read_new_struct(structure: Union[str, mg.Structure]):
     """
     Read in new structure data and return an initial Pandas DataFrame
 
@@ -170,12 +171,15 @@ def parse_element(structure: mg.Structure) -> Dict:
     """
     # create a list with all the elements
     element_lst = structure.composition.element_composition.elements
-    # create a set with all the non-metals (faster lookup time during the next step)
-    non_metal_set = {element for element in element_lst if not element.is_metal}
-    # create a dictionary with only the metal elements' symbol and electronegativity
-    metal_dict = {element: element.X for element in element_lst if element not in non_metal_set}
+    # create a dictionary with all the non-metals' symbol and electronegativity
+    non_metal_dict = {element: element.X for element in element_lst if not element.is_metal}
+    # sort the non-metal dictionary by the electronegativity in descending order
+    non_metal_dict = OrderedDict({key: non_metal_dict[key] for key in sorted(non_metal_dict, key=non_metal_dict.get,
+                                                                             reverse=True)})
+    # create a dictionary with only the metals' symbol and electronegativity
+    metal_dict = {element: element.X for element in element_lst if element not in non_metal_dict}
     # sort the metal dictionary by the electronegativity in descending order
-    metal_dict = {key: metal_dict[key] for key in sorted(metal_dict, key=metal_dict.get, reverse=True)}
+    metal_dict = OrderedDict({key: metal_dict[key] for key in sorted(metal_dict, key=metal_dict.get, reverse=True)})
     # get the element symbol with the highest electronegativity
     try:
         most_electro_neg_metal = max(metal_dict, key=metal_dict.get)
@@ -184,39 +188,39 @@ def parse_element(structure: mg.Structure) -> Dict:
         other_metals = list(metal_dict.keys())
     except ValueError:
         # if no metal present, only populate the "non-metals" key
-        return {"non_metals": list(non_metal_set), "all_metals": None,
+        return {"non_metals": list(non_metal_dict), "all_metals": None,
                 "most_electro_neg_metal": None, "other_metals": None}
-    return {"non_metals": list(non_metal_set),
+    return {"non_metals": list(non_metal_dict),
             "all_metals": all_metals,
             "most_electro_neg_metal": most_electro_neg_metal,
             "other_metals": other_metals}
 
 
-def find_metal_old(structure):
-    """Find metal species by electronegativity ranking.
-    Args:
-        structure: Pymatgen Structure object
-    Returns:
-        metal: str, name of relevant metal element
-    """
-    anions = ['O', 'F', 'N', 'S', 'Se']
-    try:
-        metal = str(structure.composition.element_composition.elements[-2])
-        if metal in anions:  # If there are two anions return next element
-            metal = str(structure.composition.element_composition.elements[-3])
-    except:
-        return None
-    return metal
-
-
-def metal_equal(structure):
-    try:
-        new_method = parse_element(structure)["most_electro_neg_metal"].symbol
-    except AttributeError:
-        new_method = None
-    old_method = find_metal_old(structure)
-    return pd.Series([structure.composition.reduced_formula, new_method != old_method, new_method, old_method],
-                     index=["compound", "different", "metal_from_new", "metal_from_old"])
+# def find_metal_old(structure):
+#     """Find metal species by electronegativity ranking.
+#     Args:
+#         structure: Pymatgen Structure object
+#     Returns:
+#         metal: str, name of relevant metal element
+#     """
+#     anions = ['O', 'F', 'N', 'S', 'Se']
+#     try:
+#         metal = str(structure.composition.element_composition.elements[-2])
+#         if metal in anions:  # If there are two anions return next element
+#             metal = str(structure.composition.element_composition.elements[-3])
+#     except:
+#         return None
+#     return metal
+#
+#
+# def metal_equal(structure):
+#     try:
+#         new_method = parse_element(structure)["most_electro_neg_metal"].symbol
+#     except AttributeError:
+#         new_method = None
+#     old_method = find_metal_old(structure)
+#     return pd.Series([structure.composition.reduced_formula, new_method != old_method, new_method, old_method],
+#                      index=["compound", "different", "metal_from_new", "metal_from_old"])
 
 
 # difference_df = df["structure"].apply(func=metal_equal)
@@ -342,8 +346,9 @@ def calc_mx_dists(structure, cutoff=1, return_unique=False):
         pairwise_elem = itertools.product(element_group["all_metals"],
                                           element_group["non_metals"])
         # calcute bond distance for every pair of elements
-        mx_dists = {"{}-{}".format(metal.symbol, non_metal.symbol)
-                    : get_elem_distances(structure, metal, element_indices, non_metal, cutoff, return_unique)
+        mx_dists = {"{}-{}".format(metal.symbol,
+                                   non_metal.symbol): get_elem_distances(structure, metal, element_indices,
+                                                                         non_metal, cutoff, return_unique)
                     for metal, non_metal in pairwise_elem}
         return mx_dists
     # if there is no metal or no non_metal, return None
@@ -365,8 +370,9 @@ def calc_mm_dists(structure, cutoff=1, return_unique=False):
         # create all possible combinations of metal elements (self included)
         pairwise_elem = itertools.combinations_with_replacement(element_group["all_metals"], 2)
         # calcute bond distance for every pair of elements
-        mm_dists = {"{}-{}".format(metal_1.symbol, metal_2.symbol)
-                    : get_elem_distances(structure, metal_1, element_indices, metal_2, cutoff, return_unique)
+        mm_dists = {"{}-{}".format(metal_1.symbol,
+                                   metal_2.symbol): get_elem_distances(structure, metal_1, element_indices,
+                                                                       metal_2, cutoff, return_unique)
                     for metal_1, metal_2 in pairwise_elem}
         return mm_dists
 
@@ -389,8 +395,9 @@ def calc_xx_dists(structure, cutoff=1, return_unique=False):
     if element_group["non_metals"]:
         pairwise_elem = itertools.combinations_with_replacement(element_group["non_metals"], 2)
 
-        xx_dists = {"{}-{}".format(non_metal_1.symbol, non_metal_2.symbol)
-                    : get_elem_distances(structure, non_metal_1, element_indices, non_metal_2, cutoff, return_unique)
+        xx_dists = {"{}-{}".format(non_metal_1.symbol,
+                                   non_metal_2.symbol): get_elem_distances(structure, non_metal_1, element_indices,
+                                                                           non_metal_2, cutoff, return_unique)
                     for non_metal_1, non_metal_2 in pairwise_elem}
         return xx_dists
 
@@ -428,28 +435,28 @@ def classify_mm_pairs(elem_pair_lst: Union[list, Iterable]):
     3. non-transition metal and non-transition metal
 
     :param elem_pair_lst: List or iterables, all metal element pairs. e.g. ["Ti-Ti", "Ba-Ba"]
-    :return: Ordered Dictionary, {"trans_trans": {set of elem pairs in string format},
-                                  "trans_non_trans": {set of elem pairs in string format},
-                                  "non_trans_non_trans": {set of elem pairs in string format}}
+    :return: Ordered Dictionary, {"trans_trans": [list of elem pairs in string format],
+                                  "trans_non_trans": [list of elem pairs in string format],
+                                  "non_trans_non_trans": [list of elem pairs in string format]}
     """
     # parse all the element pairs from strings to tuples with two Pymatgen Elements
     elem_pairs_parsed = [parse_elem_pair(elem_pair) for elem_pair in elem_pair_lst]
 
-    # initialize the empty sets
-    trans_trans = set()
-    trans_non_trans = set()
-    non_trans_non_trans = set()
+    # initialize the empty lists
+    trans_trans = []
+    trans_non_trans = []
+    non_trans_non_trans = []
 
     for elem_pair_str, (elem_1, elem_2) in zip(elem_pair_lst, elem_pairs_parsed):
         # find all pairs where both metals are transition metals
         if elem_1.is_transition_metal and elem_2.is_transition_metal:
-            trans_trans = trans_trans.union({elem_pair_str})
+            trans_trans.append(elem_pair_str)
         # find all pairs where one of the two metals is a transition metal
         elif elem_1.is_transition_metal or elem_2.is_transition_metal:
-            trans_non_trans = trans_non_trans.union({elem_pair_str})
+            trans_non_trans.append(elem_pair_str)
         # find all pairs where none of the two metals is a transition metal
         else:
-            non_trans_non_trans = non_trans_non_trans.union({elem_pair_str})
+            non_trans_non_trans.append(elem_pair_str)
 
     return OrderedDict({"trans_trans": trans_trans,
                         "trans_non_trans": trans_non_trans,
@@ -466,17 +473,17 @@ def classify_mx_pairs(elem_pair_lst: Union[list, Iterable]):
     3. non-transition metal and non_oxygen non-metal
 
     :param elem_pair_lst: List or iterables, all metal-non_metal element pairs. e.g. ["Ti-O", "Ba-O"]
-    :return: Ordered Dictionary, {"trans_oxy": {set of elem pairs in string format},
-                                  "one_trans_or_one_oxy": {set of elem pairs in string format},
-                                  "non_trans_non_oxy": {set of elem pairs in string format}}
+    :return: Ordered Dictionary, {"trans_oxy": [list of elem pairs in string format],
+                                  "one_trans_or_one_oxy": [list of elem pairs in string format],
+                                  "non_trans_non_oxy": [list of elem pairs in string format]}
     """
     # parse all the element pairs from strings to tuples with two Pymatgen Elements
     elem_pairs_parsed = [parse_elem_pair(elem_pair) for elem_pair in elem_pair_lst]
 
-    # initialize the empty sets
-    trans_oxy = set()
-    one_trans_or_one_oxy = set()
-    non_trans_non_oxy = set()
+    # initialize the empty lists
+    trans_oxy = []
+    one_trans_or_one_oxy = []
+    non_trans_non_oxy = []
 
     for elem_pair_str, (elem_1, elem_2) in zip(elem_pair_lst, elem_pairs_parsed):
         # if elem_1 is non_metal and elem_2 is a metal, swap the elements
@@ -484,13 +491,13 @@ def classify_mx_pairs(elem_pair_lst: Union[list, Iterable]):
             elem_1, elem_2 = elem_2, elem_1
         # find all pairs where the metal is a transition metal and the non-metal is oxygen
         if elem_1.is_transition_metal and (elem_2 == mg.Element("O")):
-            trans_oxy = trans_oxy.union({elem_pair_str})
+            trans_oxy.append(elem_pair_str)
         # find all pairs where one element is a transition metal or one element is oxygen
         elif elem_1.is_transition_metal or (elem_2 == mg.Element("O")):
-            one_trans_or_one_oxy = one_trans_or_one_oxy.union({elem_pair_str})
+            one_trans_or_one_oxy.append(elem_pair_str)
         # find all pairs where the metal is non-transition metal and the non-metal is not oxygen
         else:
-            non_trans_non_oxy = non_trans_non_oxy.union({elem_pair_str})
+            non_trans_non_oxy.append(elem_pair_str)
 
     return OrderedDict({"trans_oxy": trans_oxy,
                         "one_trans_or_one_oxy": one_trans_or_one_oxy,
@@ -507,28 +514,28 @@ def classify_xx_pairs(elem_pair_lst: Union[list, Iterable]):
     3. non_oxygen non_metal and non_oxygen non_metal
 
     :param elem_pair_lst: List or iterables, all non_metal-non_metal element pairs. e.g. ["Ti-Ti", "Ba-Ba"]
-    :return: Ordered Dictionary, {"oxy_oxy": {set of elem pairs in string format},
-                                  "oxy_non_oxy": {set of elem pairs in string format},
-                                  "non_oxy_non_oxy": {set of elem pairs in string format}}
+    :return: Ordered Dictionary, {"oxy_oxy": [list of elem pairs in string format],
+                                  "oxy_non_oxy": [list of elem pairs in string format],
+                                  "non_oxy_non_oxy": [list of elem pairs in string format]}
     """
     # parse all the element pairs from strings to tuples with two Pymatgen Elements
     elem_pairs_parsed = [parse_elem_pair(elem_pair) for elem_pair in elem_pair_lst]
 
-    # initialize the empty sets
-    oxy_oxy = set()
-    oxy_non_oxy = set()
-    non_oxy_non_oxy = set()
+    # initialize the empty lists
+    oxy_oxy = []
+    oxy_non_oxy = []
+    non_oxy_non_oxy = []
 
     for elem_pair_str, (elem_1, elem_2) in zip(elem_pair_lst, elem_pairs_parsed):
         # find all pairs where both non_metals are oxygen
         if (elem_1 == mg.Element("O")) and (elem_2 == mg.Element("O")):
-            oxy_oxy = oxy_oxy.union({elem_pair_str})
+            oxy_oxy.append(elem_pair_str)
         # find all pairs where one of the two non_metals is an oxygen
         elif (elem_1 == mg.Element("O")) or (elem_2 == mg.Element("O")):
-            oxy_non_oxy = oxy_non_oxy.union({elem_pair_str})
+            oxy_non_oxy.append(elem_pair_str)
         # find all pairs where none of the two non_metals is an oxygen
         else:
-            non_oxy_non_oxy = non_oxy_non_oxy.union({elem_pair_str})
+            non_oxy_non_oxy.append(elem_pair_str)
 
     return OrderedDict({"oxy_oxy": oxy_oxy,
                         "oxy_non_oxy": oxy_non_oxy,
@@ -537,7 +544,9 @@ def classify_xx_pairs(elem_pair_lst: Union[list, Iterable]):
 
 # %%
 # test_struct = get_struct("Ca2AlFeO5", df)
-# print(classify_mm_pairs(calc_mm_dists(test_struct, return_unique=True).keys()))
+# classify_mm_pairs(calc_mm_dists(test_struct, return_unique=True).keys())
+
+
 # print(classify_mx_pairs(calc_mx_dists(test_struct, return_unique=True).keys()))
 # print(classify_xx_pairs(calc_xx_dists(test_struct, return_unique=True).keys()))
 
@@ -550,9 +559,10 @@ def return_most_relevant_pairs(pair_clf_dictionary: OrderedDict, cumulative: int
 
     :param pair_clf_dictionary: Ordered Dictionary, the relevance of different types of bond
     :param cumulative: None or Integer (1-3), if Integer, will return all element pairs up until the cumulative level
-    :return: Set, all the element pairs in strings form. e.g {"Ti-Ti", "Ti-O"}
+    :return: List, all the element pairs in strings form. e.g ["Ti-Ti", "Ti-O"]
     """
-    cumulative_set = set()
+    # TODO: decide between ordered sets and list
+    cumulative_lst = []
     ordered_sets = pair_clf_dictionary.values()
 
     if cumulative:
@@ -563,23 +573,31 @@ def return_most_relevant_pairs(pair_clf_dictionary: OrderedDict, cumulative: int
         index = 0
         while index < cumulative:
             elem_pair_set = ordered_sets[index]
-            cumulative_set = cumulative_set.union(elem_pair_set)
+            cumulative_lst.extend(elem_pair_set)
             index += 1
 
-        return cumulative_set
+        return cumulative_lst
 
     for elem_pair_set in ordered_sets:
         if elem_pair_set:
+            if len(elem_pair_set) > 1:
+                return elem_pair_set[:1]
             return elem_pair_set
 
 
 # %%
+# test_struct = get_struct("LaTiO3", df)
+# test_struct = get_struct("NiSeS", df)
 # test_struct = get_struct("Ca2AlFeO5", df)
 # test_mm_dict = classify_mm_pairs(calc_mm_dists(test_struct, return_unique=True).keys())
 # test_mx_dict = classify_mx_pairs(calc_mx_dists(test_struct, return_unique=True).keys())
 # test_xx_dict = classify_xx_pairs(calc_xx_dists(test_struct, return_unique=True).keys())
-# return_most_relevant_pairs(test_mm_dict)
 
+
+# return_most_relevant_pairs(test_mm_dict, 3)
+
+
+# %%
 
 def return_relevant_dists(structure_oxid: mg.Structure, calc_funcs: Tuple, cutoff_val: float = 1,
                           return_unique: bool = False, cumulative_level: int = None):
@@ -600,9 +618,9 @@ def return_relevant_dists(structure_oxid: mg.Structure, calc_funcs: Tuple, cutof
     # classify all element pairs
     pairwise_clf = classify_pairs(pairwise_dists.keys())
     # get the relevant element pairs and only keep those selected
-    relevant_pairs_set = return_most_relevant_pairs(pairwise_clf, cumulative_level)
+    relevant_pairs_lst = return_most_relevant_pairs(pairwise_clf, cumulative_level)
     relevant_dists = {elem_pair: dists for elem_pair, dists in pairwise_dists.items()
-                      if elem_pair in relevant_pairs_set}
+                      if elem_pair in relevant_pairs_lst}
     # return the relevant distances
     return np.concatenate(list(relevant_dists.values()))
 
@@ -691,8 +709,8 @@ def choose_max_potential(elem_lst, potential_dict):
         # by only updating the maximum potential if there is a value greater than the current one
         if elem_potential > max_potential:
             max_potential = elem_potential
-
-    return max_potential
+    # TODO: need to investigate Ti4O7
+    return max_potential if max_potential != float("-inf") else None
 
 
 # %%
@@ -750,7 +768,303 @@ def return_relevant_potentials(structure_oxid: mg.Structure, **kwargs):
 
 # %%
 # test_struct = get_struct("Si", df)
-# return_relevant_potentials(test_struct, check_vesta=True)
-
+# print(return_relevant_potentials(test_struct, check_vesta=True))
+#
 # test_struct = get_struct("Sr2SnO4", df)
-# return_relevant_potentials(test_struct, check_vesta=True)
+# print(return_relevant_potentials(test_struct, check_vesta=True))
+
+
+# %% lookup ionization energy
+def get_elem_oxi_state(structure_oxid: mg.Structure):
+    species = structure_oxid.composition.elements
+    return {specie.element.symbol: specie.oxi_state for specie in species}
+
+
+def get_relevant_elems(structure_oxid: mg.Structure):
+    """
+    Find the relevant elements and their oxidation states to look up their ionization energy
+    (non-workable for structures than only contain non_metals or metals)
+
+    :param structure_oxid: Pymatgen structure, the input pymatgen structure with oxidation state
+    :return: List of tuples, [(element_symbol, element_oxi_state)]
+    """
+    # get the oxidation states for all the element in the structure as a dictionary
+    elem_oxi_state_dict = get_elem_oxi_state(structure_oxid)
+    # get the most relevant metal-non_metal bond
+    relevant_bond = return_most_relevant_pairs(
+        classify_mx_pairs(calc_mx_dists(structure_oxid, return_unique=True)))[0]
+    # split the bond into metal and non_metal
+    relevant_metal, relevant_non_metal = relevant_bond.split("-")
+
+    return [(relevant_metal, elem_oxi_state_dict[relevant_metal]),
+            (relevant_non_metal, elem_oxi_state_dict[relevant_non_metal])]
+
+
+# non_stoich_formula = "Ca1.2La2.8Mn4O12"
+# non_stoich_struct = get_struct(non_stoich_formula, df)
+# get_elem_oxi_state(non_stoich_struct)
+# get_relevant_elems(non_stoich_struct)
+
+
+def lookup_ionization_energy_helper(relevant_metal: str, relevant_metal_oxi_state: float):
+    """
+    Find the vth and (v+1)th ionization energy for the metal species in the lookup table
+
+    :param relevant_metal: String, the relevant metal element's symbol
+    :param relevant_metal_oxi_state: Float, the corresponding oxidation state
+    :return: Tuple, (the vth ionization energ, the (v+1)th ionization energy)
+    """
+    lookup_df = pd.read_excel("../data/ionization_energy/ionization_energy.xlsx", engine="openpyxl")
+
+    result_df = lookup_df.loc[(lookup_df.element == relevant_metal) &
+                              (lookup_df.v == relevant_metal_oxi_state)].reset_index()
+
+    if not result_df.empty:
+        iv = result_df.at[0, "iv"]
+        iv_p1 = result_df.at[0, "iv_p1"]
+    else:
+        oxi_state_floor = np.floor(relevant_metal_oxi_state)
+        oxi_state_ceil = np.ceil(relevant_metal_oxi_state)
+        result_df = lookup_df.loc[(lookup_df.element == relevant_metal) &
+                                  ((lookup_df.v >= oxi_state_floor) & (lookup_df.v <= oxi_state_ceil))].reset_index()
+        if result_df.shape[0] == 2:
+            iv = np.interp(relevant_metal_oxi_state, result_df.v, result_df.iv)
+            iv_p1 = np.interp(relevant_metal_oxi_state, result_df.v, result_df.iv_p1)
+        else:
+            iv, iv_p1 = None, None
+
+    return iv, iv_p1
+
+
+# lookup_ionization_energy_helper("W", 5)
+# lookup_ionization_energy_helper("W", 10)
+# lookup_ionization_energy_helper("W", 10.1)
+# lookup_ionization_energy_helper("W", 0)
+# lookup_ionization_energy_helper("W", -1)
+
+
+def lookup_ionization_energy(structure_oxid: mg.Structure):
+    """
+    Find the vth and (v+1)th ionization energy for the metal species,
+    and the electron affinity for the non_metal_species
+
+    :param structure_oxid:
+    :return:
+    """
+    (relevant_metal, relevant_metal_oxi_state), \
+        (relevant_non_metal, relevant_non_metal_oxi_state) = get_relevant_elems(structure_oxid)
+    iv, iv_p1 = lookup_ionization_energy_helper(relevant_metal, relevant_metal_oxi_state)
+    elec_affinity_non_metal_dict = {"O": -7.71, "S": -4.73, "N": 6.98}
+    try:
+        elec_affinity_non_metal = elec_affinity_non_metal_dict[relevant_non_metal]
+    except KeyError:
+        elec_affinity_non_metal = None
+
+    return iv, iv_p1, elec_affinity_non_metal
+
+
+# %%
+# test_struct = get_struct("SrLaCuO4", df)
+# lookup_ionization_energy(test_struct)
+
+# test_struct = get_struct("Pr2O3", df)
+# lookup_ionization_energy(test_struct)
+
+# test_struct = get_struct("NiSeS", df)
+# lookup_ionization_energy(test_struct)
+
+
+# %% hubbard energy and charge transfer
+def calc_hubbard_u(iv, iv_p1, d_mm_avg):
+    """
+    Calculate the estimated hubbard energy (eV) of a structure.
+
+    :param iv: Float, the vth ionization energy
+    :param iv_p1: Float, the (v+1)th ionization energy
+    :param d_mm_avg: Float, the average metal-metal distance
+    :return: Float, the estimated hubbard energy in eV
+    """
+    # specify the conversion factor from e^2/Angstrom to eV
+    conversion_factor = 14.39965
+    return iv_p1 - iv - conversion_factor / d_mm_avg
+
+
+# test_struct = get_struct("YbO", df)
+# mm_avg = np.mean(return_relevant_mm_dists(test_struct))
+# mx_avg = np.mean(return_relevant_mx_dists(test_struct))
+# iv_m, iv_p1_m, non_metal_elec_affinity = lookup_ionization_energy(test_struct)
+# v_m, v_x = return_relevant_potentials(test_struct)
+#
+# print(calc_hubbard_u(iv_m, iv_p1_m, mm_avg))
+
+
+def calc_charge_trans(m_potential, x_potential, iv, elec_affinity_non_metal, d_mx_avg):
+    """
+    Calculate the estimated charge transfer energy (eV) of a structure
+
+    :param m_potential: Float, the metal site Madelung potential in V
+    :param x_potential: Float, the non_metal site Madelung potential in V
+    :param iv: Float, the vth ionization energy of the metal in eV
+    :param elec_affinity_non_metal: Float, the electron affinity of the non_metal in eV
+    :param d_mx_avg: Float, the average metal-non_metal distance in Angstrom
+    :return: Float, the estimated charge transfer energy in eV
+    """
+    # specify the conversion factor from e^2/Angstrom to eV
+    conversion_factor = 14.39965
+    return x_potential - m_potential + elec_affinity_non_metal - iv - conversion_factor / d_mx_avg
+
+
+# print(calc_charge_trans(v_m, v_x, iv_m, non_metal_elec_affinity, mx_avg))
+
+
+# %% put everything together for handbuilt_featurizer
+def try_decorator(func, num_none, is_dist):
+    """Define a decorator that wraps around the try except protocal"""
+
+    def try_func(*args):
+        try:
+            results = func(*args)
+        except:
+            if num_none == 1:
+                return None
+            else:
+                return tuple([None] * num_none)
+
+        if is_dist:
+            return np.max(results), np.min(results), np.mean(results)
+        return results
+
+    return try_func
+
+
+def handbuilt_featurizer_helper(structure_oxid):
+    """
+    Create a series of hand-built featurizes for a single structure
+
+    :param structure_oxid: Pymatgen Structure, the input structure with oxidation states
+    :return: Pandas Series
+    """
+    struct_ordered = 1 if structure_oxid.is_ordered else 0
+
+    mm_dists_calculator = try_decorator(return_relevant_mm_dists, 3, True)
+    max_mm_dists, min_mm_dists, avg_mm_dists = mm_dists_calculator(structure_oxid)
+
+    mx_dists_calculator = try_decorator(return_relevant_mx_dists, 3, True)
+    max_mx_dists, min_mx_dists, avg_mx_dists = mx_dists_calculator(structure_oxid)
+
+    xx_dists_calculator = try_decorator(return_relevant_xx_dists, 3, True)
+    max_xx_dists, min_xx_dists, avg_xx_dists = xx_dists_calculator(structure_oxid)
+
+    site_potential_calculator = try_decorator(return_relevant_potentials, 2, False)
+    v_m, v_x = site_potential_calculator(structure_oxid)
+
+    ionization_energy_calculator = try_decorator(lookup_ionization_energy, 3, False)
+    iv_m, iv_p1_m, non_metal_elec_affinity = ionization_energy_calculator(structure_oxid)
+
+    hubbard_u_calculator = try_decorator(calc_hubbard_u, 1, False)
+    est_hubbard_u = hubbard_u_calculator(iv_m, iv_p1_m, avg_mm_dists)
+
+    charge_trans_calculator = try_decorator(calc_charge_trans, 1, False)
+    est_charge_trans = charge_trans_calculator(v_m, v_x, iv_m, non_metal_elec_affinity, avg_mx_dists)
+
+    volumn_per_sites = structure_oxid.volume / structure_oxid.num_sites
+
+    return pd.Series({"struct_ordered": struct_ordered,
+                      "max_mm_dists": max_mm_dists, "min_mm_dists": min_mm_dists, "avg_mm_dists": avg_mm_dists,
+                      "max_mx_dists": max_mx_dists, "min_mx_dists": min_mx_dists, "avg_mx_dists": avg_mx_dists,
+                      "max_xx_dists": max_xx_dists, "min_xx_dists": min_xx_dists, "avg_xx_dists": avg_xx_dists,
+                      "v_m": v_m, "v_x": v_x,
+                      "iv": iv_m, "iv_p1": iv_p1_m,
+                      "est_hubbard_u": est_hubbard_u, "est_charge_trans": est_charge_trans,
+                      "volumn_per_sites": volumn_per_sites})
+
+
+# %%
+# test_struct = get_struct("Ti4O7", df)
+# test_struct.add_oxidation_state_by_guess()
+# handbuilt_featurizer_helper(test_struct)
+
+# test_struct = get_struct("FeS", df)
+# handbuilt_featurizer_helper(test_struct)
+
+# test_struct = get_struct("NiSeS", df)
+# handbuilt_featurizer_helper(test_struct)
+
+# test_struct = get_struct("SiO2", df)
+# handbuilt_featurizer_helper(test_struct)
+
+
+# %%
+# def handbuilt_featurizer_helper(structure_oxid):
+#     """
+#     Create a series of hand-built featurizes for a single structure
+#
+#     :param structure_oxid: Pymatgen Structure, the input structure with oxidation states
+#     :return: Pandas Series
+#     """
+#     struct_ordered = structure_oxid.is_ordered
+#     try:
+#         mm_dists = return_relevant_mm_dists(structure_oxid)
+#         max_mm_dists, min_mm_dists, avg_mm_dists = np.max(mm_dists), np.min(mm_dists), np.mean(mm_dists)
+#     except:
+#         max_mm_dists, min_mm_dists, avg_mm_dists = None, None, None
+#
+#     try:
+#         mx_dists = return_relevant_mx_dists(structure_oxid)
+#         max_mx_dists, min_mx_dists, avg_mx_dists = np.max(mx_dists), np.min(mx_dists), np.mean(mx_dists)
+#     except:
+#         max_mx_dists, min_mx_dists, avg_mx_dists = None, None, None
+#
+#     try:
+#         xx_dists = return_relevant_xx_dists(structure_oxid)
+#         max_xx_dists, min_xx_dists, avg_xx_dists = np.max(xx_dists), np.min(xx_dists), np.mean(xx_dists)
+#     except:
+#         max_xx_dists, min_xx_dists, avg_xx_dists = None, None, None
+#
+#     try:
+#         v_m, v_x = return_relevant_potentials(structure_oxid)
+#     except:
+#         v_m, v_x = None, None
+#
+#     try:
+#         iv_m, iv_p1_m, non_metal_elec_affinity = lookup_ionization_energy(structure_oxid)
+#     except:
+#         iv_m, iv_p1_m, non_metal_elec_affinity = None, None, None
+#
+#     try:
+#         est_hubbard_u = calc_hubbard_u(iv_m, iv_p1_m, avg_mm_dists)
+#     except:
+#         est_hubbard_u = None
+#
+#     try:
+#         est_charge_trans = calc_charge_trans(v_m, v_x, iv_m, non_metal_elec_affinity, avg_mx_dists)
+#     except:
+#         est_charge_trans = None
+#
+#     volumn_per_sites = structure_oxid.volume / structure_oxid.num_sites
+#
+#     return pd.Series({"struct_ordered": struct_ordered,
+#                       "max_mm_dists": max_mm_dists, "min_mm_dists": min_mm_dists, "avg_mm_dists": avg_mm_dists,
+#                       "max_mx_dists": max_mx_dists, "min_mx_dists": min_mx_dists, "avg_mx_dists": avg_mx_dists,
+#                       "max_xx_dists": max_xx_dists, "min_xx_dists": min_xx_dists, "avg_xx_dists": avg_xx_dists,
+#                       "v_m": v_m, "v_x": v_x,
+#                       "iv": iv_m, "iv_p1": iv_p1_m,
+#                       "est_hubbard_u": est_hubbard_u, "est_charge_trans": est_charge_trans,
+#                       "volumn_per_sites": volumn_per_sites})
+
+# handbuilt_featurizer_helper(test_struct)
+
+# %%
+def handbuilt_featurizer(df_input):
+    """
+    Return a dataframe with all the handbuilt features added
+
+    :param df_input: pandas DataFrame, the input dataframe
+    :return: pandas DataFrame, the output dataframe with all the handbuilt features added
+    """
+    # add a progress bar wrapper around DataFrame.apply method
+    tqdm.pandas(desc="Handbuilt Featurizer")
+    df_handbuilt = df_input["structure_oxid"].progress_apply(handbuilt_featurizer_helper)
+    df_with_handbuilt = pd.concat([df_input, df_handbuilt], axis=1)
+
+    return df_with_handbuilt

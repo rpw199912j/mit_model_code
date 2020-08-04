@@ -1,24 +1,21 @@
 import numpy as np
 import pandas as pd
 
-# %% define path constants
-RAW_PATH = "./unprocessed/IMT_Classification_Dataset_matminer_and_handbuilt_v2.xlsx"
-SAVE_PATH = "./processed/IMT_Classification_Dataset_Processed.xlsx"
-
 
 # %% define helper functions
-def remove_nullrows(df):
+def remove_nullrows(df, num_missing_cols=6):
     """
-    Remove rows with at least 6 missing columns
+    Remove rows with at least a certain number of missing columns (default:6)
 
     :param df: Pandas DataFrame, the raw dataset
+    :param num_missing_cols: Int, the number of missing columns qualified for dropping
     :return: Pandas DataFrame, the processed dataset
     """
     # check if there is any observation without a class label
     if pd.isnull(df.Label).sum() != 0:
         raise Exception("Unlabelled compound(s) present!")
 
-    return df.dropna(thresh=df.shape[1] - 6)  # drop rows with at least 6 columns missing
+    return df.dropna(thresh=df.shape[1] - num_missing_cols)  # drop qualified rows
 
 
 def mean_imputation(df):
@@ -54,18 +51,3 @@ def remove_redundant_features(df):
     high_corr_columns = [feature for feature in half_corr_matrix.columns
                          if any(half_corr_matrix[feature] > 0.95)]
     return df.drop(columns=high_corr_columns)
-
-
-# %% the data cleaning workflow
-# read in the raw dataset
-df_raw = pd.read_excel(RAW_PATH)
-# remove rows with at least 6 null values
-df_processed = remove_nullrows(df_raw)
-# impute the missing values with the mean of the corresponding feature
-df_processed = mean_imputation(df_processed)
-# rename the columns for easier readability and plotting
-df_processed = abbreviate_features(df_processed)
-# remove columns with zero variance and high correlations
-df_processed = remove_redundant_features(df_processed)
-# save the processed dataset
-df_processed.to_excel(SAVE_PATH, index=False)
