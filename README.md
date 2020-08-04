@@ -1,7 +1,23 @@
 # Metal-insulator transition model
 Code and data used in constructing metal-insulator transition classifier. 
 Original cif structure files can be identified in 
-[Structures.zip]("https://github.com/rpw199912j/mit_model_code/blob/master/data/Structures.zip")
+[Structures.zip](https://github.com/rpw199912j/mit_model_code/blob/master/data/Structures.zip)
+
+## Model Description
+### Research Question
+The research question of this project is whether a machine learning classification model can predict metal-insulator 
+transition (MIT) behavior  based on a series of compositional and structural descriptors / features of a given compound.
+
+### Training Algorithm
+The training algorithm or the model type chosen for this task is an [XGBoost](https://xgboost.readthedocs.io/en/latest/) 
+tree classifier implemented in the Python programming language. This XGBoost type of models has helped won numerous 
+Kaggle competitions and has been shown to perform well on classification tasks.
+
+### A Word of Caution
+Since the vast majority of the training data comes from oxides and there are not that many well-documented oxides that
+exhibit MIT behavior, the training dataset as a result is quite small for machine learning standards
+(around 200 observations). Thus, the models, especially with a high dimensional feature set, can easily overfit
+and there is an ongoing effort to expand and find new MIT materials to add to the dataset.
 
 ## General Workflow (Work in progress)
 ### 1. Data Preparation

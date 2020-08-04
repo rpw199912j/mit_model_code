@@ -848,13 +848,22 @@ def lookup_ionization_energy(structure_oxid: mg.Structure):
     Find the vth and (v+1)th ionization energy for the metal species,
     and the electron affinity for the non_metal_species
 
+    Affinity data source:
+    https://bcs.whfreeman.com/WebPub/Chemistry/raynercanham6e/
+    Appendices/Rayner-Canham%205e%20Appendix%205%20-%20Electron%20Affi%20nities%20of%20Selected%20Nonmetals.pdf
+
     :param structure_oxid:
     :return:
     """
+    # conversion factor from kJ/mol to eV
+    conversion_factor = 0.010364
     (relevant_metal, relevant_metal_oxi_state), \
         (relevant_non_metal, relevant_non_metal_oxi_state) = get_relevant_elems(structure_oxid)
     iv, iv_p1 = lookup_ionization_energy_helper(relevant_metal, relevant_metal_oxi_state)
-    elec_affinity_non_metal_dict = {"O": -7.71, "S": -4.73, "N": 6.98}
+    # TODO: create a lookup table for electron affinity
+    elec_affinity_non_metal_dict = {"O": -744 * conversion_factor,
+                                    "S": 456 * conversion_factor,
+                                    "N": 673 * conversion_factor}
     try:
         elec_affinity_non_metal = elec_affinity_non_metal_dict[relevant_non_metal]
     except KeyError:
