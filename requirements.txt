@@ -9,5 +9,6 @@ scikit-learn==0.23.1
 requests==2.24.0
 tqdm==4.48.0
 openpyxl==3.0.4
+xlrd==1.2.0
 seaborn==0.10.1
 ipywidgets==7.5.1
