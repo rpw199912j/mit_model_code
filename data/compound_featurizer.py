@@ -105,7 +105,7 @@ def read_new_struct(structure: Union[str, mg.Structure]):
 
 # %% generate composition based features
 
-def composition_featurizer(df_input: pd.DataFrame) -> pd.DataFrame:
+def composition_featurizer(df_input: pd.DataFrame, **kwargs) -> pd.DataFrame:
     """Return a Pandas DataFrame with all compositional features"""
 
     # generate the "composition" column
@@ -114,7 +114,7 @@ def composition_featurizer(df_input: pd.DataFrame) -> pd.DataFrame:
     ep_featurizer = ElementProperty.from_preset(preset_name="magpie")
     ep_featurizer.featurize_dataframe(df_comp, col_id="composition", inplace=True)
     # generate the "composition_oxid" column based on guessed oxidation states
-    CompositionToOxidComposition(return_original_on_error=True).featurize_dataframe(
+    CompositionToOxidComposition(return_original_on_error=True, **kwargs).featurize_dataframe(
         # ignore errors from non-integer stoichiometries
         df_comp, "composition", ignore_errors=True, inplace=True
     )
@@ -129,12 +129,12 @@ def composition_featurizer(df_input: pd.DataFrame) -> pd.DataFrame:
 # print(df_with_comp_features.shape)
 
 # %% generate structure based features
-def structure_featurizer(df_input: pd.DataFrame) -> pd.DataFrame:
+def structure_featurizer(df_input: pd.DataFrame, **kwargs) -> pd.DataFrame:
     """Return a Pandas DataFrame with all structural features"""
 
     # generate the "structure_oxid" column
-    df_struct = StructureToOxidStructure().featurize_dataframe(df_input, col_id="structure",
-                                                               ignore_errors=True)
+    df_struct = StructureToOxidStructure(**kwargs).featurize_dataframe(df_input, col_id="structure",
+                                                                       ignore_errors=True)
     # generate features based on EwaldEnergy
     ee_featurizer = EwaldEnergy()
     ee_featurizer.featurize_dataframe(df_struct, col_id="structure_oxid",
@@ -691,26 +691,38 @@ def calc_elem_max_potential(structure_oxid: mg.Structure, full_list=False, check
 # calc_elem_max_potential(test_struct, full_list=True, check_vesta=True)
 
 # %%
-def choose_max_potential(elem_lst, potential_dict):
-    """Return the maximum potential in a list of elements"""
+# def choose_max_potential(elem_lst, potential_dict):
+#     """Return the maximum potential in a list of elements"""
+#     # if the element list is empty, return None
+#     if not elem_lst:
+#         return None
+#     # if the structure only contains 1 element, return None
+#     if len(potential_dict) == 1:
+#         return None
+#
+#     # initialize the maximum potential with negative infinity
+#     max_potential = float('-inf')
+#     for elem in elem_lst:
+#         # get the element potential
+#         elem_potential = potential_dict[elem]
+#         # find the maximum potential in the list
+#         # by only updating the maximum potential if there is a value greater than the current one
+#         if elem_potential > max_potential:
+#             max_potential = elem_potential
+#     return max_potential if max_potential != float("-inf") else None
+
+
+def choose_most_elec_neg_potential(elem_lst, potential_dict):
+    """Return the potential of the most electronegative element in a list of elements"""
     # if the element list is empty, return None
     if not elem_lst:
         return None
     # if the structure only contains 1 element, return None
     if len(potential_dict) == 1:
         return None
-
-    # initialize the maximum potential with negative infinity
-    max_potential = float('-inf')
-    for elem in elem_lst:
-        # get the element potential
-        elem_potential = potential_dict[elem]
-        # find the maximum potential in the list
-        # by only updating the maximum potential if there is a value greater than the current one
-        if elem_potential > max_potential:
-            max_potential = elem_potential
-    # TODO: need to investigate Ti4O7
-    return max_potential if max_potential != float("-inf") else None
+    # since the elements are already ranked by decreasing electronegativity
+    # the first element in the list is by default the most electronegative one
+    return potential_dict[elem_lst[0]]
 
 
 # %%
@@ -740,10 +752,10 @@ def return_relevant_potentials(structure_oxid: mg.Structure, **kwargs):
     # find all the non_metals
     non_metals = elem_group["non_metals"]
 
-    # find the corresponding max potentials in each group except oxygen
-    all_metals_max = choose_max_potential(all_metals, max_potentials)
-    trans_metals_max = choose_max_potential(trans_metals, max_potentials)
-    non_metals_max = choose_max_potential(non_metals, max_potentials)
+    # find the corresponding potentials in each group except oxygen
+    all_metals_max = choose_most_elec_neg_potential(all_metals, max_potentials)
+    trans_metals_max = choose_most_elec_neg_potential(trans_metals, max_potentials)
+    non_metals_max = choose_most_elec_neg_potential(non_metals, max_potentials)
 
     # if there is oxygen, find the corresponding potential
     try:
@@ -815,7 +827,7 @@ def lookup_ionization_energy_helper(relevant_metal: str, relevant_metal_oxi_stat
     :return: Tuple, (the vth ionization energ, the (v+1)th ionization energy)
     """
     lookup_df = pd.read_excel("../data/ionization_energy/ionization_energy.xlsx", engine="openpyxl")
-
+    # find the matching metal element in the ionization energy lookup spreadsheet
     result_df = lookup_df.loc[(lookup_df.element == relevant_metal) &
                               (lookup_df.v == relevant_metal_oxi_state)].reset_index()
 
@@ -823,6 +835,7 @@ def lookup_ionization_energy_helper(relevant_metal: str, relevant_metal_oxi_stat
         iv = result_df.at[0, "iv"]
         iv_p1 = result_df.at[0, "iv_p1"]
     else:
+        # if an exact match is not present, use linear interpolation to calculate the ionization energies
         oxi_state_floor = np.floor(relevant_metal_oxi_state)
         oxi_state_ceil = np.ceil(relevant_metal_oxi_state)
         result_df = lookup_df.loc[(lookup_df.element == relevant_metal) &
@@ -852,18 +865,24 @@ def lookup_ionization_energy(structure_oxid: mg.Structure):
     https://bcs.whfreeman.com/WebPub/Chemistry/raynercanham6e/
     Appendices/Rayner-Canham%205e%20Appendix%205%20-%20Electron%20Affi%20nities%20of%20Selected%20Nonmetals.pdf
 
-    :param structure_oxid:
-    :return:
+    :param structure_oxid: Pymatgen structure with oxidation state for each site
+    :return: Tuple, (metal vth ionization energy, metal (v+1)th ionization energy, non_metal electron affinity)
     """
     # conversion factor from kJ/mol to eV
     conversion_factor = 0.010364
     (relevant_metal, relevant_metal_oxi_state), \
         (relevant_non_metal, relevant_non_metal_oxi_state) = get_relevant_elems(structure_oxid)
     iv, iv_p1 = lookup_ionization_energy_helper(relevant_metal, relevant_metal_oxi_state)
-    # TODO: create a lookup table for electron affinity
-    elec_affinity_non_metal_dict = {"O": -744 * conversion_factor,
+    # create a lookup dictionary for non_metal electron affinity
+    elec_affinity_non_metal_dict = {"N": 1070 * conversion_factor,
+                                    "O": -744 * conversion_factor,
+                                    "F": -328 * conversion_factor,
+                                    "P": 886 * conversion_factor,
                                     "S": 456 * conversion_factor,
-                                    "N": 673 * conversion_factor}
+                                    "Cl": -349 * conversion_factor,
+                                    "Br": -331 * conversion_factor,
+                                    "I": -301 * conversion_factor
+                                    }
     try:
         elec_affinity_non_metal = elec_affinity_non_metal_dict[relevant_non_metal]
     except KeyError:

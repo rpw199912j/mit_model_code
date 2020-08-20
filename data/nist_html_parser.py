@@ -6,9 +6,9 @@ from zipfile import ZipFile
 # %% set up path constant
 HTML_FOLDER_PATH = "../data/ionization_energy/raw_nist_html"
 
-# %% check if the Structure.zip is unzipped
+# %% check if the raw_nist_html.zip is unzipped
 if not os.path.isdir(HTML_FOLDER_PATH):
-    # if still zipped, unzip the folder containing all the cif files
+    # if still zipped, unzip the folder containing all the html files
     with ZipFile("".join([HTML_FOLDER_PATH, ".zip"])) as html_files:
         html_files.extractall(path="../data/ionization_energy/")
 
