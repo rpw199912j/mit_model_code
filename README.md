@@ -19,14 +19,14 @@ Original cif structure files can be identified in
     + [2.2 Evaluate model performance](https://github.com/rpw199912j/mit_model_code#22-evaluate-model-performance)
   * [3. Deploy & Serve Models](https://github.com/rpw199912j/mit_model_code#22-evaluate-model-performance)
 - [Demo notebooks (Work in progress)](https://github.com/rpw199912j/mit_model_code#demo-notebooks-work-in-progress)
-  * [generate_compound_features.ipynb](https://github.com/rpw199912j/mit_model_code#generate_compound_features.ipynb)
-  * [generate_lookup_table.ipynb](https://github.com/rpw199912j/mit_model_code#generate_lookup_table.ipynb)
-  * [EDA_and_data_cleaning.ipynb](https://github.com/rpw199912j/mit_model_code#EDA_and_data_cleaning.ipynb)
-  * [model_building_and_eval.ipynb](https://github.com/rpw199912j/mit_model_code#model_building_and_eval.ipynb)
-  * [pipeline_demo.ipynb](https://github.com/rpw199912j/mit_model_code#pipeline_demo.ipynb)
+  * [generate_compound_features.ipynb](https://github.com/rpw199912j/mit_model_code#generate_compound_featuresipynb)
+  * [generate_lookup_table.ipynb](https://github.com/rpw199912j/mit_model_code#generate_lookup_tableipynb)
+  * [EDA_and_data_cleaning.ipynb](https://github.com/rpw199912j/mit_model_code#EDA_and_data_cleaningipynb)
+  * [model_building_and_eval.ipynb](https://github.com/rpw199912j/mit_model_code#model_building_and_evalipynb)
+  * [pipeline_demo.ipynb](https://github.com/rpw199912j/mit_model_code#pipeline_demoipynb)
   * [Supporting notebooks](https://github.com/rpw199912j/mit_model_code#supporting-notebooks)
-    + [test_featurizer_sub_functions.ipynb](https://github.com/rpw199912j/mit_model_code#test_featurizer_sub_functions.ipynb)
-    + [handbuilt_featurizer_benchmark.ipynb](https://github.com/rpw199912j/mit_model_code#handbuilt_featurizer_benchmark.ipynb)
+    + [test_featurizer_sub_functions.ipynb](https://github.com/rpw199912j/mit_model_code#test_featurizer_sub_functionsipynb)
+    + [handbuilt_featurizer_benchmark.ipynb](https://github.com/rpw199912j/mit_model_code#handbuilt_featurizer_benchmarkipynb)
 
 
 # Model Description
