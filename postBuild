@@ -1,3 +1,4 @@
-conda install -c conda-forge nodejs
+jupyter lab --version
 conda install -c conda-forge ipywidgets
 jupyter labextension install @jupyter-widgets/jupyterlab-manager
+node --version
