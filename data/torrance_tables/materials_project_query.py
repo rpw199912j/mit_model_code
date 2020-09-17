@@ -5,7 +5,7 @@ from pymatgen.io.cif import CifWriter
 
 # %% define filepath constant
 TABLE_PATH = "./torrance_tabulated.xlsx"
-API_PATH = "../../temp/mp_api_key.txt"
+API_PATH = "./mp_api_key.txt"
 STRUCT_PATH = "./benchmark_structures/"
 
 # %% read in the tables
