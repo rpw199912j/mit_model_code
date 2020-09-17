@@ -11,4 +11,5 @@ tqdm==4.49.0
 openpyxl==3.0.5
 xlrd==1.2.0
 seaborn==0.11.0
+ipywidgets==7.5.1
 shap==0.36.0
