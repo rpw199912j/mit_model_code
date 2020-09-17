@@ -1,2 +1,2 @@
+pip install jupyter lab --upgrade
 jupyter labextension install @jupyter-widgets/jupyterlab-manager@2.0
-tail -f /tmp/jupyterlab-debug-*.log
