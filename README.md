@@ -1,6 +1,6 @@
 # Metal-insulator transition model
 This repository contains the code and data used in constructing metal-insulator transition classifier. 
-Original cif structure files can be identified in 
+Original CIF structure files can be identified in 
 [Structures.zip](https://github.com/rpw199912j/mit_model_code/blob/master/data/Structures.zip)
 
 # Table of Content
@@ -11,9 +11,9 @@ Original cif structure files can be identified in
 - [General Workflow (Work in progress)](https://github.com/rpw199912j/mit_model_code#general-workflow-work-in-progress)
   * [1. Data Preparation](https://github.com/rpw199912j/mit_model_code#1-data-preparation)
     + [1.1 Getting cif files](https://github.com/rpw199912j/mit_model_code#11-getting-cif-files)
-    + [1.2 Generate features using the cif files](https://github.com/rpw199912j/mit_model_code#12-generate-features-using-the-cif-files)
-    + [1.3 Select useful features and clean up the data](https://github.com/rpw199912j/mit_model_code#13-select-useful-features-and-clean-up-the-data)
-    + [1.4 Generate ionization lookup dataframe](https://github.com/rpw199912j/mit_model_code#14-generate-ionization-lookup-dataframe)
+    + [1.2 Generate ionization lookup dataframe](https://github.com/rpw199912j/mit_model_code#12-generate-ionization-lookup-dataframe)
+    + [1.3 Generate features using the cif files](https://github.com/rpw199912j/mit_model_code#13-generate-features-using-the-cif-files)
+    + [1.4 Select useful features and clean up the data](https://github.com/rpw199912j/mit_model_code#14-select-useful-features-and-clean-up-the-data)
   * [2. Model Building](https://github.com/rpw199912j/mit_model_code#2-model-building)
     + [2.1 Train the XGBoost model](https://github.com/rpw199912j/mit_model_code#21-train-the-xgboost-model)
     + [2.2 Evaluate model performance](https://github.com/rpw199912j/mit_model_code#22-evaluate-model-performance)
@@ -48,12 +48,14 @@ and there is an ongoing effort to expand and find new MIT materials to add to th
 # General Workflow (Work in progress)
 ## 1. Data Preparation
 ### 1.1 Getting cif files
+The CIF files are obtained through the ICSD database and Materials Project.
 
-### 1.2 Generate features using the cif files
+### 1.2 Generate ionization lookup dataframe
+This step creates an ionization lookup table that is used in the subsequent featurization.
 
-### 1.3 Select useful features and clean up the data
+### 1.3 Generate features using the cif files
 
-### 1.4 Generate ionization lookup dataframe
+### 1.4 Select useful features and clean up the data
 
 ## 2. Model Building
 ### 2.1 Train the XGBoost model
@@ -71,12 +73,12 @@ available for easier result replication and demonstration purposes. You can imme
 notebooks in your web browser by clicking on the binder icon above or clicking on the subsection titles below.
 
 You can replicate the workflow by using the notebooks in the following order.
+## [generate_lookup_table.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/generate_lookup_table.ipynb)
+This notebook generates the ionization energy lookup spreadsheet.
 
 ## [generate_compound_features.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/generate_compound_features.ipynb)
 This notebook allows you to generate features for all the structures contained in the [Structures.zip](https://github.com/rpw199912j/mit_model_code/blob/master/data/Structures.zip).
 
-## [generate_lookup_table.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/generate_lookup_table.ipynb)
-This notebook generates the ionization energy lookup spreadsheet.
 
 ## [EDA_and_data_cleaning.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/EDA_and_data_cleaning.ipynb)
 This notebook presents an exploratory data analysis along with a data cleaning process on the output dataset from _generate_compound_features.ipynb_.
