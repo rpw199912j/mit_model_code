@@ -51,7 +51,7 @@ and there is an ongoing effort to expand and find new MIT materials to add to th
 The CIF files are obtained through the ICSD database and Materials Project.
 
 ### 1.2 Generate ionization lookup dataframe
-This step creates an ionization lookup table that is used in the subsequent featurization.
+This step creates an ionization lookup table that is used in the subsequent featurization process.
 
 ### 1.3 Generate features using the cif files
 
