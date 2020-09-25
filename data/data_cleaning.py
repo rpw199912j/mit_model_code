@@ -18,9 +18,14 @@ def remove_nullrows(df, num_missing_cols=6):
     return df.dropna(thresh=df.shape[1] - num_missing_cols)  # drop qualified rows
 
 
-def mean_imputation(df):
-    """Impute the missing numeric values with the mean of that column"""
-    imputed_df = df.fillna(df.mean())
+def median_imputation(df):
+    """Impute the missing numeric values with the median of that column after grouping by label"""
+    imputed_df = df.copy()
+    # get the numeric columns in the input df ("Label" and "struct_ordered" are excluded)
+    numeric_cols = imputed_df.drop(columns=["Label", "struct_ordered"]).select_dtypes(include="number").columns
+    # iterate over all the selected numeric columns and impute by median within each label group
+    for numeric_col in numeric_cols:
+        imputed_df[numeric_col] = imputed_df.groupby("Label")[numeric_col].apply(lambda x: x.fillna(x.median()))
     return imputed_df
 
 
