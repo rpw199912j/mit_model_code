@@ -43,7 +43,7 @@ Kaggle competitions and has been shown to perform well on classification tasks.
 ## A Word of Caution
 Since the vast majority of the training data comes from oxides and there are not that many well-documented oxides that
 exhibit MIT behavior, the training dataset as a result is quite small for machine learning standards
-(around 200 observations). Thus, the models, especially with a high dimensional feature set, can easily overfit
+(229 observations / rows). Thus, the models, especially with a high dimensional feature set, can easily overfit
 and there is an ongoing effort to expand and find new MIT materials to add to the dataset.
 
 # General Workflow (Work in progress)
@@ -118,7 +118,7 @@ After model evaluation, the models are trained on the entire dataset with the be
 
 ### 2.3 Select important features and iterate
 Using the stored models, a SHAP analysis is carried out to find the most important features. These important features are further screened
-using domain knowledge. Currently, 10 features are selected to create a reduced feature set. This feature selection step 
+using domain knowledge. Currently, 8 features are selected to create a reduced feature set. This feature selection step 
 mainly serves to prevent overfitting.
 
 With this reduced feature set, the entire model building process is repeated and the models are re-tuned, re-evaluated and 
