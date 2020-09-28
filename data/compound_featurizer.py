@@ -103,8 +103,27 @@ def read_new_struct(structure: Union[str, mg.Structure]):
     return pd.DataFrame([compound_dict])
 
 
-# %% generate composition based features
+def correct_comp_oxid(df_input: pd.DataFrame) -> pd.DataFrame:
+    """Correct the guessed oxidation states from composition"""
+    df_output = df_input.copy()
+    for row in df_input.itertuples():
+        if check_if_all_zero_oxi_states(row.composition_oxid):
+            df_output.at[row.Index, "composition_oxid"] = row.structure.composition
+    return df_output
 
+
+def check_if_all_zero_oxi_states(comp_oxid):
+    """Check if a composition is decorated with all zero oxidation states"""
+    try:
+        oxi_states = [specie.oxi_state for specie in comp_oxid.elements]
+    except AttributeError:
+        return True
+    if np.sum(np.array(oxi_states) == 0) == len(oxi_states):
+        return True
+    return False
+
+
+# %% generate composition based features
 def composition_featurizer(df_input: pd.DataFrame, **kwargs) -> pd.DataFrame:
     """Return a Pandas DataFrame with all compositional features"""
 
@@ -118,6 +137,8 @@ def composition_featurizer(df_input: pd.DataFrame, **kwargs) -> pd.DataFrame:
         # ignore errors from non-integer stoichiometries
         df_comp, "composition", ignore_errors=True, inplace=True
     )
+    # correct oxidation states
+    df_comp = correct_comp_oxid(df_comp)
     # generate features based on oxidation states
     os_featurizer = OxidationStates()
     os_featurizer.featurize_dataframe(df_comp, "composition_oxid", ignore_errors=True, inplace=True)
@@ -561,7 +582,6 @@ def return_most_relevant_pairs(pair_clf_dictionary: OrderedDict, cumulative: int
     :param cumulative: None or Integer (1-3), if Integer, will return all element pairs up until the cumulative level
     :return: List, all the element pairs in strings form. e.g ["Ti-Ti", "Ti-O"]
     """
-    # TODO: decide between ordered sets and list
     cumulative_lst = []
     ordered_sets = pair_clf_dictionary.values()
 
@@ -871,7 +891,7 @@ def lookup_ionization_energy(structure_oxid: mg.Structure):
     # conversion factor from kJ/mol to eV
     conversion_factor = 0.010364
     (relevant_metal, relevant_metal_oxi_state), \
-        (relevant_non_metal, relevant_non_metal_oxi_state) = get_relevant_elems(structure_oxid)
+    (relevant_non_metal, relevant_non_metal_oxi_state) = get_relevant_elems(structure_oxid)
     iv, iv_p1 = lookup_ionization_energy_helper(relevant_metal, relevant_metal_oxi_state)
     # create a lookup dictionary for non_metal electron affinity
     elec_affinity_non_metal_dict = {"N": 1070 * conversion_factor,
