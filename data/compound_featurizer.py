@@ -1,4 +1,3 @@
-import os
 import difflib
 import itertools
 import numpy as np
@@ -6,22 +5,12 @@ import pandas as pd
 import pymatgen as mg
 from glob import glob
 from tqdm.auto import tqdm
-from zipfile import ZipFile
 from collections import OrderedDict
 from typing import Union, Iterable, Tuple, Dict, List
 from pymatgen.analysis.ewald import EwaldSummation
 from matminer.featurizers.conversions import StrToComposition, CompositionToOxidComposition, StructureToOxidStructure
 from matminer.featurizers.composition import ElementProperty, OxidationStates
 from matminer.featurizers.structure import EwaldEnergy, GlobalInstabilityIndex, StructuralHeterogeneity
-
-# # %% set up path constant
-# STRUCTURE_PATH = "../data/Structures"
-#
-# # %% check if the Structure.zip is unzipped
-# if not os.path.isdir(STRUCTURE_PATH):
-#     # if still zipped, unzip the folder containing all the cif files
-#     with ZipFile("".join([STRUCTURE_PATH, ".zip"])) as structures:
-#         structures.extractall(path=STRUCTURE_PATH)
 
 
 # %%
