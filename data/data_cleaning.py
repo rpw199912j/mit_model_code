@@ -33,6 +33,7 @@ def abbreviate_features(df):
     """Remove the 'MagpieData ' prefix in the column names"""
     old_names = list(df)
     new_names = [name.replace("MagpieData ", "") for name in old_names]
+    new_names = [name.replace(" ", "_") for name in new_names]
     name_mapper = dict(zip(old_names, new_names))
     return df.rename(columns=name_mapper)
 
@@ -46,7 +47,8 @@ def remove_redundant_features(df):
     df.drop(columns=zero_var_columns, inplace=True)
 
     # drop the highly correlated columns
-    df_no_obj = df.drop(columns="Label").select_dtypes(exclude=object)  # drop the label and object/text columns
+    # first drop the label and object/text columns
+    df_no_obj = df.drop(columns=["Label", "struct_ordered", "struct_disordered"]).select_dtypes(exclude=object)
     # create the correlation matrix with absolute values
     corr_matrix = df_no_obj.corr().abs()
     # select only half of the correlation matrix
