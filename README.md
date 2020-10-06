@@ -41,7 +41,7 @@ Kaggle competitions and has been shown to perform well on classification tasks.
 ## A Word of Caution
 Since the vast majority of the training data comes from oxides and there are not that many well-documented oxides that
 exhibit MIT behavior, the training dataset as a result is quite small for machine learning standards
-(229 observations / rows). Thus, the models, especially with a high dimensional feature set, can easily overfit
+(228 observations / rows). Thus, the models, especially with a high dimensional feature set, can easily overfit
 and there is an ongoing effort to expand and find new MIT materials to add to the dataset.
 
 # General Workflow (Work in progress)
@@ -53,8 +53,8 @@ and [Materials Project](https://materialsproject.org/). The vast majority of CIF
 high-quality experimental structures files from the ICSD database, with a few from the Springer and Materials
 Project databases.
 
-**Note**: Unfortunately, we can not share the collected CIF files directly due to copyright concerns. However, you can find the material ID of the 
-compounds included in our dataset [here](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/IMT_Classification_Dataset_Processed_v9.xlsx) 
+**Note**: Unfortunately, we can not directly share the collected CIF files due to copyright concerns. However, you can find the material ID of the 
+compounds included in our dataset [here](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Processed_v9.csv) 
 (you should look at the `struct_file_path` column to find the IDs). If you have access, you can use those IDs to download CIF files from ICSD & Springer.
 
 ### 1.2 Generate ionization lookup dataframe
@@ -78,7 +78,8 @@ zero-variance (i.e. the feature value is the same for all compounds) and high li
     - Find features with linear correlation greater than 0.95
     - Drop one of the two features in each pair of highly correlated features
 
-After data cleaning, the dataset now has 103 (102 numeric & 1 one-hot-encoded categorical with 2 levels) features remaining and will be referred to as the full feature set from now on.
+After data cleaning, the dataset now has 103 (102 numeric & 1 one-hot-encoded categorical with 2 levels) features 
+remaining and will be referred to as [the full feature](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Processed_v9.csv) set from now on.
 
 ## 2. Model Building
 The model building process follows an iterative approach. During the first iteration, the cleaned-up full feature set is fed into
@@ -122,8 +123,8 @@ After model evaluation, the models are trained on the entire dataset with the be
 
 ### 2.3 Select important features and iterate
 Using the stored models, a SHAP analysis is carried out to find the most important features. These important features are further screened
-using domain knowledge. Currently, 10 features are selected to create a reduced feature set. This feature selection step 
-mainly serves to prevent overfitting.
+using domain knowledge. Currently, 10 features are selected to create a [reduced feature set](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_reduced_feature_set.csv). 
+This feature selection step mainly serves to prevent overfitting.
 
 With this reduced feature set, the entire model building process is repeated and the models are re-tuned, re-evaluated and 
 re-trained on the reduced feature set.
@@ -159,7 +160,7 @@ This notebook presents an exploratory data analysis along with a data cleaning p
 
 ## [model_building_and_eval.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/model_building_and_eval.ipynb)
 This notebook contains the code that tunes, trains and evaluates the models along with the SHAP analysis. It is NOT recommended to train the models directly
-on the Binder server since it is a very memory intensive process. The Binder container by default has 2GB of RAM and if the memory
+on the Binder server since it is a very memory intensive process (it will also take a very long time to train!). The Binder container by default has 2GB of RAM and if the memory
 limit is exceeded, there is a possibility that the kernel will restart and you'll have to start over. 
 That being said, you are welcome to download the repository onto your local machine and play around with the model parameters and selection.
 
