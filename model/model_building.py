@@ -1,8 +1,11 @@
 import numpy as np
+import pandas as pd
 import xgboost as xgb
 import matplotlib.pyplot as plt
 from scipy.stats import iqr
+from sklearn.preprocessing import RobustScaler
 from sklearn.metrics import auc, plot_roc_curve, plot_precision_recall_curve
+from sklearn.utils.class_weight import compute_sample_weight
 from sklearn.model_selection import cross_validate, StratifiedKFold, GridSearchCV
 
 # # set up constants
@@ -17,7 +20,7 @@ from sklearn.model_selection import cross_validate, StratifiedKFold, GridSearchC
 # df = pd.read_excel(PROCESSED_PATH)
 
 
-def load_data(df_input, choice=None):
+def load_data(df_input, choice="Multiclass"):
     """
     Load in the original dataset and convert into binary labelling if the choice of class is specified.
     Return a tuple with features and ground-truth labels
@@ -33,7 +36,7 @@ def load_data(df_input, choice=None):
     binary_label_mapper = {"Metal": {0: 1, 1: 0, 2: 0},
                            "Insulator": {2: 0},
                            "MIT": {1: 0, 2: 1}}
-    if choice:
+    if choice in ["Metal", "Insulator", "MIT"]:
         try:
             overwrite_dict = binary_label_mapper[choice]
             df_output.replace({"Label": overwrite_dict}, inplace=True)
@@ -47,7 +50,8 @@ def load_data(df_input, choice=None):
 
 
 # %% hyperparameter tuning with grid search
-def tune_hyperparam(df_input, class_of_choice, seed, num_folds=5, xgb_param_grid=None):
+def tune_hyperparam(df_input, class_of_choice, seed, model=xgb.XGBClassifier, num_folds=5, param_grid=None,
+                    scoring_metric_for_tuning="f1_weighted"):
     """
     Tune the hyperparameters for a binary classifier of a given class
     Return a dictionary with the best parameters
@@ -56,34 +60,62 @@ def tune_hyperparam(df_input, class_of_choice, seed, num_folds=5, xgb_param_grid
     :param class_of_choice: String, one of "Metal", "Insulator", "MIT"
     :param num_folds: Integer, the number of stratified folds (default: 5)
     :param seed: Integer, the random seed for reproducibility
-    :param xgb_param_grid: Dictionary, the hyperparameter grid to search over
+    :param model: sklearn compatible model
+    :param param_grid: Dictionary, the hyperparameter grid to search over
+    :param scoring_metric_for_tuning: String or list of Strings, the tuning scoring metric
     :return: Dictionary, the best parameters
     """
+    if class_of_choice == "Multiclass":
+        print("\nTuning for {label} classifier".format(label=class_of_choice))
+    else:
+        print("\nTuning for {label} vs. non-{label} binary classifier".format(label=class_of_choice))
 
-    print("\nTuning for {label} vs. non-{label} binary classifier".format(label=class_of_choice))
     X_features, y_labels = load_data(df_input, class_of_choice)
+    if model.__name__ == "LogisticRegression":
+        X_features = RobustScaler().fit_transform(X_features)
+
+    # initialize weights to account for class imbalance in multiclass classification
+    sample_weights = None
 
     # if no param_grid is specified, use the following default grid
-    if not xgb_param_grid:
-        xgb_param_grid = {
+    # for multiclass
+    if (not param_grid) and (class_of_choice == "Multiclass"):
+        param_grid = {
             "n_estimators": [10, 20, 30, 40, 80, 100, 150, 200],
-            "max_depth": [2, 3, 5],
+            "max_depth": [2, 3, 4, 5],
             "learning_rate": np.logspace(-3, 2, num=6),
-            "scale_pos_weight": [np.sum(y_labels == 0) / np.sum(y_labels == 1)],
-            "base_score": [0.3, 0.5, 0.7]
+            # scale_pos_weight is not specified for xgboost multiclass classification
+            "subsample": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+            "base_score": [0.3, 0.5, 0.7],
+            "random_state": [seed]
         }
+        # if the xgboost params is supplied, compute the weights for each sample in multiclass classification
+        sample_weights = compute_sample_weight(class_weight="balanced", y=y_labels)
+    # for binary
+    elif not param_grid:
+        param_grid = {
+            "n_estimators": [10, 20, 30, 40, 80, 100, 150, 200],
+            "max_depth": [2, 3, 4, 5],
+            "learning_rate": np.logspace(-3, 2, num=6),
+            "subsample": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+            "scale_pos_weight": [np.sum(y_labels == 0) / np.sum(y_labels == 1)],
+            "base_score": [0.3, 0.5, 0.7],
+            "random_state": [seed]
+        }
+    elif model.__name__ == "GradientBoostingClassifier":
+        sample_weights = compute_sample_weight(class_weight="balanced", y=y_labels)
 
-    # initialize the stratified k-folds  (default k=5)
+    # initialize the stratified k-folds
     grid_stratified_folds = StratifiedKFold(n_splits=num_folds, shuffle=True,
                                             random_state=seed)
     # initialize the xgboost classifier
-    xgb_tune_model = xgb.XGBClassifier()
+    model_to_tune = model()
     # tune the model on 5 fold cv, with f1_weighted being the evaluation metric
-    xgb_grid = GridSearchCV(xgb_tune_model, param_grid=xgb_param_grid, n_jobs=-1,
-                            scoring="f1_weighted", cv=grid_stratified_folds, verbose=1)
-    xgb_grid.fit(X_features, y_labels)
+    tune_grid = GridSearchCV(model_to_tune, param_grid=param_grid, n_jobs=-1,
+                             scoring=scoring_metric_for_tuning, cv=grid_stratified_folds, verbose=1)
+    tune_grid.fit(X_features, y_labels, sample_weight=sample_weights)
 
-    return xgb_grid.best_params_
+    return tune_grid.best_params_
 
 
 # best_params = {choice: tune_hyperparam(df, choice, TRAIN_RANDOM_SEED)
@@ -92,8 +124,8 @@ def tune_hyperparam(df_input, class_of_choice, seed, num_folds=5, xgb_param_grid
 
 
 # %% evaluate model performance with multiple metrics using the sklearn API
-def eval_xgb_model_helper(df_input, choice, params, seed, scoring_metrics, num_folds=10, eval_method="robust",
-                          verbose=0, cv_generator=None):
+def evaluate_model_helper(df_input, choice, params, seed, scoring_metrics, eval_model, num_folds=10,
+                          eval_method="robust", verbose=0, cv_generator=None):
     """
     Evaluate the model performance with the given parameters, cv and seed
     With the given metric list
@@ -103,27 +135,35 @@ def eval_xgb_model_helper(df_input, choice, params, seed, scoring_metrics, num_f
     :param params: Dictionary, the best parameters from hyperparameter tuning
     :param seed: Integer, the random seed for reproducibility
     :param scoring_metrics: List, a list of scoring metrics
+    :param eval_model: sklearn model, the model to evaluate
     :param num_folds: Integer, the number of stratified folds (default: 10)
     :param eval_method: String, one of "robust", "standard"
     :param verbose: Int, if 1, print out the intermediate results
     :param cv_generator: Cross validator, if None will use stratified k-fold
-    :return: None, only the printout of metrics in either of the two forms
-        "robust": median w/ IQR
-        "standard": mean w/ std
+    :return: Dictionary
     """
 
     X_features, y_labels = load_data(df_input, choice)
+    if eval_model.__name__ == "LogisticRegression":
+        X_features = RobustScaler().fit_transform(X_features)
+
+    fit_params_dict = None
+    # if (multiclass & XGBClassifier) | GradientBoostingClassifier, specify the sample weights
+    if ((choice == "Multiclass") and (eval_model.__name__ == "XGBClassifier")) or \
+            (eval_model.__name__ == "GradientBoostingClassifier"):
+        fit_params_dict = {"sample_weight": compute_sample_weight(class_weight="balanced", y=y_labels)}
 
     # if cv_folds is not specified
     if not cv_generator:
-        # initialize the stratified k-folds  (default k=10)
+        # initialize the stratified k-folds
         cv_generator = StratifiedKFold(n_splits=num_folds, shuffle=True, random_state=seed)
 
     # initialize the xgboost classifier with the tuned parameters
-    xgb_eval_model = xgb.XGBClassifier(**params[choice])
+    model_to_eval = eval_model(**params[choice])
     # evaluate the tuned model with stratified k-fold cv
-    cv_scores = cross_validate(xgb_eval_model, X_features, y_labels,
-                               scoring=scoring_metrics, cv=cv_generator, error_score=np.nan)
+    cv_scores = cross_validate(model_to_eval, X_features, y_labels,
+                               scoring=scoring_metrics, cv=cv_generator, error_score=np.nan,
+                               fit_params=fit_params_dict)
 
     if verbose == 1:
         print("\nEvaluating the {label} vs. non-{label} binary classifier (seed={rand_seed})".format(
@@ -146,24 +186,76 @@ def eval_xgb_model_helper(df_input, choice, params, seed, scoring_metrics, num_f
 
 
 # %%
-def eval_xgb_model(random_seeds, metrics, class_of_choice, method="robust", **kwargs):
+def evaluate_model(random_seeds, metrics, class_of_choice, model=xgb.XGBClassifier, method="robust", **kwargs):
     """
     Evaluate the model performance with a list of seeds and metrics.
 
     :param random_seeds: List, list of random seeds
     :param metrics: List, list of evaluation metrics
     :param class_of_choice: String, one of "Metal", "Insulator", "MIT"
+    :param model: sklearn model
     :param method: String, one of "robust", "standard"
     :param kwargs: addition parameters passed to eval_xgb_model_helper()
-    :return: None, only the evaluation printout
+    :return: Pandas DataFrame, the evaluation results df alongwith the printout
     """
-    print("\nEvaluating the {label} vs. non-{label} binary classifier using the following seeds\n{seeds}".format(
-        label=class_of_choice, seeds=random_seeds
-    ))
-    all_metrics = [eval_xgb_model_helper(choice=class_of_choice, seed=seed, scoring_metrics=metrics, eval_method=method,
-                                         **kwargs) for seed in random_seeds]
+    print("\n----------------------------------------------------------------------")
+    print("Model type: {}".format(model.__name__))
+    if class_of_choice == "Multiclass":
+        print("Evaluating the {label} classifier using the following seeds\n{seeds}".format(
+            label=class_of_choice, seeds=random_seeds
+        ))
+        # if multiclass, change "roc_auc" to "roc_auc_ovr_weighted"
+        metrics = [metric + "_ovr_weighted" if metric == "roc_auc" else metric for metric in metrics]
+    else:
+        print("Evaluating the {label} vs. non-{label} binary classifier using the following seeds\n{seeds}".format(
+            label=class_of_choice, seeds=random_seeds
+        ))
+
+    all_metrics = [evaluate_model_helper(choice=class_of_choice, seed=seed, scoring_metrics=metrics, eval_model=model,
+                                         eval_method=method, **kwargs)
+                   for seed in random_seeds]
     print_lst = [return_metric_print(method, metric, all_metrics) for metric in metrics]
     print(*print_lst, sep="\n")
+    return return_metric_df(model=model, metrics=metrics, pos_class=class_of_choice,
+                            eval_method=method, all_metric_lst=all_metrics)
+
+
+def return_metric_df_helper(eval_model, pos_class, eval_method, eval_metric, all_metric_lst):
+    """
+    The helper function for return_metric_df()
+
+    :param eval_model: sklearn model
+    :param pos_class: String, one of "Metal", "Insulator", "MIT"
+    :param eval_method: String, one of "robust", "standard"
+    :param eval_metric: String, a evaluation metric
+    :param all_metric_lst: List of Dictionaries, all the eval_metrics of a given binary classifier
+    :return: Tuple, (the name of the evaluation model, the positive class, the evaluation method,
+                     the name of the evaluation metric, the value of the evaluation metric,
+                     all the evaluation result of the given classifier)
+    """
+    if eval_method == "robust":
+        metric_lst = np.median(np.array([metric_seed[eval_metric] for metric_seed in all_metric_lst]), axis=1)
+        return eval_model.__name__, pos_class, eval_metric, np.median(metric_lst), iqr(metric_lst), list(metric_lst)
+    elif eval_method == "standard":
+        metric_lst = np.mean(np.array([metric_seed[eval_metric] for metric_seed in all_metric_lst]), axis=1)
+        return eval_model.__name__, pos_class, eval_metric, np.mean(metric_lst), np.std(metric_lst), list(metric_lst)
+    else:
+        raise Exception('Invalid eval_method. Use "robust" or "standard"')
+
+
+def return_metric_df(model, metrics, **kwargs):
+    """
+    Return the evaluation results in a dataframe
+
+    :param model: sklearn model
+    :param metrics: List, a list of evaluation metrics
+    **kwargs: additional parameters to pass to return_metric_df_helper()
+    :return: Pandas DataFrame
+    """
+    lst_metric_tuples = [return_metric_df_helper(eval_model=model, eval_metric=metric, **kwargs) for metric in metrics]
+    return pd.DataFrame.from_records(lst_metric_tuples,
+                                     columns=["model_type", "positive_class", "metric_name",
+                                              "metric_value", "metric_dispersion", "raw_metric"])
 
 
 def return_metric_print(eval_method, eval_metric, all_metric_lst):
@@ -189,8 +281,8 @@ def return_metric_print(eval_method, eval_metric, all_metric_lst):
 
 # %%
 # for choice in ["Metal", "Insulator", "MIT"]:
-#     eval_xgb_model(EVAL_RANDOM_SEEDS, SCORING_METRICS, choice, df_input=df, params=best_params, method="robust",
-#                    num_folds=NUM_FOLDS)
+#     eval_model(EVAL_RANDOM_SEEDS, SCORING_METRICS, choice, df_input=df, params=best_params, method="robust",
+#                num_folds=NUM_FOLDS)
 
 
 # %% define a function to plot roc or precision_recall curves
