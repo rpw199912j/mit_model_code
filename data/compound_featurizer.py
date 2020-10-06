@@ -14,14 +14,14 @@ from matminer.featurizers.conversions import StrToComposition, CompositionToOxid
 from matminer.featurizers.composition import ElementProperty, OxidationStates
 from matminer.featurizers.structure import EwaldEnergy, GlobalInstabilityIndex, StructuralHeterogeneity
 
-# %% set up path constant
-STRUCTURE_PATH = "../data/Structures"
-
-# %% check if the Structure.zip is unzipped
-if not os.path.isdir(STRUCTURE_PATH):
-    # if still zipped, unzip the folder containing all the cif files
-    with ZipFile("".join([STRUCTURE_PATH, ".zip"])) as structures:
-        structures.extractall(path=STRUCTURE_PATH)
+# # %% set up path constant
+# STRUCTURE_PATH = "../data/Structures"
+#
+# # %% check if the Structure.zip is unzipped
+# if not os.path.isdir(STRUCTURE_PATH):
+#     # if still zipped, unzip the folder containing all the cif files
+#     with ZipFile("".join([STRUCTURE_PATH, ".zip"])) as structures:
+#         structures.extractall(path=STRUCTURE_PATH)
 
 
 # %%
