@@ -52,18 +52,12 @@ def generate_formula_from_structure():
     cif_files = [file for subfolder in subfolder_lst for file in glob(subfolder)]
     # form a list of class labels, each class label should repeat for the number of compounds in each class
     labels = [class_label for class_label in [0, 1, 2]
-              for dummy_i in range(len(glob(subfolder_lst[class_label])))]
+              for _ in range(len(glob(subfolder_lst[class_label])))]
     # generate a list of dictionaries, with each dictionary corresponding to one compound
     data_dict = [generate_formula_from_structure_helper(cif_file, label)
                  for cif_file, label in zip(cif_files, labels)]
 
     return pd.DataFrame(data_dict)
-
-
-# # get the initial dataframe
-# df = generate_formula_from_structure()
-# # manually correct the Pymatgen naming from TiPbO3 to PbTiO3
-# df.Compound[df.Compound == "TiPbO3"] = "PbTiO3"
 
 
 def get_struct(compound_formula: str, df_input: pd.DataFrame, struct_type: str = "structure") -> mg.Structure:
@@ -146,9 +140,6 @@ def composition_featurizer(df_input: pd.DataFrame, **kwargs) -> pd.DataFrame:
     return df_comp[df_comp["minimum oxidation state"] != 0]
 
 
-# df_with_comp_features = composition_featurizer(df)
-# print(df_with_comp_features.shape)
-
 # %% generate structure based features
 def structure_featurizer(df_input: pd.DataFrame, **kwargs) -> pd.DataFrame:
     """Return a Pandas DataFrame with all structural features"""
@@ -172,11 +163,6 @@ def structure_featurizer(df_input: pd.DataFrame, **kwargs) -> pd.DataFrame:
     df_struct.rename(columns={"global instability index": "gii"}, inplace=True)
     return df_struct
 
-
-# test_struct = get_struct("BaTiO3", df)
-# test_df = read_new_struct(test_struct)
-# test_df = structure_featurizer(test_df)
-# print(test_df)
 
 # %% generate handcrafted features
 def parse_element(structure: mg.Structure) -> Dict:
@@ -215,37 +201,6 @@ def parse_element(structure: mg.Structure) -> Dict:
             "all_metals": all_metals,
             "most_electro_neg_metal": most_electro_neg_metal,
             "other_metals": other_metals}
-
-
-# def find_metal_old(structure):
-#     """Find metal species by electronegativity ranking.
-#     Args:
-#         structure: Pymatgen Structure object
-#     Returns:
-#         metal: str, name of relevant metal element
-#     """
-#     anions = ['O', 'F', 'N', 'S', 'Se']
-#     try:
-#         metal = str(structure.composition.element_composition.elements[-2])
-#         if metal in anions:  # If there are two anions return next element
-#             metal = str(structure.composition.element_composition.elements[-3])
-#     except:
-#         return None
-#     return metal
-#
-#
-# def metal_equal(structure):
-#     try:
-#         new_method = parse_element(structure)["most_electro_neg_metal"].symbol
-#     except AttributeError:
-#         new_method = None
-#     old_method = find_metal_old(structure)
-#     return pd.Series([structure.composition.reduced_formula, new_method != old_method, new_method, old_method],
-#                      index=["compound", "different", "metal_from_new", "metal_from_old"])
-
-
-# difference_df = df["structure"].apply(func=metal_equal)
-# difference_df = difference_df[difference_df.different == True].drop(columns="different")
 
 
 # %% Create featurizers to calculate M-X, M-M, X-X bond distance (M: metal, X: non_metal)
@@ -425,24 +380,11 @@ def calc_xx_dists(structure, cutoff=1, return_unique=False):
     return None
 
 
-# %% test cases
-# test_struct = get_struct("Ca2AlFeO5", df)
-# # test_struct = get_struct("Sr2La2Fe2O7.84", df)
-# print(calc_mm_dists(test_struct, cutoff=1, return_unique=True))
-# print(calc_mx_dists(test_struct, cutoff=1, return_unique=True))
-# print(calc_xx_dists(test_struct, cutoff=1, return_unique=True))
-
-
 # %% define a function that can parse element pair string
 def parse_elem_pair(elem_pair_str: str):
     """Parse a string containing a pair of element symbol and return two Pymatgen Element objects"""
     elem_pair_str = elem_pair_str.split("-")
     return tuple([mg.Element(elem_str) for elem_str in elem_pair_str])
-
-
-# print(parse_elem_pair("Ti-O"))
-# print(parse_elem_pair("Ti-Ti"))
-# print(parse_elem_pair("O-O"))
 
 
 # %%
@@ -564,15 +506,6 @@ def classify_xx_pairs(elem_pair_lst: Union[list, Iterable]):
 
 
 # %%
-# test_struct = get_struct("Ca2AlFeO5", df)
-# classify_mm_pairs(calc_mm_dists(test_struct, return_unique=True).keys())
-
-
-# print(classify_mx_pairs(calc_mx_dists(test_struct, return_unique=True).keys()))
-# print(classify_xx_pairs(calc_xx_dists(test_struct, return_unique=True).keys()))
-
-
-# %%
 def return_most_relevant_pairs(pair_clf_dictionary: OrderedDict, cumulative: int = None):
     """
     Return the element pair(s) that are most relevant.
@@ -606,19 +539,6 @@ def return_most_relevant_pairs(pair_clf_dictionary: OrderedDict, cumulative: int
 
 
 # %%
-# test_struct = get_struct("LaTiO3", df)
-# test_struct = get_struct("NiSeS", df)
-# test_struct = get_struct("Ca2AlFeO5", df)
-# test_mm_dict = classify_mm_pairs(calc_mm_dists(test_struct, return_unique=True).keys())
-# test_mx_dict = classify_mx_pairs(calc_mx_dists(test_struct, return_unique=True).keys())
-# test_xx_dict = classify_xx_pairs(calc_xx_dists(test_struct, return_unique=True).keys())
-
-
-# return_most_relevant_pairs(test_mm_dict, 3)
-
-
-# %%
-
 def return_relevant_dists(structure_oxid: mg.Structure, calc_funcs: Tuple, cutoff_val: float = 1,
                           return_unique: bool = False, cumulative_level: int = None):
     """
@@ -645,9 +565,6 @@ def return_relevant_dists(structure_oxid: mg.Structure, calc_funcs: Tuple, cutof
     return np.concatenate(list(relevant_dists.values()))
 
 
-# return_relevant_dists(test_struct, (calc_mm_dists, classify_mm_pairs))
-
-
 def return_relevant_mm_dists(structure_oxid: mg.Structure, **kwargs):
     """A wrapper function around the generic return_relevant_dists() to only calculate metal-metal distances"""
     return return_relevant_dists(structure_oxid, (calc_mm_dists, classify_mm_pairs), **kwargs)
@@ -661,11 +578,6 @@ def return_relevant_mx_dists(structure_oxid: mg.Structure, **kwargs):
 def return_relevant_xx_dists(structure_oxid: mg.Structure, **kwargs):
     """A wrapper function around the generic return_relevant_dists() to only calculate non_metal-non_metal distances"""
     return return_relevant_dists(structure_oxid, (calc_xx_dists, classify_xx_pairs), **kwargs)
-
-
-# return_relevant_mm_dists(test_struct, cumulative_level=3)
-# return_relevant_mx_dists(test_struct, cumulative_level=3)
-# return_relevant_xx_dists(test_struct, cumulative_level=3)
 
 
 # %% calculate the maximum Madelung potential for each element in a structure
@@ -706,30 +618,6 @@ def calc_elem_max_potential(structure_oxid: mg.Structure, full_list=False, check
         return site_potentials
 
     return {elem: max(potentials) for elem, potentials in site_potentials.items()}
-
-
-# calc_elem_max_potential(test_struct, full_list=True, check_vesta=True)
-
-# %%
-# def choose_max_potential(elem_lst, potential_dict):
-#     """Return the maximum potential in a list of elements"""
-#     # if the element list is empty, return None
-#     if not elem_lst:
-#         return None
-#     # if the structure only contains 1 element, return None
-#     if len(potential_dict) == 1:
-#         return None
-#
-#     # initialize the maximum potential with negative infinity
-#     max_potential = float('-inf')
-#     for elem in elem_lst:
-#         # get the element potential
-#         elem_potential = potential_dict[elem]
-#         # find the maximum potential in the list
-#         # by only updating the maximum potential if there is a value greater than the current one
-#         if elem_potential > max_potential:
-#             max_potential = elem_potential
-#     return max_potential if max_potential != float("-inf") else None
 
 
 def choose_most_elec_neg_potential(elem_lst, potential_dict):
@@ -798,14 +686,6 @@ def return_relevant_potentials(structure_oxid: mg.Structure, **kwargs):
         return all_metals_max, non_metals_max
 
 
-# %%
-# test_struct = get_struct("Si", df)
-# print(return_relevant_potentials(test_struct, check_vesta=True))
-#
-# test_struct = get_struct("Sr2SnO4", df)
-# print(return_relevant_potentials(test_struct, check_vesta=True))
-
-
 # %% lookup ionization energy
 def get_elem_oxi_state(structure_oxid: mg.Structure):
     species = structure_oxid.composition.elements
@@ -830,12 +710,6 @@ def get_relevant_elems(structure_oxid: mg.Structure):
 
     return [(relevant_metal, elem_oxi_state_dict[relevant_metal]),
             (relevant_non_metal, elem_oxi_state_dict[relevant_non_metal])]
-
-
-# non_stoich_formula = "Ca1.2La2.8Mn4O12"
-# non_stoich_struct = get_struct(non_stoich_formula, df)
-# get_elem_oxi_state(non_stoich_struct)
-# get_relevant_elems(non_stoich_struct)
 
 
 def lookup_ionization_energy_helper(relevant_metal: str, relevant_metal_oxi_state: float):
@@ -869,13 +743,6 @@ def lookup_ionization_energy_helper(relevant_metal: str, relevant_metal_oxi_stat
     return iv, iv_p1
 
 
-# lookup_ionization_energy_helper("W", 5)
-# lookup_ionization_energy_helper("W", 10)
-# lookup_ionization_energy_helper("W", 10.1)
-# lookup_ionization_energy_helper("W", 0)
-# lookup_ionization_energy_helper("W", -1)
-
-
 def lookup_ionization_energy(structure_oxid: mg.Structure):
     """
     Find the vth and (v+1)th ionization energy for the metal species,
@@ -891,7 +758,7 @@ def lookup_ionization_energy(structure_oxid: mg.Structure):
     # conversion factor from kJ/mol to eV
     conversion_factor = 0.010364
     (relevant_metal, relevant_metal_oxi_state), \
-    (relevant_non_metal, relevant_non_metal_oxi_state) = get_relevant_elems(structure_oxid)
+        (relevant_non_metal, relevant_non_metal_oxi_state) = get_relevant_elems(structure_oxid)
     iv, iv_p1 = lookup_ionization_energy_helper(relevant_metal, relevant_metal_oxi_state)
     # create a lookup dictionary for non_metal electron affinity
     elec_affinity_non_metal_dict = {"N": 1070 * conversion_factor,
@@ -911,17 +778,6 @@ def lookup_ionization_energy(structure_oxid: mg.Structure):
     return iv, iv_p1, elec_affinity_non_metal
 
 
-# %%
-# test_struct = get_struct("SrLaCuO4", df)
-# lookup_ionization_energy(test_struct)
-
-# test_struct = get_struct("Pr2O3", df)
-# lookup_ionization_energy(test_struct)
-
-# test_struct = get_struct("NiSeS", df)
-# lookup_ionization_energy(test_struct)
-
-
 # %% hubbard energy and charge transfer
 def calc_hubbard_u(iv, iv_p1, d_mm_avg):
     """
@@ -935,15 +791,6 @@ def calc_hubbard_u(iv, iv_p1, d_mm_avg):
     # specify the conversion factor from e^2/Angstrom to eV
     conversion_factor = 14.39965
     return iv_p1 - iv - conversion_factor / d_mm_avg
-
-
-# test_struct = get_struct("YbO", df)
-# mm_avg = np.mean(return_relevant_mm_dists(test_struct))
-# mx_avg = np.mean(return_relevant_mx_dists(test_struct))
-# iv_m, iv_p1_m, non_metal_elec_affinity = lookup_ionization_energy(test_struct)
-# v_m, v_x = return_relevant_potentials(test_struct)
-#
-# print(calc_hubbard_u(iv_m, iv_p1_m, mm_avg))
 
 
 def calc_charge_trans(m_potential, x_potential, iv, elec_affinity_non_metal, d_mx_avg):
@@ -960,9 +807,6 @@ def calc_charge_trans(m_potential, x_potential, iv, elec_affinity_non_metal, d_m
     # specify the conversion factor from e^2/Angstrom to eV
     conversion_factor = 14.39965
     return x_potential - m_potential + elec_affinity_non_metal - iv - conversion_factor / d_mx_avg
-
-
-# print(calc_charge_trans(v_m, v_x, iv_m, non_metal_elec_affinity, mx_avg))
 
 
 # %% put everything together for handbuilt_featurizer
@@ -992,7 +836,7 @@ def handbuilt_featurizer_helper(structure_oxid):
     :param structure_oxid: Pymatgen Structure, the input structure with oxidation states
     :return: Pandas Series
     """
-    struct_ordered = 1 if structure_oxid.is_ordered else 0
+    struct_ordered, struct_disordered = (1, 0) if structure_oxid.is_ordered else (0, 1)
 
     mm_dists_calculator = try_decorator(return_relevant_mm_dists, 3, True)
     max_mm_dists, min_mm_dists, avg_mm_dists = mm_dists_calculator(structure_oxid)
@@ -1015,92 +859,17 @@ def handbuilt_featurizer_helper(structure_oxid):
     charge_trans_calculator = try_decorator(calc_charge_trans, 1, False)
     est_charge_trans = charge_trans_calculator(v_m, v_x, iv_m, non_metal_elec_affinity, avg_mx_dists)
 
-    volumn_per_sites = structure_oxid.volume / structure_oxid.num_sites
+    volume_per_site = structure_oxid.volume / structure_oxid.num_sites
 
-    return pd.Series({"struct_ordered": struct_ordered,
+    return pd.Series({"struct_ordered": struct_ordered, "struct_disordered": struct_disordered,
                       "max_mm_dists": max_mm_dists, "min_mm_dists": min_mm_dists, "avg_mm_dists": avg_mm_dists,
                       "max_mx_dists": max_mx_dists, "min_mx_dists": min_mx_dists, "avg_mx_dists": avg_mx_dists,
                       "max_xx_dists": max_xx_dists, "min_xx_dists": min_xx_dists, "avg_xx_dists": avg_xx_dists,
                       "v_m": v_m, "v_x": v_x,
                       "iv": iv_m, "iv_p1": iv_p1_m,
                       "est_hubbard_u": est_hubbard_u, "est_charge_trans": est_charge_trans,
-                      "volumn_per_sites": volumn_per_sites})
+                      "volume_per_site": volume_per_site})
 
-
-# %%
-# test_struct = get_struct("Ti4O7", df)
-# test_struct.add_oxidation_state_by_guess()
-# handbuilt_featurizer_helper(test_struct)
-
-# test_struct = get_struct("FeS", df)
-# handbuilt_featurizer_helper(test_struct)
-
-# test_struct = get_struct("NiSeS", df)
-# handbuilt_featurizer_helper(test_struct)
-
-# test_struct = get_struct("SiO2", df)
-# handbuilt_featurizer_helper(test_struct)
-
-
-# %%
-# def handbuilt_featurizer_helper(structure_oxid):
-#     """
-#     Create a series of hand-built featurizes for a single structure
-#
-#     :param structure_oxid: Pymatgen Structure, the input structure with oxidation states
-#     :return: Pandas Series
-#     """
-#     struct_ordered = structure_oxid.is_ordered
-#     try:
-#         mm_dists = return_relevant_mm_dists(structure_oxid)
-#         max_mm_dists, min_mm_dists, avg_mm_dists = np.max(mm_dists), np.min(mm_dists), np.mean(mm_dists)
-#     except:
-#         max_mm_dists, min_mm_dists, avg_mm_dists = None, None, None
-#
-#     try:
-#         mx_dists = return_relevant_mx_dists(structure_oxid)
-#         max_mx_dists, min_mx_dists, avg_mx_dists = np.max(mx_dists), np.min(mx_dists), np.mean(mx_dists)
-#     except:
-#         max_mx_dists, min_mx_dists, avg_mx_dists = None, None, None
-#
-#     try:
-#         xx_dists = return_relevant_xx_dists(structure_oxid)
-#         max_xx_dists, min_xx_dists, avg_xx_dists = np.max(xx_dists), np.min(xx_dists), np.mean(xx_dists)
-#     except:
-#         max_xx_dists, min_xx_dists, avg_xx_dists = None, None, None
-#
-#     try:
-#         v_m, v_x = return_relevant_potentials(structure_oxid)
-#     except:
-#         v_m, v_x = None, None
-#
-#     try:
-#         iv_m, iv_p1_m, non_metal_elec_affinity = lookup_ionization_energy(structure_oxid)
-#     except:
-#         iv_m, iv_p1_m, non_metal_elec_affinity = None, None, None
-#
-#     try:
-#         est_hubbard_u = calc_hubbard_u(iv_m, iv_p1_m, avg_mm_dists)
-#     except:
-#         est_hubbard_u = None
-#
-#     try:
-#         est_charge_trans = calc_charge_trans(v_m, v_x, iv_m, non_metal_elec_affinity, avg_mx_dists)
-#     except:
-#         est_charge_trans = None
-#
-#     volumn_per_sites = structure_oxid.volume / structure_oxid.num_sites
-#
-#     return pd.Series({"struct_ordered": struct_ordered,
-#                       "max_mm_dists": max_mm_dists, "min_mm_dists": min_mm_dists, "avg_mm_dists": avg_mm_dists,
-#                       "max_mx_dists": max_mx_dists, "min_mx_dists": min_mx_dists, "avg_mx_dists": avg_mx_dists,
-#                       "max_xx_dists": max_xx_dists, "min_xx_dists": min_xx_dists, "avg_xx_dists": avg_xx_dists,
-#                       "v_m": v_m, "v_x": v_x,
-#                       "iv": iv_m, "iv_p1": iv_p1_m,
-#                       "est_hubbard_u": est_hubbard_u, "est_charge_trans": est_charge_trans,
-#                       "volumn_per_sites": volumn_per_sites})
-
-# handbuilt_featurizer_helper(test_struct)
 
 # %%
 def handbuilt_featurizer(df_input):
