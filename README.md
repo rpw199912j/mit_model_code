@@ -38,8 +38,8 @@ transition behavior based on a series of compositional and structural descriptor
 ## Training Algorithm
 The training algorithm or the model type chosen for this task is an [XGBoost](https://xgboost.readthedocs.io/en/latest/) 
 tree classifier implemented in the Python programming language. XGBoost models have helped won numerous 
-Kaggle competitions and have been shown to perform well on classification tasks. If you wonder why we chose XGBoost over other
-model types for this research project, you can refer to [this section](https://github.com/rpw199912j/mit_model_code#model_comparisonipynb). The takeaway is that XGBoost is consistently among the best performing model types
+Kaggle competitions and have been shown to perform well on classification tasks. For this research project, if you wonder why we chose XGBoost over other
+model types and why binary classification over multi-class classification, you can refer to [this section](https://github.com/rpw199912j/mit_model_code#model_comparisonipynb). The takeaway is that XGBoost is consistently among the best performing model types
 and that it is faster to train compared to other models with comparable performance.
 
 ## A Word of Caution
