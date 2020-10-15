@@ -240,8 +240,8 @@ class Polarizations:
             if elem == anion:
                 an_pol = self.get_an_pol(elem, an_vol, ion_params)
 
-                if an_pol is None:
-                    print('Error with: {}'.format(struct.formula))
+                if an_pol is None or an_pol.empty:
+                    print('An anion\'s polarizability is missing in {}'.format(struct.formula))
                     return None
 
                 total_pol += an_pol * elem_comp[elem]

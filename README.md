@@ -1,12 +1,13 @@
-# Metal-insulator transition model
-This repository contains the code and data used in constructing the metal-insulator transition classifier. 
+# Metal-Insulator Transition Classifiers
+This repository contains the code and data used in constructing the metal-insulator (MIT) transition classifiers, which are 3
+binary classifiers: a Metal vs. non-Metal model, an Insulator vs. non-Insulator model and an MIT vs. non-MIT model.
 
 # Table of Content
 - [Model Description](https://github.com/rpw199912j/mit_model_code#model-description)
   * [Research Question](https://github.com/rpw199912j/mit_model_code#research-question)
   * [Training Algorithm](https://github.com/rpw199912j/mit_model_code#training-algorithm)
   * [A Word of Caution](https://github.com/rpw199912j/mit_model_code#a-word-of-caution)
-- [General Workflow (Work in progress)](https://github.com/rpw199912j/mit_model_code#general-workflow-work-in-progress)
+- [General Workflow](https://github.com/rpw199912j/mit_model_code#general-workflow)
   * [1. Data Preparation](https://github.com/rpw199912j/mit_model_code#1-data-preparation)
     + [1.1 Getting CIF files](https://github.com/rpw199912j/mit_model_code#11-getting-cif-files)
     + [1.2 Generate ionization lookup dataframe](https://github.com/rpw199912j/mit_model_code#12-generate-ionization-lookup-dataframe)
@@ -17,34 +18,38 @@ This repository contains the code and data used in constructing the metal-insula
     + [2.2 Evaluate performance and save models](https://github.com/rpw199912j/mit_model_code#22-evaluate-performance-and-save-models)
     + [2.3 Select important features and iterate](https://github.com/rpw199912j/mit_model_code#23-select-important-features-and-iterate)
   * [3. Deploy & Serve Models](https://github.com/rpw199912j/mit_model_code#3-deploy--serve-models)
-- [Demo notebooks (Work in progress)](https://github.com/rpw199912j/mit_model_code#demo-notebooks-work-in-progress)
+- [Demo Notebooks](https://github.com/rpw199912j/mit_model_code#demo-notebooks)
   * [generate_compound_features.ipynb](https://github.com/rpw199912j/mit_model_code#generate_compound_featuresipynb)
   * [generate_lookup_table.ipynb](https://github.com/rpw199912j/mit_model_code#generate_lookup_tableipynb)
   * [EDA_and_data_cleaning.ipynb](https://github.com/rpw199912j/mit_model_code#EDA_and_data_cleaningipynb)
   * [model_building_and_eval.ipynb](https://github.com/rpw199912j/mit_model_code#model_building_and_evalipynb)
   * [pipeline_demo.ipynb (**Make a prediction right in your web browser!**)](https://github.com/rpw199912j/mit_model_code#pipeline_demoipynb)
   * [Supporting notebooks](https://github.com/rpw199912j/mit_model_code#supporting-notebooks)
+    + [model_comparison.ipynb](https://github.com/rpw199912j/mit_model_code#model_comparisonipynb)
+    + [shap_analysis.ipynb](https://github.com/rpw199912j/mit_model_code#shap_analysisipynb)
     + [test_featurizer_sub_functions.ipynb](https://github.com/rpw199912j/mit_model_code#test_featurizer_sub_functionsipynb)
     + [handbuilt_featurizer_benchmark.ipynb](https://github.com/rpw199912j/mit_model_code#handbuilt_featurizer_benchmarkipynb)
-
 
 # Model Description
 ## Research Question
 The research question of this project is whether a machine learning classification model can predict metal-insulator 
-transition (MIT) behavior based on a series of compositional and structural descriptors / features of a given compound.
+transition behavior based on a series of compositional and structural descriptors / features of a given compound.
 
 ## Training Algorithm
 The training algorithm or the model type chosen for this task is an [XGBoost](https://xgboost.readthedocs.io/en/latest/) 
-tree classifier implemented in the Python programming language. This XGBoost type of models has helped won numerous 
-Kaggle competitions and has been shown to perform well on classification tasks.
+tree classifier implemented in the Python programming language. XGBoost models have helped won numerous 
+Kaggle competitions and have been shown to perform well on classification tasks. For this research project, if you wonder why we chose XGBoost over other
+model types and why binary classification over multi-class classification, you can refer to [this section](https://github.com/rpw199912j/mit_model_code#model_comparisonipynb). The takeaway is that XGBoost is consistently among the best performing model types
+and that it is faster to train compared to other models with comparable performance.
 
 ## A Word of Caution
 Since the vast majority of the training data comes from oxides and there are not that many well-documented oxides that
 exhibit MIT behavior, the training dataset as a result is quite small for machine learning standards
 (228 observations / rows). Thus, the models, especially with a high dimensional feature set, can easily overfit
-and there is an ongoing effort to expand and find new MIT materials to add to the dataset.
+and there is an ongoing effort to expand and find new MIT materials to add to the dataset. Thus, as we continue to expand
+our dataset, the models trained on the dataset are also subject to change over the course of time.
 
-# General Workflow (Work in progress)
+# General Workflow
 ## 1. Data Preparation
 ### 1.1 Getting CIF files
 The CIF files are obtained through the [ICSD database](https://icsd.products.fiz-karlsruhe.de/en), 
@@ -54,7 +59,7 @@ high-quality experimental structures files from the ICSD database, with a few fr
 Project databases.
 
 **Note**: Unfortunately, we can not directly share the collected CIF files due to copyright concerns. However, you can find the material ID of the 
-compounds included in our dataset [here](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Processed_v9.csv) 
+compounds included in our dataset [here](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v9.csv) 
 (you should look at the `struct_file_path` column to find the IDs). If you have access, you can use those IDs to download CIF files from ICSD & Springer.
 
 ### 1.2 Generate ionization lookup dataframe
@@ -79,7 +84,7 @@ zero-variance (i.e. the feature value is the same for all compounds) and high li
     - Drop one of the two features in each pair of highly correlated features
 
 After data cleaning, the dataset now has 103 (102 numeric & 1 one-hot-encoded categorical with 2 levels) features 
-remaining and will be referred to as [the full feature](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Processed_v9.csv) set from now on.
+remaining and will be referred to as [the full feature](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v9.csv) set from now on.
 
 ## 2. Model Building
 The model building process follows an iterative approach. During the first iteration, the cleaned-up full feature set is fed into
@@ -112,18 +117,18 @@ There are 4 evaluation metrics used:
 3. [roc_auc](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html)
 4. [f1_weighted](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)
 
-Since the cross validation splits depend on the random seed, a list of 10 seeds (integers from 0-9) are used to take into account
+Since the cross validation splits depend on the random seed, a list of 10 seeds (integers from 0 to 9) are used to take into account
 the variation in model performance due to different splits from different seeds. For each seed, a stratified 5-fold cv is carried out, from which
 the median / mean values for the metrics are obtained. With 10 seeds, there are 10 median / mean values for each metric and finally a median / mean value
 is calculated from those 10 values, along with the interquartile range / standard deviation respectively. Essentially, the values reported are either
-a median of medians or an average of averages.
+a median of medians by default or an average of averages should you choose so.
 
-After model evaluation, the models are trained on the entire dataset with the best parameters and then stored. 
+After model evaluation, the models are trained on the entire dataset (228 compounds with the full feature set) with the best parameters and then stored. 
 
 
 ### 2.3 Select important features and iterate
 Using the stored models, a SHAP analysis is carried out to find the most important features. These important features are further screened
-using domain knowledge. Currently, 10 features are selected to create a [reduced feature set](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_reduced_feature_set.csv). 
+using domain knowledge. Currently, 10 features are selected to create a [reduced feature set](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Reduced_Feature_Set_v9.csv). 
 This feature selection step mainly serves to prevent overfitting.
 
 With this reduced feature set, the entire model building process is repeated and the models are re-tuned, re-evaluated and 
@@ -136,7 +141,7 @@ in the web browser.
 
 The models served on the Binder server are by default based on the reduced feature set.
 
-# Demo notebooks (Work in progress)
+# Demo Notebooks
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/)
 
 There are several [Jupyter notebooks](https://github.com/rpw199912j/mit_model_code/tree/master/notebooks) 
@@ -159,7 +164,7 @@ running this notebook will not work due to the absence of CIF files.
 This notebook presents an exploratory data analysis along with a data cleaning process on the output dataset from _generate_compound_features.ipynb_.
 
 ## [model_building_and_eval.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/model_building_and_eval.ipynb)
-This notebook contains the code that tunes, trains and evaluates the models along with the SHAP analysis. It is NOT recommended to train the models directly
+This notebook contains the code that tunes, trains and evaluates the models along with a SHAP analysis on models trained with the full feature set. It is NOT recommended to train the models directly
 on the Binder server since it is a very memory intensive process (it will also take a very long time to train!). The Binder container by default has 2GB of RAM and if the memory
 limit is exceeded, there is a possibility that the kernel will restart and you'll have to start over. 
 That being said, you are welcome to download the repository onto your local machine and play around with the model parameters and selection.
@@ -167,10 +172,37 @@ That being said, you are welcome to download the repository onto your local mach
 
 ## [pipeline_demo.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/pipeline_demo.ipynb)
 This notebook demonstrates the prediction pipeline through which a prediction is made on a new structure that is not
-included in the original training set. If you just want to play around with the trained models or make a prediction on 
+included in the original training set. You can even **upload your own CIF structure** and get a prediction! 
+If you just want to play around with the trained models or make a prediction on 
 a structure of your own choice, you can start here.
 
 ## Supporting notebooks
+### [model_comparison.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/model_comparison.ipynb)
+This notebook answers the question of "Why should one choose XGBoost over some other models?" by comparing the classification performance of 6 model types on the full feature set across 4 classification tasks.
+ The model types are as follows.
+
+|Model type|Description|
+|:---|:---|
+|[DummyClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.dummy.DummyClassifier.html)|Naive models that are always random guessing (baseline performance)|
+|[LogisticRegression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)|Linear classifiers with L2 regularization|
+|[DecisionTreeClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html)|Generic decision tree classifiers|
+|[RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)|Ensemble decision tree classifiers|
+|[GradientBoostingClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)|Gradient-boosting tree classifiers|
+|[XGBoostClassifier](https://xgboost.readthedocs.io/en/latest/python/python_api.html#xgboost.XGBClassifier)|Extreme gradient-boosting tree classifiers|
+
+The 4 classification tasks are:
+
+1. Metal vs. non-Metals (Insulators + MITs)
+2. Insulator vs. non-Insulators (Metals + MITs)
+3. MIT vs. non-MIT (Metals + Insulators)
+4. Multi-class classification
+
+The metrics and evaluation method are the same as the [process](https://github.com/rpw199912j/mit_model_code#22-evaluate-performance-and-save-models) mentioned earlier. The comparison results are summarized in [this table](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/model_metrics_comparison_with_raw.csv).
+A [summary plot](https://github.com/rpw199912j/mit_model_code/blob/master/plots/model_comparison_boxplot.pdf) is also provided for easier interpretation.
+
+### [shap_analysis.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/shap_analysis.ipynb)
+This notebook presents a brief SHAP analysis on models trained with the reduced feature set.
+
 ### [test_featurizer_sub_functions.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/test_featurizer_sub_functions.ipynb)
 This is a brief [tutorial 
 notebook](https://github.com/rpw199912j/mit_model_code/blob/master/notebooks/test_featurizer_sub_functions.ipynb)
