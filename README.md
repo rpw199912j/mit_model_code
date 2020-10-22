@@ -1,5 +1,5 @@
 # Metal-Insulator Transition Classifiers
-This repository contains the code and data used in constructing the metal-insulator (MIT) transition classifiers, which are 3
+This repository contains the code and data used in constructing the metal-insulator transition (MIT) classifiers, which are 3
 binary classifiers: a Metal vs. non-Metal model, an Insulator vs. non-Insulator model and an MIT vs. non-MIT model.
 
 # Table of Content
@@ -29,6 +29,7 @@ binary classifiers: a Metal vs. non-Metal model, an Insulator vs. non-Insulator 
     + [shap_analysis.ipynb](https://github.com/rpw199912j/mit_model_code#shap_analysisipynb)
     + [test_featurizer_sub_functions.ipynb](https://github.com/rpw199912j/mit_model_code#test_featurizer_sub_functionsipynb)
     + [handbuilt_featurizer_benchmark.ipynb](https://github.com/rpw199912j/mit_model_code#handbuilt_featurizer_benchmarkipynb)
+    + [dataset_visualization.ipynb](https://github.com/rpw199912j/mit_model_code#dataset_visualizationipynb)
 
 # Model Description
 ## Research Question
@@ -40,7 +41,8 @@ The training algorithm or the model type chosen for this task is an [XGBoost](ht
 tree classifier implemented in the Python programming language. XGBoost models have helped won numerous 
 Kaggle competitions and have been shown to perform well on classification tasks. For this research project, if you wonder why we chose XGBoost over other
 model types and why binary classification over multi-class classification, you can refer to [this section](https://github.com/rpw199912j/mit_model_code#model_comparisonipynb). The takeaway is that XGBoost is consistently among the best performing model types
-and that it is faster to train compared to other models with comparable performance.
+and that it is faster to train compared to other models with comparable performance. The performance across all model types on binary classifications is also
+better than that on multi-class classifications.
 
 ## A Word of Caution
 Since the vast majority of the training data comes from oxides and there are not that many well-documented oxides that
@@ -101,7 +103,7 @@ for the XGBClassifier is as follows.
 | max_depth       | [2, 3, 4, 5]      |
 | learning_rate   | np.logspace(-3, 2, num=6)     |
 | subsample       | [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]|
-| scale_pos_weight| num_of_negative_class / num_of_positive_class |
+| scale_pos_weight| [num_of_negative_class / num_of_positive_class] |
 | base_score      | [0.3, 0.5, 0.7]      |
 | random_state    | [seed]   |
 
@@ -214,4 +216,7 @@ file.
 This notebooks provides a benchmark of how "good" the handbuilt featurizer is against values from 
 [Table 2 & 3](https://github.com/rpw199912j/mit_model_code/blob/master/data/torrance_tables/torrance_tabulated.xlsx) 
 of [Torrance et al](https://www.sciencedirect.com/science/article/abs/pii/0921453491905346).
+
+### [dataset_visualization.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/handbuilt_featurizer_benchmark.ipynb)
+This notebooks contains visualization plots that provide insights into the dataset.
 
