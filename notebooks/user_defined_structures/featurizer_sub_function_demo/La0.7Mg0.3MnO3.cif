@@ -1,0 +1,42 @@
+
+#======================================================================
+# CRYSTAL DATA
+#----------------------------------------------------------------------
+data_VESTA_phase_1
+
+_chemical_name_common                  'CIF file'
+_cell_length_a                         6.46207(3)
+_cell_length_b                         7.71938(5)
+_cell_length_c                         5.48037(4)
+_cell_angle_alpha                      90.000000
+_cell_angle_beta                       90.000000
+_cell_angle_gamma                      90.000000
+_cell_volume                           231.073190
+_space_group_name_H-M_alt              'P n m a'
+_space_group_IT_number                 62
+
+loop_
+_space_group_symop_operation_xyz
+   'x, y, z'
+   '-x, -y, -z'
+   '-x+1/2, -y, z+1/2'
+   'x+1/2, y, -z+1/2'
+   '-x, y+1/2, -z'
+   'x, -y+1/2, z'
+   'x+1/2, -y+1/2, -z+1/2'
+   '-x+1/2, y+1/2, z+1/2'
+
+loop_
+   _atom_site_label
+   _atom_site_occupancy
+   _atom_site_fract_x
+   _atom_site_fract_y
+   _atom_site_fract_z
+   _atom_site_adp_type
+   _atom_site_B_iso_or_equiv
+   _atom_site_type_symbol
+   Mn1         1.0     0.000000     0.000000     0.500000    Biso  0.080000 Mn
+   La1         0.7000  0.0187(4)    0.250000     0.9952(8)   Biso  0.280000 La
+   Mg1         0.3000  0.0187(4)    0.250000     0.9952(8)   Biso  0.280000 Mg
+   O1          1.0     0.4910(8)    0.250000     0.0629(7)   Biso  0.590000 O
+   O2          1.0     0.2742(5)    0.0334(4)    0.7249(5)   Biso  0.440000 O

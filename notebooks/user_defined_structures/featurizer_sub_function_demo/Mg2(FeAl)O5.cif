@@ -1,0 +1,45 @@
+
+#======================================================================
+# CRYSTAL DATA
+#----------------------------------------------------------------------
+data_VESTA_phase_1
+
+_chemical_name_common                  'CIF file'
+_cell_length_a                         6.587(5)
+_cell_length_b                         14.600(10)
+_cell_length_c                         5.374(5)
+_cell_angle_alpha                      90.000000
+_cell_angle_beta                       90.000000
+_cell_angle_gamma                      90.000000
+_cell_volume                           516.818667
+_space_group_name_H-M_alt              'I b m 2'
+_space_group_IT_number                 46
+
+loop_
+_space_group_symop_operation_xyz
+   'x, y, z'
+   '-x, -y, z'
+   '-x, y+1/2, z'
+   'x, -y+1/2, z'
+   'x+1/2, y+1/2, z+1/2'
+   '-x+1/2, -y+1/2, z+1/2'
+   '-x+1/2, y, z+1/2'
+   'x+1/2, -y, z+1/2'
+
+loop_
+   _atom_site_label
+   _atom_site_occupancy
+   _atom_site_fract_x
+   _atom_site_fract_y
+   _atom_site_fract_z
+   _atom_site_adp_type
+   _atom_site_B_iso_or_equiv
+   _atom_site_type_symbol
+   Mg1         1.0     0.0273(2)    0.10870(10)  0.4920(4)   Bani  1.000000 Mg
+   Fe1         0.7600  0.000000     0.000000     0.000000    Bani  1.000000 Fe
+   Fe2         0.2400  0.928300     0.250000     0.953300    Bani  1.000000 Fe
+   Al1         0.2400  0.000000     0.000000     0.000000    Bani  1.000000 Al
+   Al2         0.7600  0.928300     0.250000     0.953300    Bani  1.000000 Al
+   O1          1.0     0.2523(10)   0.9861(2)    0.2491(10)  Bani  1.000000 O
+   O2          1.0     0.0680(7)    0.1493(4)    0.0246(9)   Bani  1.000000 O
+   O3          1.0     0.8607(10)   0.250000     0.6193(11)  Bani  1.000000 O
