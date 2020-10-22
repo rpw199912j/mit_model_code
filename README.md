@@ -218,5 +218,5 @@ This notebooks provides a benchmark of how "good" the handbuilt featurizer is ag
 of [Torrance et al](https://www.sciencedirect.com/science/article/abs/pii/0921453491905346).
 
 ### [dataset_visualization.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/handbuilt_featurizer_benchmark.ipynb)
-This notebooks contains visualization plots that provide insights into the dataset.
+This notebooks contains visualization plots to be included in the paper.
 
