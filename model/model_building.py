@@ -233,11 +233,12 @@ def return_metric_df_helper(eval_model, pos_class, eval_method, eval_metric, all
                      the name of the evaluation metric, the value of the evaluation metric,
                      all the evaluation result of the given classifier)
     """
+    complete_metric_lst = np.array([metric_seed[eval_metric] for metric_seed in all_metric_lst])
     if eval_method == "robust":
-        metric_lst = np.median(np.array([metric_seed[eval_metric] for metric_seed in all_metric_lst]), axis=1)
+        metric_lst = np.median(complete_metric_lst, axis=1)
         return eval_model.__name__, pos_class, eval_metric, np.median(metric_lst), iqr(metric_lst), list(metric_lst)
     elif eval_method == "standard":
-        metric_lst = np.mean(np.array([metric_seed[eval_metric] for metric_seed in all_metric_lst]), axis=1)
+        metric_lst = np.mean(complete_metric_lst, axis=1)
         return eval_model.__name__, pos_class, eval_metric, np.mean(metric_lst), np.std(metric_lst), list(metric_lst)
     else:
         raise Exception('Invalid eval_method. Use "robust" or "standard"')
@@ -375,12 +376,12 @@ def plot_eval(df_input, tuned_params, eval_seeds, num_folds=10, eval_method="roc
             ax[index].set(xlim=(-0.01, 1), ylim=(0, 1.05), xlabel=None, ylabel=None)
             ax[index].set_title(title, fontsize=fontsize)
             ax[index].plot([0, 1], [0, 1], linestyle="--", lw=3, color="k")
-            ax[index].text(0.98, 0.05, "{} AUC:{:.2f}".format(stat_func.__name__.capitalize(),
-                                                              stat_func(aucs)), fontsize=fontsize,
+            ax[index].text(0.98, 0.05, "{} AUC: {:.2f}".format(stat_func.__name__.capitalize(),
+                                                               stat_func(aucs)), fontsize=fontsize,
                            horizontalalignment="right", verticalalignment="bottom")
         elif eval_method == "pr":
             ax[index].set(xlim=(0, 1), ylim=(0, 1.05), xlabel=None, ylabel=None)
-            ax[index].set_title("{}: {} auc:{:.2f}".format(title, stat_func.__name__,
+            ax[index].set_title("{} {} AUC: {:.2f}".format(title, stat_func.__name__.capitalize(),
                                                            stat_func(aucs)), fontsize=fontsize)
             ax[index].plot([0, 1], [naive_precision, naive_precision],
                            linestyle="--", lw=3, color="k")
