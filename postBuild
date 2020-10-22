@@ -1,2 +1,3 @@
+python -m pip install git+https://github.com/hackingmaterials/matminer.git
 jupyter nbextension enable --py widgetsnbextension
 jupyter labextension install --dev-build=False --minimize=False @jupyter-widgets/jupyterlab-manager
