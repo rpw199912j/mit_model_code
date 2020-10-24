@@ -55,6 +55,8 @@ our dataset, the models trained on the dataset are also subject to change over t
 Please include your name, institution, the CIF file and reference publications in your email and send them to 
 Professor [James M. Rondinelli](mailto:jrondinelli@northwestern.edu).**
 
+**You can also suggest new MIT material(s) by opening an issue with the `New MIT material` template.**
+
 # General Workflow
 ## 1. Data Preparation
 ### 1.1 Getting CIF files
