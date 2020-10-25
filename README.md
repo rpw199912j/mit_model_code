@@ -19,17 +19,17 @@ binary classifiers: a Metal vs. non-Metal model, an Insulator vs. non-Insulator 
     + [2.3 Select important features and iterate](#23-select-important-features-and-iterate)
   * [3. Deploy & Serve Models](#3-deploy--serve-models)
 - [Demo Notebooks](#demo-notebooks)
-  * [generate_lookup_table.ipynb](#generate_lookup_table)
+  * [generate_lookup_table.ipynb](#generate_lookup_tableipynb)
   * [generate_compound_features.ipynb](#generate_compound_featuresipynb)
-  * [EDA_and_data_cleaning.ipynb](https://github.com/rpw199912j/mit_model_code#EDA_and_data_cleaningipynb)
-  * [model_building_and_eval.ipynb](https://github.com/rpw199912j/mit_model_code#model_building_and_evalipynb)
-  * [pipeline_demo.ipynb (**Make a prediction right in your web browser!**)](https://github.com/rpw199912j/mit_model_code#pipeline_demoipynb)
+  * [EDA_and_data_cleaning.ipynb](#EDA_and_data_cleaningipynb)
+  * [model_building_and_eval.ipynb](#model_building_and_evalipynb)
+  * [pipeline_demo.ipynb (**Make a prediction right in your web browser!**)](#pipeline_demoipynb)
   * [Supporting notebooks](#supporting-notebooks)
-    + [model_comparison.ipynb](https://github.com/rpw199912j/mit_model_code#model_comparisonipynb)
-    + [shap_analysis.ipynb](https://github.com/rpw199912j/mit_model_code#shap_analysisipynb)
-    + [test_featurizer_sub_functions.ipynb](https://github.com/rpw199912j/mit_model_code#test_featurizer_sub_functionsipynb)
-    + [handbuilt_featurizer_benchmark.ipynb](https://github.com/rpw199912j/mit_model_code#handbuilt_featurizer_benchmarkipynb)
-    + [dataset_visualization.ipynb](https://github.com/rpw199912j/mit_model_code#dataset_visualizationipynb)
+    + [model_comparison.ipynb](#model_comparisonipynb)
+    + [shap_analysis.ipynb](#shap_analysisipynb)
+    + [test_featurizer_sub_functions.ipynb](#test_featurizer_sub_functionsipynb)
+    + [handbuilt_featurizer_benchmark.ipynb](#handbuilt_featurizer_benchmarkipynb)
+    + [dataset_visualization.ipynb](#dataset_visualizationipynb)
 
 # Model Description
 ## Research Question
@@ -40,7 +40,7 @@ transition behavior based on a series of compositional and structural descriptor
 The training algorithm or the model type chosen for this task is an [XGBoost](https://xgboost.readthedocs.io/en/latest/) 
 tree classifier implemented in the Python programming language. XGBoost models have helped won numerous 
 Kaggle competitions and have been shown to perform well on classification tasks. For this research project, if you wonder why we chose XGBoost over other
-model types and why binary classification over multi-class classification, you can refer to [this section](https://github.com/rpw199912j/mit_model_code#model_comparisonipynb). The takeaway is that XGBoost is consistently among the best performing model types
+model types and why binary classification over multi-class classification, you can refer to [this section](#model_comparisonipynb). The takeaway is that XGBoost is consistently among the best performing model types
 and that it is faster to train compared to other models with comparable performance. The performance across all model types on binary classifications is also
 better than that on multi-class classifications.
 
@@ -169,7 +169,7 @@ notebooks in your web browser by clicking on the binder icon above or clicking o
 
 You can replicate the workflow by using the notebooks in the following order. 
 
-## <a name="generate_lookup_table"></a> [generate_lookup_table.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/generate_lookup_table.ipynb)
+## [generate_lookup_table.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/generate_lookup_table.ipynb)
 This notebook generates the ionization energy lookup spreadsheet.
 
 ## [generate_compound_features.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/generate_compound_features.ipynb)
@@ -213,7 +213,7 @@ The 4 classification tasks are:
 3. MIT vs. non-MIT (Metals + Insulators)
 4. Multi-class classification
 
-The metrics and evaluation method are the same as the [process](https://github.com/rpw199912j/mit_model_code#22-evaluate-performance-and-save-models) mentioned earlier. The comparison results are summarized in [this table](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/model_metrics_comparison_with_raw.csv).
+The metrics and evaluation method are the same as the [process](#22-evaluate-performance-and-save-models) mentioned earlier. The comparison results are summarized in [this table](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/model_metrics_comparison_with_raw.csv).
 A [summary plot](plots/model_comparison_boxplot.pdf) is also provided for easier interpretation.
 
 ### [shap_analysis.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/shap_analysis.ipynb)
