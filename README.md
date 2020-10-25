@@ -3,7 +3,7 @@ This repository contains the code and data used in constructing the temperature-
 binary classifiers: a Metal vs. non-Metal model, an Insulator vs. non-Insulator model and an MIT vs. non-MIT model.
 
 # Table of Content
-- [Model Description](https://github.com/rpw199912j/mit_model_code#model-description)
+- [Model Description](#model-description)
   * [Research Question](https://github.com/rpw199912j/mit_model_code#research-question)
   * [Training Algorithm](https://github.com/rpw199912j/mit_model_code#training-algorithm)
   * [A Word of Caution](https://github.com/rpw199912j/mit_model_code#a-word-of-caution)
@@ -67,7 +67,7 @@ high-quality experimental structures files from the ICSD database, with a few fr
 Project databases.
 
 **Note**: Unfortunately, we can not directly share the collected CIF files due to copyright concerns. However, you can find the material ID of the 
-compounds included in our dataset [here](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v9.csv) 
+compounds included in our dataset [here](data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v9.csv) 
 (you should look at the `struct_file_path` column to find the IDs). Should you have access, you can use those IDs 
 to download CIF files from ICSD, Springer and Materials Project. 
 You will find 4 suffixes in `struct_file_path` which correspond to 4 sources as follows.
@@ -101,7 +101,7 @@ zero-variance (i.e. the feature value is the same for all compounds) and high li
     - Drop one of the two features in each pair of highly correlated features
 
 After data cleaning, the dataset now has 103 (102 numeric & 1 one-hot-encoded categorical with 2 levels) features 
-remaining and will be referred to as [the full feature](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v9.csv) set from now on.
+remaining and will be referred to as [the full feature](data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v9.csv) set from now on.
 
 ## 2. Model Building
 The model building process follows an iterative approach. During the first iteration, the cleaned-up full feature set is fed into
@@ -145,7 +145,7 @@ After model evaluation, the models are trained on the entire dataset (228 compou
 
 ### 2.3 Select important features and iterate
 Using the stored models, a SHAP analysis is carried out to find the most important features. These important features are further screened
-using domain knowledge. Currently, 10 features are selected to create a [reduced feature set](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/IMT_Classification_Dataset_Reduced_Feature_Set_v9.csv). 
+using domain knowledge. Currently, 10 features are selected to create a [reduced feature set](data/processed/csv_version/IMT_Classification_Dataset_Reduced_Feature_Set_v9.csv). 
 This feature selection step mainly serves to prevent overfitting.
 
 With this reduced feature set, the entire model building process is repeated and the models are re-tuned, re-evaluated and 
@@ -161,7 +161,7 @@ The models served on the Binder server are by default based on the reduced featu
 # Demo Notebooks
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/)
 
-There are several [Jupyter notebooks](https://github.com/rpw199912j/mit_model_code/tree/master/notebooks) 
+There are several [Jupyter notebooks](notebooks) 
 available for easier result replication and demonstration purposes. You can immediately launch interactive versions of these
 notebooks in your web browser by clicking on the binder icon above or clicking on the subsection titles below.
 
@@ -215,21 +215,21 @@ The 4 classification tasks are:
 4. Multi-class classification
 
 The metrics and evaluation method are the same as the [process](https://github.com/rpw199912j/mit_model_code#22-evaluate-performance-and-save-models) mentioned earlier. The comparison results are summarized in [this table](https://github.com/rpw199912j/mit_model_code/blob/master/data/processed/csv_version/model_metrics_comparison_with_raw.csv).
-A [summary plot](https://github.com/rpw199912j/mit_model_code/blob/master/plots/model_comparison_boxplot.pdf) is also provided for easier interpretation.
+A [summary plot](plots/model_comparison_boxplot.pdf) is also provided for easier interpretation.
 
 ### [shap_analysis.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/shap_analysis.ipynb)
 This notebook presents a brief SHAP analysis on models trained with the reduced feature set.
 
 ### [test_featurizer_sub_functions.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/test_featurizer_sub_functions.ipynb)
 This is a brief [tutorial 
-notebook](https://github.com/rpw199912j/mit_model_code/blob/master/notebooks/test_featurizer_sub_functions.ipynb)
+notebook](notebooks/test_featurizer_sub_functions.ipynb)
 that explains some of the sub-functions in the 
-[compound_featurizer.py](https://github.com/rpw199912j/mit_model_code/blob/master/data/compound_featurizer.py)
+[compound_featurizer.py](data/compound_featurizer.py)
 file.
 
 ### [handbuilt_featurizer_benchmark.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/handbuilt_featurizer_benchmark.ipynb)
 This notebooks provides a benchmark of how "good" the handbuilt featurizer is against values from 
-[Table 2 & 3](https://github.com/rpw199912j/mit_model_code/blob/master/data/torrance_tables/torrance_tabulated.xlsx) 
+[Table 2 & 3](data/torrance_tables/torrance_tabulated.xlsx) 
 of [Torrance et al](https://www.sciencedirect.com/science/article/abs/pii/0921453491905346).
 
 ### [dataset_visualization.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/dataset_visualization.ipynb)
