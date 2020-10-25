@@ -1,6 +1,6 @@
 # Metal-Insulator Transition Classifiers
 This repository contains the code and data used in constructing the temperature-driven metal-insulator transition (MIT) classifiers, which are 3
-binary classifiers: a Metal vs. non-Metal model, an Insulator vs. non-Insulator model and an MIT vs. non-MIT model.
+binary classifiers: a Metal _vs._ non-Metal model, an Insulator _vs._ non-Insulator model and an MIT _vs._ non-MIT model.
 
 # Table of Content
 - [Model Description](#model-description)
