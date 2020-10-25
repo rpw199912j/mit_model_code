@@ -4,27 +4,27 @@ binary classifiers: a Metal vs. non-Metal model, an Insulator vs. non-Insulator 
 
 # Table of Content
 - [Model Description](#model-description)
-  * [Research Question](https://github.com/rpw199912j/mit_model_code#research-question)
-  * [Training Algorithm](https://github.com/rpw199912j/mit_model_code#training-algorithm)
-  * [A Word of Caution](https://github.com/rpw199912j/mit_model_code#a-word-of-caution)
-- [General Workflow](https://github.com/rpw199912j/mit_model_code#general-workflow)
-  * [1. Data Preparation](https://github.com/rpw199912j/mit_model_code#1-data-preparation)
-    + [1.1 Getting CIF files](https://github.com/rpw199912j/mit_model_code#11-getting-cif-files)
-    + [1.2 Generate ionization lookup dataframe](https://github.com/rpw199912j/mit_model_code#12-generate-ionization-lookup-dataframe)
-    + [1.3 Generate features using the cif files](https://github.com/rpw199912j/mit_model_code#13-generate-features-using-the-cif-files)
-    + [1.4 Clean up the data](https://github.com/rpw199912j/mit_model_code#14-clean-up-the-data)
-  * [2. Model Building](https://github.com/rpw199912j/mit_model_code#2-model-building)
-    + [2.1 Tune the XGBoost model](https://github.com/rpw199912j/mit_model_code#21-tune-the-xgboost-model)
-    + [2.2 Evaluate performance and save models](https://github.com/rpw199912j/mit_model_code#22-evaluate-performance-and-save-models)
-    + [2.3 Select important features and iterate](https://github.com/rpw199912j/mit_model_code#23-select-important-features-and-iterate)
-  * [3. Deploy & Serve Models](https://github.com/rpw199912j/mit_model_code#3-deploy--serve-models)
-- [Demo Notebooks](https://github.com/rpw199912j/mit_model_code#demo-notebooks)
-  * [generate_compound_features.ipynb](https://github.com/rpw199912j/mit_model_code#generate_compound_featuresipynb)
-  * [generate_lookup_table.ipynb](https://github.com/rpw199912j/mit_model_code#generate_lookup_tableipynb)
+  * [Research Question](#research-question)
+  * [Training Algorithm](#training-algorithm)
+  * [A Word of Caution](#a-word-of-caution)
+- [General Workflow](#general-workflow)
+  * [1. Data Preparation](#1-data-preparation)
+    + [1.1 Getting CIF files](#11-getting-cif-files)
+    + [1.2 Generate ionization lookup dataframe](#12-generate-ionization-lookup-dataframe)
+    + [1.3 Generate features using the cif files](#13-generate-features-using-the-cif-files)
+    + [1.4 Clean up the data](#14-clean-up-the-data)
+  * [2. Model Building](#2-model-building)
+    + [2.1 Tune the XGBoost model](#21-tune-the-xgboost-model)
+    + [2.2 Evaluate performance and save models](#22-evaluate-performance-and-save-models)
+    + [2.3 Select important features and iterate](#23-select-important-features-and-iterate)
+  * [3. Deploy & Serve Models](#3-deploy--serve-models)
+- [Demo Notebooks](#demo-notebooks)
+  * [generate_lookup_table.ipynb](#generate_lookup_table)
+  * [generate_compound_features.ipynb](#generate_compound_featuresipynb)
   * [EDA_and_data_cleaning.ipynb](https://github.com/rpw199912j/mit_model_code#EDA_and_data_cleaningipynb)
   * [model_building_and_eval.ipynb](https://github.com/rpw199912j/mit_model_code#model_building_and_evalipynb)
   * [pipeline_demo.ipynb (**Make a prediction right in your web browser!**)](https://github.com/rpw199912j/mit_model_code#pipeline_demoipynb)
-  * [Supporting notebooks](https://github.com/rpw199912j/mit_model_code#supporting-notebooks)
+  * [Supporting notebooks](#supporting-notebooks)
     + [model_comparison.ipynb](https://github.com/rpw199912j/mit_model_code#model_comparisonipynb)
     + [shap_analysis.ipynb](https://github.com/rpw199912j/mit_model_code#shap_analysisipynb)
     + [test_featurizer_sub_functions.ipynb](https://github.com/rpw199912j/mit_model_code#test_featurizer_sub_functionsipynb)
@@ -169,13 +169,12 @@ notebooks in your web browser by clicking on the binder icon above or clicking o
 
 You can replicate the workflow by using the notebooks in the following order. 
 
-## [generate_lookup_table.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/generate_lookup_table.ipynb)
+## <a name="generate_lookup_table"></a> [generate_lookup_table.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/generate_lookup_table.ipynb)
 This notebook generates the ionization energy lookup spreadsheet.
 
 ## [generate_compound_features.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/generate_compound_features.ipynb)
 This notebook allows you to generate features for all the structures. As mentioned before, since we cannot share the structure files, 
 running this notebook will not work due to the absence of CIF files.
-
 
 ## [EDA_and_data_cleaning.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/EDA_and_data_cleaning.ipynb)
 This notebook presents an exploratory data analysis along with a data cleaning process on the output dataset from _generate_compound_features.ipynb_.
