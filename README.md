@@ -1,6 +1,13 @@
 # Metal-Insulator Transition Classifiers
-This repository contains the code and data used in constructing the temperature-driven metal-insulator transition (MIT) classifiers, which are 3
+This repository contains the code and data used in constructing the thermally-driven metal-insulator transition (MIT) classifiers, which are 3
 binary classifiers: a Metal _vs._ non-Metal model, an Insulator _vs._ non-Insulator model and an MIT _vs._ non-MIT model.
+
+**Check out our [preprint paper](https://arxiv.org/abs/2010.13306) on arXiv:**
+
+> Georgescu, A. B.; Ren, P.; Toland, A. R.; Olivetti, E. A.; Wagner, N.; Rondinelli, J. M. 
+> A Database and Machine Learning Model to Identify Thermally Driven Metal-Insulator Transition Compounds. 
+> arXiv:2010.13306 [cond-mat] 2020.
+
 
 # Table of Content
 - [Model Description](#model-description)
