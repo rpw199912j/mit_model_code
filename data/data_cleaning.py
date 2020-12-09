@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from sklearn.impute import KNNImputer
 
 
 # %% define helper functions
@@ -15,7 +16,7 @@ def remove_nullrows(df, num_missing_cols=6):
     if pd.isnull(df.Label).sum() != 0:
         raise Exception("Unlabelled compound(s) present!")
 
-    return df.dropna(thresh=df.shape[1] - num_missing_cols)  # drop qualified rows
+    return df.dropna(thresh=df.shape[1] - num_missing_cols).reset_index(drop=True)  # drop qualified rows
 
 
 def median_imputation(df):
@@ -29,8 +30,24 @@ def median_imputation(df):
     return imputed_df
 
 
+def knn_imputation(df, num_neighbors=5, **kwargs):
+    """Impute the missing numeric values with the n(default=5) nearest neighbors"""
+    columns_to_drop = ["Compound", "Label", "struct_file_path"]
+    # initialize the KNNImputer
+    imputer = KNNImputer(n_neighbors=num_neighbors, **kwargs)
+    # drop irrelevant columns that are not used to find the NN distances
+    df_to_impute = df.drop(columns=columns_to_drop)
+    # impute the dataframe
+    df_imputed = imputer.fit_transform(df_to_impute)
+    # add back the column names
+    df_imputed = pd.DataFrame(df_imputed, columns=df_to_impute.columns)
+    # add back the dropped columns
+    df_combined = pd.concat([df[columns_to_drop], df_imputed], axis=1)
+    return df_combined
+
+
 def abbreviate_features(df):
-    """Remove the 'MagpieData ' prefix in the column names"""
+    """Remove the 'MagpieData ' prefix in the column names and replace whitespace with underscore"""
     old_names = list(df)
     new_names = [name.replace("MagpieData ", "") for name in old_names]
     new_names = [name.replace(" ", "_") for name in new_names]
