@@ -86,6 +86,7 @@ def tune_hyperparam(df_input, class_of_choice, seed, model=xgb.XGBClassifier, nu
             "learning_rate": np.logspace(-3, 2, num=6),
             # scale_pos_weight is not specified for xgboost multiclass classification
             "subsample": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+            "colsample_bytree": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
             "base_score": [0.3, 0.5, 0.7],
             "random_state": [seed]
         }
@@ -98,6 +99,7 @@ def tune_hyperparam(df_input, class_of_choice, seed, model=xgb.XGBClassifier, nu
             "max_depth": [2, 3, 4, 5],
             "learning_rate": np.logspace(-3, 2, num=6),
             "subsample": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+            "colsample_bytree": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
             "scale_pos_weight": [np.sum(y_labels == 0) / np.sum(y_labels == 1)],
             "base_score": [0.3, 0.5, 0.7],
             "random_state": [seed]
