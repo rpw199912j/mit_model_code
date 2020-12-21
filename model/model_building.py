@@ -8,6 +8,7 @@ from sklearn.metrics import auc, plot_roc_curve, plot_precision_recall_curve
 from sklearn.utils.class_weight import compute_sample_weight
 from sklearn.model_selection import cross_validate, StratifiedKFold, GridSearchCV
 
+
 # # set up constants
 # PROCESSED_PATH = "../data/processed/IMT_Classification_Dataset_Processed_v4.xlsx"
 # TRAIN_RANDOM_SEED = 31415926
@@ -86,7 +87,6 @@ def tune_hyperparam(df_input, class_of_choice, seed, model=xgb.XGBClassifier, nu
             "learning_rate": np.logspace(-3, 2, num=6),
             # scale_pos_weight is not specified for xgboost multiclass classification
             "subsample": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-            "colsample_bytree": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
             "base_score": [0.3, 0.5, 0.7],
             "random_state": [seed]
         }
@@ -99,7 +99,6 @@ def tune_hyperparam(df_input, class_of_choice, seed, model=xgb.XGBClassifier, nu
             "max_depth": [2, 3, 4, 5],
             "learning_rate": np.logspace(-3, 2, num=6),
             "subsample": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-            "colsample_bytree": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
             "scale_pos_weight": [np.sum(y_labels == 0) / np.sum(y_labels == 1)],
             "base_score": [0.3, 0.5, 0.7],
             "random_state": [seed]
@@ -406,7 +405,6 @@ def plot_eval(df_input, tuned_params, eval_seeds, num_folds=10, eval_method="roc
 
     return fig
 
-
 # roc_curve = plot_eval(df, best_params, eval_seeds=EVAL_RANDOM_SEEDS, num_folds=NUM_FOLDS)
 # roc_curve.savefig(SAVE_FIG_PATH + "roc_curve_10_seeds.pdf", dpi=300)
 #
@@ -417,4 +415,3 @@ def plot_eval(df_input, tuned_params, eval_seeds, num_folds=10, eval_method="roc
 # # %%
 # plot_eval(df, best_params, eval_seeds=[TRAIN_RANDOM_SEED], num_folds=NUM_FOLDS, stat_func=np.median,
 #           individual_alpha=0.5)
-
