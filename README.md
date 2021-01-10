@@ -54,7 +54,7 @@ better than that on multi-class classifications.
 ## A Word of Caution
 Since the vast majority of the training data comes from oxides and there are not that many well-documented oxides that
 exhibit MIT behavior, the training dataset as a result is quite small for machine learning standards
-(228 observations / rows). Thus, the models, especially with a high dimensional feature set, can easily overfit
+(343 observations / rows). Thus, the models, especially with a high dimensional feature set, can easily overfit
 and there is an ongoing effort to expand and find new MIT materials to add to the dataset. Thus, as we continue to expand
 our dataset, the models trained on the dataset are also subject to change over the course of time.
 
@@ -74,7 +74,7 @@ high-quality experimental structures files from the ICSD database, with a few fr
 Project databases.
 
 **Note**: Unfortunately, we can not directly share the collected CIF files due to copyright concerns. However, you can find the material ID of the 
-compounds included in our dataset [here](data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v9.csv) 
+compounds included in our dataset [here](data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v10.csv) 
 (you should look at the `struct_file_path` column to find the IDs). Should you have access, you can use those IDs 
 to download CIF files from ICSD, Springer and Materials Project. 
 You will find 4 suffixes in `struct_file_path` which correspond to 4 sources as follows.
@@ -98,17 +98,16 @@ After a brief exploratory data anaylsis, it is found that the raw output from th
 zero-variance (i.e. the feature value is the same for all compounds) and high linear correlation (greater than 0.95). Therefore, the data cleaning process is carried out in the following order:
 
 - Drop rows / compounds with at least 6 missing features
-- Impute missing values by column / feature
-    - Group the dataset by the assigned label (one of metal, insulator or MIT)
-    - Calculate the median value for each feature within each label group
-    - Fill the missing values with the corresponding medians of each label group
+- Impute missing values with [KNNImputer](https://scikit-learn.org/stable/modules/generated/sklearn.impute.KNNImputer.html)
+    - For each row with missing values, find the 5 nearest neighbors using features that are not missing
+    - Impute missing values based on features in the 5 nearest neighbors weighted by their distance
 - Remove features with zero variance
 - Remove features with high linear correlation
-    - Find features with linear correlation greater than 0.95
+    - Find features with a linear correlation greater than 0.95
     - Drop one of the two features in each pair of highly correlated features
 
-After data cleaning, the dataset now has 103 (102 numeric & 1 one-hot-encoded categorical with 2 levels) features 
-remaining and will be referred to as [the full feature](data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v9.csv) set from now on.
+After data cleaning, the dataset now has 106 (105 numeric & 1 one-hot-encoded categorical with 2 levels) features 
+remaining and will be referred to as [the full feature](data/processed/csv_version/IMT_Classification_Dataset_Full_Feature_Set_v10.csv) set from now on.
 
 ## 2. Model Building
 The model building process follows an iterative approach. During the first iteration, the cleaned-up full feature set is fed into
@@ -147,12 +146,12 @@ the median / mean values for the metrics are obtained. With 10 seeds, there are 
 is calculated from those 10 values, along with the interquartile range / standard deviation respectively. Essentially, the values reported are either
 a median of medians by default or an average of averages should you choose so.
 
-After model evaluation, the models are trained on the entire dataset (228 compounds with the full feature set) with the best parameters and then stored. 
+After model evaluation, the models are trained on the entire dataset (343 compounds with the full feature set) with the best parameters and then stored. 
 
 
 ### 2.3 Select important features and iterate
 Using the stored models, a SHAP analysis is carried out to find the most important features. These important features are further screened
-using domain knowledge. Currently, 10 features are selected to create a [reduced feature set](data/processed/csv_version/IMT_Classification_Dataset_Reduced_Feature_Set_v9.csv). 
+using domain knowledge. Currently, 10 features are selected to create a [reduced feature set](data/processed/csv_version/IMT_Classification_Dataset_Reduced_Feature_Set_v10.csv). 
 This feature selection step mainly serves to prevent overfitting.
 
 With this reduced feature set, the entire model building process is repeated and the models are re-tuned, re-evaluated and 
@@ -229,15 +228,15 @@ This notebook presents a brief SHAP analysis on models trained with the reduced 
 ### [test_featurizer_sub_functions.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/test_featurizer_sub_functions.ipynb)
 This is a brief [tutorial 
 notebook](notebooks/test_featurizer_sub_functions.ipynb)
-that explains some of the sub-functions in the 
+that explains some sub-functions in the 
 [compound_featurizer.py](data/compound_featurizer.py)
 file.
 
 ### [handbuilt_featurizer_benchmark.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/handbuilt_featurizer_benchmark.ipynb)
-This notebooks provides a benchmark of how "good" the handbuilt featurizer is against values from 
+This notebook provides a benchmark of how "good" the handbuilt featurizer is against values from 
 [Table 2 & 3](data/torrance_tables/torrance_tabulated.xlsx) 
 of [Torrance et al](https://www.sciencedirect.com/science/article/abs/pii/0921453491905346).
 
 ### [dataset_visualization.ipynb](https://mybinder.org/v2/gh/rpw199912j/mit_model_code/master?urlpath=lab/tree/notebooks/dataset_visualization.ipynb)
-This notebooks contains visualization plots to be included in the paper.
+This notebook contains visualization plots to be included in the paper.
 
