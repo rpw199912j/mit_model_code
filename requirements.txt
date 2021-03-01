@@ -10,6 +10,5 @@ tqdm==4.49.0
 openpyxl==3.0.5
 xlrd==1.2.0
 seaborn==0.11.0
-matminer==0.6.5
-# shap is installed using git command line
+# shap and matminer are installed using git command line
 # the code can be found in postBuild
