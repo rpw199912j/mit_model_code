@@ -20,6 +20,10 @@ def initialize_benchmark_df_helper(file_path):
     """Helper function for initialize_benchmark_df()"""
     # read in the original structure
     struct = mg.Structure.from_file(file_path)
+    # get the primitive cell
+    struct = struct.get_primitive_structure()
+    # make a supercell of 2a, 2b, 2c
+    struct.make_supercell([2, 2, 2])
     # add oxidation states using the guess routine in Pymatgen
     struct.add_oxidation_state_by_guess()
     return {"formula": struct.composition.reduced_formula,
