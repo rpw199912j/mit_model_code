@@ -370,8 +370,8 @@ def plot_eval(df_input, tuned_params, eval_seeds, num_folds=10, eval_method="roc
         ax[index].tick_params(axis='both', which='major', labelsize=fontsize)
 
     if eval_method == "roc":
-        x_axis_label = "False Positive Rate"
-        y_axis_label = "True Positive Rate"
+        x_axis_label = "False positive rate"
+        y_axis_label = "True positive rate"
     elif eval_method == "pr":
         x_axis_label = "Recall"
         y_axis_label = "Precision"
