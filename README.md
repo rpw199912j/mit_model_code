@@ -97,7 +97,7 @@ in-house handbuilt featurizers. These features then undergo further processing a
 After a brief exploratory data anaylsis, it is found that the raw output from the featurizers contains features with missing values, 
 zero-variance (i.e. the feature value is the same for all compounds) and high linear correlation (greater than 0.95). Therefore, the data cleaning process is carried out in the following order:
 
-- Drop rows / compounds with at least 6 missing features
+- Drop rows / compounds with more than 10 missing features
 - Impute missing values with [KNNImputer](https://scikit-learn.org/stable/modules/generated/sklearn.impute.KNNImputer.html)
     - For each row with missing values, find the 5 nearest neighbors using features that are not missing
     - Impute missing values based on features in the 5 nearest neighbors weighted by their distance
