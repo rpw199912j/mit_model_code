@@ -69,17 +69,21 @@ def get_struct(compound_formula: str, df_input: pd.DataFrame, struct_type: str =
 
 
 # helper function to read in new data that may not present in the original data set
-def read_new_struct(structure: Union[str, mg.Structure]):
+def read_new_struct(structure: Union[str, mg.Structure], supercell_matrix=None):
     """
     Read in new structure data and return an initial Pandas DataFrame
 
     :param structure: String, structure file path or Pymatgen Structure
+    :param supercell_matrix: List, the list or matrix based on which to make the supercell
     :return: Pandas DataFrame
     """
     if isinstance(structure, str):
         struct = mg.Structure.from_file(structure)
     elif isinstance(structure, mg.Structure):
         struct = structure
+
+    if supercell_matrix:
+        struct.make_supercell(supercell_matrix)
 
     formula = struct.composition.reduced_formula
     compound_dict = {"Compound": formula, "structure": struct}
@@ -252,7 +256,7 @@ def get_elem_distances(structure, elem_1, elem_indices, elem_2=None, threshold_v
     # get distance for every pair of indices
     distances = [structure.get_distance(i, j) for i, j in pairwise_indices]
     # determine the minimum distance and
-    # gets all element distances in the range [min_dist, min_dist+0.01]
+    # gets all element distances in the range [min_dist, min_dist+threshold_val]
     # return distances
     return choose_min(distances, threshold_val, only_unique)
 
@@ -747,7 +751,7 @@ def lookup_ionization_energy(structure_oxid: mg.Structure):
     # conversion factor from kJ/mol to eV
     conversion_factor = 0.010364
     (relevant_metal, relevant_metal_oxi_state), \
-        (relevant_non_metal, relevant_non_metal_oxi_state) = get_relevant_elems(structure_oxid)
+    (relevant_non_metal, relevant_non_metal_oxi_state) = get_relevant_elems(structure_oxid)
     iv, iv_p1 = lookup_ionization_energy_helper(relevant_metal, relevant_metal_oxi_state)
     # create a lookup dictionary for non_metal electron affinity
     elec_affinity_non_metal_dict = {"N": 1070 * conversion_factor,
