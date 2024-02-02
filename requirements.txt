@@ -4,7 +4,7 @@ matplotlib==3.3.2
 pymatgen==2020.9.14
 xgboost==1.2.0
 scipy==1.5.2
-scikit-learn==0.23.2
+scikit-learn==1.0.1
 requests==2.24.0
 tqdm==4.49.0
 openpyxl==3.0.5
